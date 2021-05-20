@@ -9,3 +9,7 @@
   * Create a page
     * Note: Accept only basic content: `title` & `parent`.
 * Add `database` tests
+
+## v0.0.1-dev.1:
+> Release date: 20/May/2021
+* Separate into classes
