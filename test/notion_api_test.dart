@@ -3,6 +3,7 @@ import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'package:notion_api/models/pages.dart';
 import 'package:notion_api/models/rich_text.dart';
 import 'package:notion_api/notion.dart';
+import 'package:notion_api/notion_blocks.dart';
 import 'package:notion_api/notion_databases.dart';
 import 'package:notion_api/notion_pages.dart';
 
@@ -62,8 +63,6 @@ void main() {
 
       var res = await databases.fetch(env['test_database_id'] as String);
 
-      print(res.body);
-
       expect(res.statusCode, 200);
     });
 
@@ -73,7 +72,15 @@ void main() {
 
       var res = await databases.fetchAll();
 
-      print(res.body);
+      expect(res.statusCode, 200);
+    });
+  });
+
+  group('Notion Block Client', () {
+    test('Retrieve block children', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: env['token']);
+
+      var res = await blocks.fetch(env['test_block_id'] as String);
 
       expect(res.statusCode, 200);
     });
