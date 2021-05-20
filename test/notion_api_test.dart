@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dotenv/dotenv.dart' show load, env, clean;
+import 'dart:io' show Platform;
 import 'package:notion_api/models/pages.dart';
 import 'package:notion_api/models/rich_text.dart';
 import 'package:notion_api/notion.dart';
@@ -8,29 +9,41 @@ import 'package:notion_api/notion_databases.dart';
 import 'package:notion_api/notion_pages.dart';
 
 void main() {
-  if (env['FLUTTER_ENV'] != 'testing') {
+  String? token = Platform.environment['TOKEN'];
+  String? testDatabaseId = Platform.environment['TEST_DATABASE_ID'];
+  String? testPageId = Platform.environment['TEST_PAGE_ID'];
+  String? testBlockId = Platform.environment['TEST_BLOCK_ID'];
+
+  String execEnv = env['EXEC_ENV'] ?? Platform.environment['EXEC_ENV'] ?? '';
+  if (execEnv != 'github_actions') {
     setUpAll(() {
       load();
+
+      token = env['TOKEN'] ?? token ?? '';
+      testDatabaseId = env['TEST_DATABASE_ID'] ?? testDatabaseId ?? '';
+      testPageId = env['TEST_PAGE_ID'] ?? testPageId ?? '';
+      testBlockId = env['TEST_BLOCK_ID'] ?? testBlockId ?? '';
     });
 
     tearDownAll(() {
       clean();
     });
   }
+
   group('Notion Client', () {
     test('Retrieve a page', () async {
-      final NotionClient notion = NotionClient(token: env['token']);
-      var res = await notion.pages.fetch(env['test_page_id'] as String);
+      final NotionClient notion = NotionClient(token: token);
+      var res = await notion.pages.fetch(testPageId ?? '');
       expect(res.statusCode, 200);
     });
   });
 
   group('Notion Pages Client', () {
     test('Create a page', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: env['token']);
+      final NotionPagesClient pages = NotionPagesClient(token: token);
 
       final Page page = Page(
-        databaseId: env['test_database_id'],
+        databaseId: testDatabaseId,
         title: Text(content: 'NotionClient: Page test'),
       );
 
@@ -40,10 +53,10 @@ void main() {
     });
 
     test('Create a page with default title', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: env['token']);
+      final NotionPagesClient pages = NotionPagesClient(token: token);
 
       final Page page = Page(
-        databaseId: env['test_database_id'],
+        databaseId: testDatabaseId,
       );
 
       var res = await pages.create(page);
@@ -52,8 +65,8 @@ void main() {
     });
 
     test('Retrieve a page', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: env['token']);
-      var res = await pages.fetch(env['test_page_id'] as String);
+      final NotionPagesClient pages = NotionPagesClient(token: token);
+      var res = await pages.fetch(testPageId ?? '');
       expect(res.statusCode, 200);
     });
   });
@@ -61,16 +74,16 @@ void main() {
   group('Notion Databases Client', () {
     test('Retrieve a database', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: env['token']);
+          NotionDatabasesClient(token: token);
 
-      var res = await databases.fetch(env['test_database_id'] as String);
+      var res = await databases.fetch(testDatabaseId ?? '');
 
       expect(res.statusCode, 200);
     });
 
     test('Retrieve all databases', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: env['token']);
+          NotionDatabasesClient(token: token);
 
       var res = await databases.fetchAll();
 
@@ -80,9 +93,10 @@ void main() {
 
   group('Notion Block Client', () {
     test('Retrieve block children', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: env['token']);
+      print('Token: $token');
+      final NotionBlockClient blocks = NotionBlockClient(token: token);
 
-      var res = await blocks.fetch(env['test_block_id'] as String);
+      var res = await blocks.fetch(testBlockId ?? '');
 
       expect(res.statusCode, 200);
     });
