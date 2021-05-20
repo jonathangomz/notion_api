@@ -8,17 +8,6 @@ import '../env.dart';
 
 void main() {
   group('Notion Client', () {
-    test('Create a page', () async {
-      final NotionClient notion = NotionClient(token: token);
-
-      final Page page = Page(databaseId: test_database_id);
-      page.title = Text(content: 'NotionClient: Page test');
-
-      var res = await notion.pages.create(page);
-
-      expect(res.statusCode, 200);
-    });
-
     test('Retrieve a page', () async {
       final NotionClient notion = NotionClient(token: token);
       var res = await notion.pages.fetch(test_page_id);
@@ -30,8 +19,22 @@ void main() {
     test('Create a page', () async {
       final NotionPagesClient pages = NotionPagesClient(token: token);
 
-      final Page page = Page(databaseId: test_database_id);
-      page.title = Text(content: 'NotionPagesClient: Page test');
+      final Page page = Page(
+        databaseId: test_database_id,
+        title: Text(content: 'NotionClient: Page test'),
+      );
+
+      var res = await pages.create(page);
+
+      expect(res.statusCode, 200);
+    });
+
+    test('Create a page with default title', () async {
+      final NotionPagesClient pages = NotionPagesClient(token: token);
+
+      final Page page = Page(
+        databaseId: test_database_id,
+      );
 
       var res = await pages.create(page);
 
