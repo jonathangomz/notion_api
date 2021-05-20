@@ -31,7 +31,7 @@ jobs:
           TEST_DATABASE_ID: ${{ secrets.TEST_DATABASE_ID }}
           TEST_PAGE_ID: ${{ secrets.TEST_PAGE_ID }}
           TEST_BLOCK_ID: ${{ secrets.TEST_BLOCK_ID }}
-          FLUTTER_ENV: 'github_actions'
+          EXEC_ENV: 'github_actions'
         
       - name: Upload coverge to Codecov
         uses: codecov/codecov-action@v1
