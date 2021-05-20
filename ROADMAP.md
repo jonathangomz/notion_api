@@ -1,7 +1,6 @@
 # Roadmap
 ## v0.0.1-prealpha1: ✅
 > Release date: 20/May/2021
-
 * First version
 * Add `page` requests parameters models
 * Add notion api endpoints: `pages`
@@ -18,7 +17,7 @@
 
 ## v0.0.1-dev.2: ✅
 > Release date: 20/May/2021
-* [NOT_NEEDED] ~~Add `database` request parameters models~~
+* [NOT_NEEDED_YET] ~~Add `database` request parameters models~~
 * Add notion api endpoints: `databases`
   * Retrieve a database
   * List databases
@@ -38,5 +37,14 @@
 > Release date: 27/May/2021
 * Improve testing
 * Improve Rich Text usage
+
+## v0.0.1:
+> Release date: 31/May/2021
+* Fix any error
+
+## v0.0.2:
+> Release date: 01/Jun/2021
+* Improve code documentation
+* Improve Pub Points
 
 ### More coming soon.
