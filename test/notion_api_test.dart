@@ -8,13 +8,15 @@ import 'package:notion_api/notion_databases.dart';
 import 'package:notion_api/notion_pages.dart';
 
 void main() {
-  setUpAll(() {
-    load();
-  });
+  if (env['FLUTTER_ENV'] != 'testing') {
+    setUpAll(() {
+      load();
+    });
 
-  tearDownAll(() {
-    clean();
-  });
+    tearDownAll(() {
+      clean();
+    });
+  }
   group('Notion Client', () {
     test('Retrieve a page', () async {
       final NotionClient notion = NotionClient(token: env['token']);
