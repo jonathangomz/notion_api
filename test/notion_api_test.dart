@@ -93,7 +93,6 @@ void main() {
 
   group('Notion Block Client', () {
     test('Retrieve block children', () async {
-      print('Token: $token');
       final NotionBlockClient blocks = NotionBlockClient(token: token);
 
       var res = await blocks.fetch(testBlockId ?? '');
