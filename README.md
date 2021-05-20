@@ -11,8 +11,10 @@ NotionClient notion = NotionClient(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS P
 
 ### Creating pages
 ```dart
-Page page = Page(databaseId: 'YOUR DATABASE ID');
-page.title = Text(content: 'The title of the new page');
+Page page = Page(
+  databaseId: 'YOUR DATABASE ID',
+  title: Text(content: 'The title of the new page'),
+);
 
 notion.pages.create(page);
 ```
