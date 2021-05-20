@@ -15,19 +15,19 @@ enum RichTextColors {
 }
 
 class RichTextAnnotations {
-  bool bold;
-  bool italic;
-  bool strikethrough;
-  bool underline;
-  bool code;
-  RichTextColors color;
+  bool? bold;
+  bool? italic;
+  bool? strikethrough;
+  bool? underline;
+  bool? code;
+  RichTextColors? color;
 }
 
 class RichText {
-  String plainText;
-  String href;
-  RichTextAnnotations annotations;
-  RichTextType type;
+  String? plainText;
+  String? href;
+  RichTextAnnotations? annotations;
+  RichTextType? type;
 
   toJson() => {
         'plain_text': plainText,
@@ -38,7 +38,7 @@ class RichText {
 }
 
 class Text extends RichText {
-  String content;
+  String? content;
 
   Text({content}) : this.content = content;
 
@@ -53,18 +53,18 @@ class Text extends RichText {
 }
 
 class Link extends Text {
-  RichTextType type = RichTextType.url;
-  String url;
+  RichTextType? type = RichTextType.url;
+  String? url;
 }
 
 class Mention extends RichText {
-  RichTextType type = RichTextType.mention;
+  RichTextType? type = RichTextType.mention;
 }
 
 class UserMention extends Mention {
-  PeopleUser user;
+  PeopleUser? user;
 }
 
 class Equation extends RichText {
-  String expression;
+  String? expression;
 }
