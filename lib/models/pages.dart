@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart' show required;
 import 'package:notion_api/models/rich_text.dart';
 
