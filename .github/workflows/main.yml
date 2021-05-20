@@ -32,9 +32,3 @@ jobs:
           TEST_PAGE_ID: ${{ secrets.TEST_PAGE_ID }}
           TEST_BLOCK_ID: ${{ secrets.TEST_BLOCK_ID }}
           EXEC_ENV: 'github_actions'
-        
-      - name: Upload coverge to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: coverage/lcov.info
