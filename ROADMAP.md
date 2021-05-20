@@ -27,6 +27,7 @@
 
 ## v0.0.1-dev.3:
 > Release date: 26/May/2021
+* Update to null-safety
 * Add `block children` request parameters models
 * Add notion api endpoints: `block children`
   * Retrieve block children
