@@ -1,27 +1,33 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'package:notion_api/models/pages.dart';
 import 'package:notion_api/models/rich_text.dart';
 import 'package:notion_api/notion.dart';
 import 'package:notion_api/notion_databases.dart';
 import 'package:notion_api/notion_pages.dart';
 
-import '../env.dart';
-
 void main() {
+  setUpAll(() {
+    load();
+  });
+
+  tearDownAll(() {
+    clean();
+  });
   group('Notion Client', () {
     test('Retrieve a page', () async {
-      final NotionClient notion = NotionClient(token: token);
-      var res = await notion.pages.fetch(test_page_id);
+      final NotionClient notion = NotionClient(token: env['token']);
+      var res = await notion.pages.fetch(env['test_page_id'] as String);
       expect(res.statusCode, 200);
     });
   });
 
   group('Notion Pages Client', () {
     test('Create a page', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token);
+      final NotionPagesClient pages = NotionPagesClient(token: env['token']);
 
       final Page page = Page(
-        databaseId: test_database_id,
+        databaseId: env['test_database_id'],
         title: Text(content: 'NotionClient: Page test'),
       );
 
@@ -31,10 +37,10 @@ void main() {
     });
 
     test('Create a page with default title', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token);
+      final NotionPagesClient pages = NotionPagesClient(token: env['token']);
 
       final Page page = Page(
-        databaseId: test_database_id,
+        databaseId: env['test_database_id'],
       );
 
       var res = await pages.create(page);
@@ -43,8 +49,8 @@ void main() {
     });
 
     test('Retrieve a page', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token);
-      var res = await pages.fetch(test_page_id);
+      final NotionPagesClient pages = NotionPagesClient(token: env['token']);
+      var res = await pages.fetch(env['test_page_id'] as String);
       expect(res.statusCode, 200);
     });
   });
@@ -52,9 +58,9 @@ void main() {
   group('Notion Databases Client', () {
     test('Retrieve a database', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token);
+          NotionDatabasesClient(token: env['token']);
 
-      var res = await databases.fetch(test_database_id);
+      var res = await databases.fetch(env['test_database_id'] as String);
 
       print(res.body);
 
@@ -63,7 +69,7 @@ void main() {
 
     test('Retrieve all databases', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token);
+          NotionDatabasesClient(token: env['token']);
 
       var res = await databases.fetchAll();
 
