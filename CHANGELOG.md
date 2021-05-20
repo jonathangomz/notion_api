@@ -16,9 +16,10 @@
 
 ## v0.0.1-dev.2:
 > Release date: 20/May/2021
-* Add `database` request parameters models
 * Add notion api endpoints: `databases`
   * Retrieve a database
   * Retrieve all databases
     * Note: `page_size` & `start_cursor` query parameters are available
 * Add `database` tests
+* Add `title` field to `Page` constructor
+* Add static API information (host, api version) on separated file

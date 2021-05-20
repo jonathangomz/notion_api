@@ -12,17 +12,17 @@
 
 ## v0.0.1-dev.1: ✅
 > Release date: 20/May/2021
-* ~~Return data response directly instead of `http.Response`~~
-* ~~Manage http calls errors~~
+* [CANCELED] ~~Return data response directly instead of `http.Response`~~
+* [CANCELED] ~~Manage http calls errors~~
 * Separate into classes
 
 ## v0.0.1-dev.2: ✅
 > Release date: 20/May/2021
-* Add `database` request parameters models
+* [NOT_NEEDED] ~~Add `database` request parameters models~~
 * Add notion api endpoints: `databases`
   * Retrieve a database
   * List databases
-  * ~~Query a database~~
+  * [LATER] ~~Query a database~~
 * Add `database` tests
 
 ## v0.0.1-dev.3:
