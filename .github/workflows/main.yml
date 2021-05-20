@@ -26,6 +26,10 @@ jobs:
         
       - name: Test package
         run: flutter test --coverage
+        env:
+          token: ${{ secrets.token }}
+          test_database_id: ${{ secrets.test_database_id }}
+          test_page_id: ${{ secrets.test_page_id }}
         
       - name: Upload coverge to Codecov
         uses: codecov/codecov-action@v1
