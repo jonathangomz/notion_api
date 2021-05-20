@@ -1,6 +1,5 @@
 library notion_api;
 
-import 'package:flutter/material.dart' show required;
 import 'package:notion_api/notion_databases.dart';
 
 import 'notion_pages.dart';
@@ -13,7 +12,7 @@ class NotionClient {
   // The Notion API client for databases requests
   NotionDatabasesClient databases;
 
-  NotionClient({@required token})
+  NotionClient({required token})
       : this.pages = NotionPagesClient(token: token),
         this.databases = NotionDatabasesClient(token: token);
 }

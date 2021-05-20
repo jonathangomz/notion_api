@@ -7,18 +7,18 @@ enum UserType {
 
 class User {
   NotionObjects object = NotionObjects.user;
-  String id;
-  UserType type;
-  String name;
-  String avatar_url;
+  String? id;
+  UserType? type;
+  String? name;
+  String? avatar_url;
 }
 
 class _People {
-  String email;
+  String? email;
 }
 
 class PeopleUser extends User {
-  _People people;
+  _People? people;
 }
 
 class BotUser extends User {}

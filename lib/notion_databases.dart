@@ -1,6 +1,5 @@
 library notion_api;
 
-import 'package:flutter/material.dart' show required;
 import 'package:http/http.dart' as http;
 
 import 'statics.dart';
@@ -13,7 +12,7 @@ class NotionDatabasesClient {
   // The path of the requests group
   String _path = 'databases';
 
-  NotionDatabasesClient({@required token}) : this._token = token;
+  NotionDatabasesClient({required token}) : this._token = token;
 
   /// Retrieve the database with [id]
   Future<http.Response> fetch(String id) async {
@@ -23,7 +22,7 @@ class NotionDatabasesClient {
   }
 
   /// Retrieve all databases
-  Future<http.Response> fetchAll({String startCursor, int pageSize}) async {
+  Future<http.Response> fetchAll({String? startCursor, int? pageSize}) async {
     Map<String, dynamic> query = {};
     if (startCursor != null) {
       query['start_cursos'] = startCursor;

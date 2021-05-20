@@ -2,7 +2,6 @@ library notion_api;
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart' show required;
 import 'package:http/http.dart' as http;
 
 import 'models/pages.dart';
@@ -16,7 +15,7 @@ class NotionPagesClient {
   // The path of the requests group
   String _path = 'pages';
 
-  NotionPagesClient({@required token}) : this._token = token;
+  NotionPagesClient({required token}) : this._token = token;
 
   /// Retrieve the page with [id]
   Future<http.Response> fetch(String id) async {
