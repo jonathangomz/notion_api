@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart' show required;
 import 'package:notion_api/models/rich_text.dart';
 
@@ -8,11 +6,15 @@ class Page {
   final PageProperties properties = PageProperties();
   final PageChildren children = PageChildren();
 
-  Page({@required databaseId}) {
+  Page({@required databaseId, RichText title}) {
     this.parent.databaseId = databaseId;
+    properties.title.add(title ?? Text(content: 'New page from API'));
   }
 
-  set title(RichText value) => properties.title.add(value ?? Text(content: ''));
+  set title(RichText value) {
+    properties.title.clear();
+    properties.title.add(value ?? Text(content: 'New page from API'));
+  }
 
   Map<String, dynamic> toJson() => {
         'parent': this.parent.toJson(),

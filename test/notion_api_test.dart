@@ -1,26 +1,49 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:notion_api/models/pages.dart';
 import 'package:notion_api/models/rich_text.dart';
-import 'package:notion_api/client.dart';
+import 'package:notion_api/notion.dart';
+import 'package:notion_api/notion_pages.dart';
 
 import '../env.dart';
 
 void main() {
-  group('Pages', () {
-    test('Create a page', () async {
+  group('Notion Client', () {
+    test('Retrieve a page', () async {
       final NotionClient notion = NotionClient(token: token);
+      var res = await notion.pages.fetch(test_page_id);
+      expect(res.statusCode, 200);
+    });
+  });
 
-      final Page page = Page(databaseId: test_database_id);
-      page.title = Text(content: 'Page from Test');
+  group('Notion Pages Client', () {
+    test('Create a page', () async {
+      final NotionPagesClient pages = NotionPagesClient(token: token);
 
-      var res = await notion.createPage(page);
+      final Page page = Page(
+        databaseId: test_database_id,
+        title: Text(content: 'NotionClient: Page test'),
+      );
+
+      var res = await pages.create(page);
+
+      expect(res.statusCode, 200);
+    });
+
+    test('Create a page with default title', () async {
+      final NotionPagesClient pages = NotionPagesClient(token: token);
+
+      final Page page = Page(
+        databaseId: test_database_id,
+      );
+
+      var res = await pages.create(page);
 
       expect(res.statusCode, 200);
     });
 
     test('Retrieve a page', () async {
-      final NotionClient notion = NotionClient(token: token);
-      var res = await notion.retrievePage(test_page_id);
+      final NotionPagesClient pages = NotionPagesClient(token: token);
+      var res = await pages.fetch(test_page_id);
       expect(res.statusCode, 200);
     });
   });

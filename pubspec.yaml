@@ -1,6 +1,6 @@
 name: notion_api
 description: Notion API client for dart.
-version: 0.0.1-prealpha1
+version: 0.0.1-dev.1
 homepage: https://github.com/jonathangomz/notion_api
 
 environment:
