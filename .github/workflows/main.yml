@@ -1,0 +1,31 @@
+name: Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install flutter
+        run: subosito/flutter-action@v1.3.2
+
+      - name: Install dependencies
+        run: flutter pub get
+        
+      - name: Test package
+        run: flutter test --coverage
+        
+      - name: Upload coverge to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: coverage/lcov.info
