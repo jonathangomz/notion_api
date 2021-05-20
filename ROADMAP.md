@@ -10,12 +10,13 @@
     * Note: Accept only basic content: `title` & `parent`.
 * Add `database` tests
 
-## v0.0.1-prealpha2:
+## v0.0.1-dev.2:
 > Release date: 24/May/2021
 * Return data response directly instead of `http.Response`
 * Manage http calls errors
+* Separete in classes
 
-## v0.0.1-prealpha3:
+## v0.0.1-dev.3:
 > Release date: 26/May/2021
 * Add `database` request parameters models
 * Add notion api endpoints: `databases`
@@ -24,7 +25,7 @@
   * List databases
 * Add `database` tests
 
-## v0.0.1-prealpha4:
+## v0.0.1-dev.4:
 > Release date: 28/May/2021
 * Add `block children` request parameters models
 * Add notion api endpoints: `block children`
