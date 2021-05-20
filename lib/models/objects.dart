@@ -1,0 +1,4 @@
+enum NotionObjects {
+  user,
+  database,
+}
