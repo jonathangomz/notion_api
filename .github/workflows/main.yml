@@ -19,13 +19,13 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.0.5'
+          channel: 'stable'
 
       - name: Install dependencies
         run: flutter pub get
         
       - name: Test package
-        run: flutter test --coverage
+        run: flutter test
         env:
           TOKEN: ${{ secrets.TOKEN }}
           TEST_DATABASE_ID: ${{ secrets.TEST_DATABASE_ID }}
