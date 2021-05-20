@@ -14,9 +14,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      
       - name: Install flutter
-        run: subosito/flutter-action@v1.3.2
+        run: subosito/flutter-action@v1
 
       - name: Install dependencies
         run: flutter pub get
