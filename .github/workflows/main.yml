@@ -30,6 +30,7 @@ jobs:
           token: ${{ secrets.token }}
           test_database_id: ${{ secrets.test_database_id }}
           test_page_id: ${{ secrets.test_page_id }}
+          FLUTTER_ENV: 'testing'
         
       - name: Upload coverge to Codecov
         uses: codecov/codecov-action@v1
