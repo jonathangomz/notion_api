@@ -1,16 +1,16 @@
-import 'package:notion_api/models/rich_text.dart';
+import 'rich_text/text.dart';
 
 class Page {
   final PageParent parent = PageParent();
   final PageProperties properties = PageProperties();
   final PageChildren children = PageChildren();
 
-  Page({required databaseId, RichText? title}) {
+  Page({required databaseId, String? title}) {
     this.parent.databaseId = databaseId;
-    properties.title.add(title ?? Text(content: 'New page from API'));
+    properties.title.add(Text(title ?? 'New page from API'));
   }
 
-  set title(RichText value) {
+  set title(Text value) {
     properties.title.clear();
     properties.title.add(value);
   }
@@ -30,7 +30,7 @@ class PageParent {
 }
 
 class PageProperties {
-  List<RichText> title = [];
+  List<Text> title = [];
 
   toJson() => {
         'title': {
