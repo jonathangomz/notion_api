@@ -1,9 +1,8 @@
 library notion_api;
 
-import 'package:notion_api/notion_blocks.dart';
-import 'package:notion_api/notion_databases.dart';
-
 import 'notion_pages.dart';
+import 'notion_blocks.dart';
+import 'notion_databases.dart';
 
 /// A Notion API client.
 class NotionClient {

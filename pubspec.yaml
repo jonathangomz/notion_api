@@ -1,6 +1,6 @@
 name: notion_api
 description: A client for the public beta of the Notion API
-version: 0.0.1-dev.2
+version: 0.0.1-beta1
 homepage: https://github.com/jonathangomz/notion_api
 
 environment:

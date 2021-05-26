@@ -24,17 +24,18 @@
   * [LATER] ~~Query a database~~
 * Add `database` tests
 
-## v0.0.1-dev.3:
-> Release date: 24/May/2021
+## v0.0.1-beta1:
+> Release date: 26/May/2021
 * Update to null-safety
-* Add `block children` request parameters models
+* Improve environment variables implementation
+* Add CI with GitHub Actions
 * Add notion api endpoints: `block children`
   * Retrieve block children
   * Append block children
-* Add `block children` tests
+* Add `block children` API request tests
 
-## v0.0.1-beta1:
-> Release date: 27/May/2021
+## v0.0.1-beta2:
+> Release date: 28/May/2021
 * Improve testing
 * Improve Rich Text usage
 

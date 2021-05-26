@@ -1,7 +1,10 @@
 library notion_api;
 
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
+import 'models/children.dart';
 import 'statics.dart';
 
 /// A client for Notion API block children requests.
@@ -31,5 +34,16 @@ class NotionBlockClient {
     return await http.get(Uri.https(host, '$v/$_path/$id/children'), headers: {
       'Authorization': 'Bearer $_token',
     });
+  }
+
+  /// Append a block child to the block with [id]
+  Future<http.Response> append(
+      {required String to, required Children children}) async {
+    return await http.patch(Uri.https(host, '$v/$_path/$to/children'),
+        body: jsonEncode(children.toJson()),
+        headers: {
+          'Authorization': 'Bearer $_token',
+          'Content-Type': 'application/json; charset=UTF-8',
+        });
   }
 }

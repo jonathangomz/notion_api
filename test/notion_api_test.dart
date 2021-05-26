@@ -1,8 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'dart:io' show Platform;
+import 'package:notion_api/models/children.dart';
 import 'package:notion_api/models/pages.dart';
-import 'package:notion_api/models/rich_text.dart';
+import 'package:notion_api/models/rich_text/paragraph.dart';
+import 'package:notion_api/models/rich_text/text.dart';
+import 'package:notion_api/models/rich_text/colors.dart';
+import 'package:notion_api/models/rich_text/heading.dart';
 import 'package:notion_api/notion.dart';
 import 'package:notion_api/notion_blocks.dart';
 import 'package:notion_api/notion_databases.dart';
@@ -44,7 +48,7 @@ void main() {
 
       final Page page = Page(
         databaseId: testDatabaseId,
-        title: Text(content: 'NotionClient: Page test'),
+        title: 'NotionClient: Page test',
       );
 
       var res = await pages.create(page);
@@ -96,6 +100,25 @@ void main() {
       final NotionBlockClient blocks = NotionBlockClient(token: token);
 
       var res = await blocks.fetch(testBlockId ?? '');
+
+      expect(res.statusCode, 200);
+    });
+
+    test('Append block children', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token);
+
+      var res = await blocks.append(
+          to: testBlockId as String,
+          children: Children(
+              heading: Heading('Test'),
+              paragraph: Paragraph([
+                Text('Lorem ipsum (A)'),
+                Text('Lorem ipsum (B)',
+                    annotations: TextAnnotations(
+                        bold: true,
+                        underline: true,
+                        color: RichTextColors.orange))
+              ])));
 
       expect(res.statusCode, 200);
     });

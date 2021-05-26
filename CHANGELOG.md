@@ -23,3 +23,14 @@
 * Add `database` tests
 * Add `title` field to `Page` constructor
 * Add static API information (host, api version) on separated file
+
+## v0.0.1-beta1:
+> Release date: 26/May/2021
+* Update to null-safety
+* Improve environment variables implementation
+* Add CI with GitHub Actions
+* Add notion api endpoints: `block children`
+  * Retrieve block children
+  * Append block children
+    * Note: Only `Paragraph` (with `Text`) & `Heading` types are working
+* Add `block children` API request tests
