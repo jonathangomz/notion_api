@@ -39,7 +39,6 @@ class NotionBlockClient {
   /// Append a block child to the block with [id]
   Future<http.Response> append(
       {required String to, required Children children}) async {
-    print(jsonEncode(children.toJson()));
     return await http.patch(Uri.https(host, '$v/$_path/$to/children'),
         body: jsonEncode(children.toJson()),
         headers: {
