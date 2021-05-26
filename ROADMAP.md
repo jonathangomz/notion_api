@@ -25,16 +25,17 @@
 * Add `database` tests
 
 ## v0.0.1-beta1:
-> Release date: 27/May/2021
+> Release date: 26/May/2021
 * Update to null-safety
 * Improve environment variables implementation
 * Add CI with GitHub Actions
-* Add `block children` API request
-  * Add `block children` API request parameters models
-  * Add `block children` API request tests
+* Add notion api endpoints: `block children`
+  * Retrieve block children
+  * Append block children
+* Add `block children` API request tests
 
 ## v0.0.1-beta2:
-> Release date: 31/May/2021
+> Release date: 28/May/2021
 * Improve testing
 * Improve Rich Text usage
 
