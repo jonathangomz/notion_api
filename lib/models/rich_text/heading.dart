@@ -1,11 +1,13 @@
 import 'text.dart';
 
+/// The basic heading types.
 enum HeadingTypes {
   H1,
   H2,
   H3,
 }
 
+/// A representation of the Heading notion objects.
 class Heading {
   HeadingTypes _type = HeadingTypes.H1;
   String _object = 'block';
@@ -28,6 +30,7 @@ class Heading {
     }
   }
 
+  /// The string value of the heading type.
   String get type {
     switch (_type) {
       case HeadingTypes.H1:
@@ -39,6 +42,7 @@ class Heading {
     }
   }
 
+  /// Convert this to a json representation valid for the Notion API.
   toJson() => {
         'object': _object,
         'type': type,
