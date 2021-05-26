@@ -9,7 +9,14 @@ class Paragraph {
 
   Paragraph(this.content, {this.textSeparator: ' '});
 
-  String get type => 'paragraph';
+  String get type {
+    switch (_type) {
+      case NotionTypes.Paragraph:
+        return 'paragraph';
+      default:
+        return 'paragraph';
+    }
+  }
 
   toJson() => {
         'object': _object,
