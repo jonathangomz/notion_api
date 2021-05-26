@@ -1,3 +1,4 @@
+/// The basic notion types.
 enum NotionTypes {
   H1,
   H2,

@@ -21,7 +21,10 @@ class NotionDatabasesClient {
     });
   }
 
-  /// Retrieve all databases
+  /// Retrieve all databases.
+  ///
+  /// A [startCursor] can be defined to sepeficied the page where to start.
+  /// Also a [pageSize] can be defined to limit the result. The max value is 100.
   Future<http.Response> fetchAll({String? startCursor, int? pageSize}) async {
     Map<String, dynamic> query = {};
     if (startCursor != null) {

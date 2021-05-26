@@ -1,3 +1,4 @@
+/// The basic colors.
 enum RichTextColors {
   gray,
   brown,

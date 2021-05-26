@@ -17,7 +17,10 @@ class NotionBlockClient {
 
   NotionBlockClient({required token}) : this._token = token;
 
-  /// Retrieve the block children from block with [id]
+  /// Retrieve the block children from block with [id].
+  ///
+  /// A [startCursor] can be defined to sepeficied the page where to start.
+  /// Also a [pageSize] can be defined to limit the result. The max value is 100.
   Future<http.Response> fetch(
     String id, {
     String? startCursor,
@@ -31,12 +34,13 @@ class NotionBlockClient {
       query['page_size'] = pageSize;
     }
 
-    return await http.get(Uri.https(host, '$v/$_path/$id/children'), headers: {
+    return await http
+        .get(Uri.https(host, '$v/$_path/$id/children', query), headers: {
       'Authorization': 'Bearer $_token',
     });
   }
 
-  /// Append a block child to the block with [id]
+  /// Append a block [children] [to] a specific block.
   Future<http.Response> append(
       {required String to, required Children children}) async {
     return await http.patch(Uri.https(host, '$v/$_path/$to/children'),
