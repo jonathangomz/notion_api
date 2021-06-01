@@ -7,6 +7,7 @@ import 'package:notion_api/models/rich_text/paragraph.dart';
 import 'package:notion_api/models/rich_text/text.dart';
 import 'package:notion_api/models/rich_text/colors.dart';
 import 'package:notion_api/models/rich_text/heading.dart';
+import 'package:notion_api/models/rich_text/todo.dart';
 import 'package:notion_api/notion.dart';
 import 'package:notion_api/notion_blocks.dart';
 import 'package:notion_api/notion_databases.dart';
@@ -104,14 +105,14 @@ void main() {
       expect(res.statusCode, 200);
     });
 
-    test('Append block children', () async {
+    test('Append heading & text', () async {
       final NotionBlockClient blocks = NotionBlockClient(token: token);
 
       var res = await blocks.append(
           to: testBlockId as String,
           children: Children(
               heading: Heading('Test'),
-              paragraph: Paragraph([
+              paragraph: Paragraph(content: [
                 Text('Lorem ipsum (A)'),
                 Text('Lorem ipsum (B)',
                     annotations: TextAnnotations(
@@ -119,6 +120,29 @@ void main() {
                         underline: true,
                         color: RichTextColors.orange))
               ])));
+
+      expect(res.statusCode, 200);
+    });
+
+    test('Append todo block', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token);
+
+      var res = await blocks.append(
+          to: testBlockId as String,
+          children: Children(toDo: [
+            ToDo(text: Text('This is a todo item A')),
+            ToDo(
+              content: Paragraph(
+                content: [
+                  Text('This is a todo item'),
+                  Text(
+                    'B',
+                    annotations: TextAnnotations(bold: true),
+                  ),
+                ],
+              ),
+            ),
+          ]));
 
       expect(res.statusCode, 200);
     });

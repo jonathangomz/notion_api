@@ -1,5 +1,6 @@
 import 'rich_text/heading.dart';
 import 'rich_text/paragraph.dart';
+import 'rich_text/todo.dart';
 
 /// A representation of the Children json for the Notion API.
 class Children {
@@ -9,12 +10,16 @@ class Children {
   Children({
     Heading? heading,
     Paragraph? paragraph,
+    List<ToDo>? toDo,
   }) {
     if (heading != null) {
       children.add(heading);
     }
     if (paragraph != null) {
       children.add(paragraph);
+    }
+    if (toDo != null) {
+      children.addAll(toDo.toList());
     }
   }
 

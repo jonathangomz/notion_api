@@ -1,23 +1,18 @@
-import 'text.dart';
+import 'package:notion_api/models/rich_text/notion_types.dart';
 
-/// The basic heading types.
-enum HeadingTypes {
-  H1,
-  H2,
-  H3,
-}
+import 'text.dart';
 
 /// A representation of the Heading notion objects.
 class Heading {
-  HeadingTypes _type = HeadingTypes.H1;
+  NotionTypes _type = NotionTypes.H1;
   String _object = 'block';
   List<Text> _content = [];
 
   Heading(
     String? _text, {
-    HeadingTypes? type,
     String? text,
     List<Text>? content,
+    int type: 1,
   }) {
     if (content != null) {
       _content.addAll(content);
@@ -25,28 +20,29 @@ class Heading {
       _content.add(Text(_text ?? text ?? ''));
     }
 
-    if (type != null) {
-      _type = type;
+    switch (type) {
+      case 1:
+        _type = NotionTypes.H1;
+        break;
+      case 2:
+        _type = NotionTypes.H2;
+        break;
+      case 3:
+        _type = NotionTypes.H3;
+        break;
+      default:
+        _type = NotionTypes.H3;
     }
   }
 
   /// The string value of the heading type.
-  String get type {
-    switch (_type) {
-      case HeadingTypes.H1:
-        return 'heading_1';
-      case HeadingTypes.H2:
-        return 'heading_2';
-      case HeadingTypes.H3:
-        return 'heading_3';
-    }
-  }
+  String get type => strType(_type);
 
   /// Convert this to a json representation valid for the Notion API.
   toJson() => {
         'object': _object,
         'type': type,
-        '$type': {
+        type: {
           'text': _content.map((e) => e.toJson()).toList(),
         },
       };
