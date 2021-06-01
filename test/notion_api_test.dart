@@ -109,17 +109,24 @@ void main() {
       final NotionBlockClient blocks = NotionBlockClient(token: token);
 
       var res = await blocks.append(
-          to: testBlockId as String,
-          children: Children(
-              heading: Heading('Test'),
-              paragraph: Paragraph(content: [
-                Text('Lorem ipsum (A)'),
-                Text('Lorem ipsum (B)',
-                    annotations: TextAnnotations(
-                        bold: true,
-                        underline: true,
-                        color: RichTextColors.orange))
-              ])));
+        to: testBlockId as String,
+        children: Children(
+          heading: Heading('Test'),
+          paragraph: Paragraph(
+            content: [
+              Text('Lorem ipsum (A)'),
+              Text(
+                'Lorem ipsum (B)',
+                annotations: TextAnnotations(
+                  bold: true,
+                  underline: true,
+                  color: RichTextColors.orange,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 
       expect(res.statusCode, 200);
     });
@@ -128,8 +135,9 @@ void main() {
       final NotionBlockClient blocks = NotionBlockClient(token: token);
 
       var res = await blocks.append(
-          to: testBlockId as String,
-          children: Children(toDo: [
+        to: testBlockId as String,
+        children: Children(
+          toDo: [
             ToDo(text: Text('This is a todo item A')),
             ToDo(
               content: Paragraph(
@@ -142,7 +150,9 @@ void main() {
                 ],
               ),
             ),
-          ]));
+          ],
+        ),
+      );
 
       expect(res.statusCode, 200);
     });

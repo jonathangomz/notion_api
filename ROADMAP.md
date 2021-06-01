@@ -34,17 +34,25 @@
   * Append block children
 * Add `block children` API request tests
 
-## v0.0.1-beta2:
-> Release date: 28/May/2021
+## v0.0.1:
+> Release date: 01/Jun/2021
 * Improve testing
 * Improve Rich Text usage
-
-## v0.0.1:
-> Release date: 31/May/2021
-* Fix any error
+* Add more blocks for `(PATCH): block children` endpoint
+  * `ToDo` block
 
 ## v0.0.2:
-> Release date: 01/Jun/2021
+> Release date: 15/Jun/2021
+* Fix any error
+* Separate tests by sections
+  * Prepare environment variables on other file
+* Add more blocks for `(PATCH): block children` endpoint
+  * `BulletedList` block
+  * `NumberedList` block
+  * `Toogle` block
+
+## v1.0.0:
+> Release date: 31/Jun/2021
 * Improve code documentation
 * Improve Pub Points
 

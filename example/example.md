@@ -11,6 +11,13 @@
 - [Block children](#block-children)
   - [Retrieving block children](#retrieving-block-children)
   - [Append block children](#append-block-children)
+    - [Example](#example)
+      - [Heading & Paragraph](#heading--paragraph)
+        - [Code](#code)
+        - [Result](#result)
+      - [To do](#to-do)
+        - [Code](#code-1)
+        - [Result](#result-1)
 
 # Initialization
 ## Full instance
@@ -38,7 +45,7 @@ databases.fetchAll();
 ```dart
 Page page = Page(
   databaseId: 'YOUR DATABASE ID',
-  title: Text(content: 'The title of the new page'),
+  title: 'The title of the new page',
 );
 
 notion.pages.create(page);
@@ -75,22 +82,63 @@ notion.blocks.fetch('YOUR_BLOCK_ID');
 _Parameters:_
 - _to: Identifier for a block._
 - _children: Child content to append to a container block as an array of block objects._
-  - Can receive a `Paragraph` or `Heading` object.
+  - Can receive a `Paragraph`, `Heading` & `ToDo` object.
   - The `Paragraph` object can contain only `Text` objects.
   - `Text` can receive a `TextAnnotations` class with the style of the text.
+
+### Example
+#### Heading & Paragraph
+##### Code
 ```dart
 notion.blocks.append(
   to: 'YOUR_BLOCK_ID',
   children: Children(
     heading: Heading('Test'),
-    paragraph: Paragraph([
-      Text('Lorem ipsum (A)'),
-      Text('Lorem ipsum (B)',
-         annotations: TextAnnotations(
+    paragraph: Paragraph(
+      content: [
+        Text('Lorem ipsum (A)'),
+        Text(
+          'Lorem ipsum (B)',
+          annotations: TextAnnotations(
             bold: true,
             underline: true,
-            color: RichTextColors.orange))
-    ])));
+            color: RichTextColors.orange,
+          ),
+        ),
+      ],
+    ),
+  ),
+);
 ```
+
+##### Result
+![heading&paragraph](./images/heading_paragraph.png)
+
+#### To do
+##### Code
+```dart
+notion.blocks.append(
+  to: 'YOUR_BLOCK_ID',
+  children: Children(
+    toDo: [
+      ToDo(text: Text('This is a todo item A')),
+      ToDo(
+        content: Paragraph(
+          content: [
+            Text('This is a todo item'),
+            Text(
+              'B',
+              annotations: TextAnnotations(bold: true),
+            ),
+          ],
+        ),
+      ),
+    ],
+  ),
+);
+```
+
+##### Result
+![todo](./images/todo.png)
 
 [1]: https://developers.notion.com/reference/get-databases
