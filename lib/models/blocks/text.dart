@@ -1,4 +1,4 @@
-import 'colors.dart';
+import '../rich_text/colors.dart';
 
 /// A representation of the Text notion object.
 class Text {

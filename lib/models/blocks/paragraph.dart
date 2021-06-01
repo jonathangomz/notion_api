@@ -1,12 +1,10 @@
-import 'package:notion_api/models/rich_text/paragraph.dart';
-
-import 'notion_types.dart';
+import '../rich_text/notion_types.dart';
 import 'text.dart';
 
 /// A representation of the Paragraph notion object.
-class ToDo {
+class Paragraph {
   String _object = 'block';
-  NotionTypes _type = NotionTypes.ToDo;
+  NotionTypes _type = NotionTypes.Paragraph;
 
   /// The paragraph content intself.
   List<Text> _content = [];
@@ -14,16 +12,13 @@ class ToDo {
   /// The separator for the Text objects.
   String textSeparator;
 
-  /// The checked value
-  bool checked;
-
-  ToDo(
-      {Text? text,
-      Paragraph? content,
-      this.textSeparator: ' ',
-      this.checked: false}) {
+  Paragraph({
+    Text? text,
+    List<Text>? content,
+    this.textSeparator: ' ',
+  }) {
     if (content != null) {
-      this._content.addAll(content.texts);
+      this._content.addAll(content);
     } else if (text != null) {
       this._content.add(text);
     } else {
@@ -34,6 +29,9 @@ class ToDo {
   /// The string value of the notion type for this object.
   String get type => strType(_type);
 
+  /// Extract the list of Text objects
+  List<Text> get texts => _content.toList();
+
   /// Convert this to a json representation valid for the Notion API.
   toJson() => {
         'object': _object,
@@ -41,8 +39,7 @@ class ToDo {
         type: {
           'text': _content
               .map((e) => e.toJson(textSeparator: textSeparator))
-              .toList(),
-          'checked': checked,
+              .toList()
         }
       };
 }

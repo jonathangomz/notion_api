@@ -1,6 +1,6 @@
-import 'rich_text/heading.dart';
-import 'rich_text/paragraph.dart';
-import 'rich_text/todo.dart';
+import 'blocks/heading.dart';
+import 'blocks/paragraph.dart';
+import 'blocks/todo.dart';
 
 /// A representation of the Children json for the Notion API.
 class Children {

@@ -1,4 +1,4 @@
-import 'rich_text/text.dart';
+import 'blocks/text.dart';
 
 /// A representation of the Page notion object.
 class Page {
