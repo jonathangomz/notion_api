@@ -1,6 +1,7 @@
 import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
+import 'package:notion_api/utils/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -15,7 +16,17 @@ void main() {
       expect(() => prop.toJson(), throwsA(isA<String>()));
     });
 
-    test('Create a json from properties map', () {
+    test('Create a property from json', () {
+      Property prop = Property.propertyFromJson(
+          {"id": "title", "type": "title", "title": {}});
+
+      expect(prop.isTitle, true);
+      expect(prop.type, PropertiesTypes.Title);
+      expect(prop.strType,
+          NotionUtils.propertyTypeToString(PropertiesTypes.Title));
+    });
+
+    test('Create a properties map from json', () {
       Map<String, Property> json = Property.propertiesFromJson({
         "Tags": {
           "id": ">cp;",
@@ -31,6 +42,16 @@ void main() {
       expect(json, contains('Name'));
       expect(json['Name']!.isTitle, true);
     });
+
+    test('Create json from Property inherited class', () {
+      Property prop = TitleProp(content: [Text('Title')]);
+      Map<String, dynamic> json = prop.toJson();
+
+      String strType = NotionUtils.propertyTypeToString(PropertiesTypes.Title);
+      expect(json['type'], strType);
+      expect(json, contains(strType));
+      expect((json[strType] as List).length, 1);
+    });
   });
 
   group('Title property =>', () {
@@ -41,12 +62,13 @@ void main() {
       expect(prop.content, isNotEmpty);
       expect(prop.content.length, 1);
     });
-    test('Create an json from property', () {
+    test('Create a json from property', () {
       Map<String, dynamic> json = TitleProp(content: [Text('TITLE')]).toJson();
 
-      expect(json['type'], 'title');
-      expect(json, contains('title'));
-      expect((json['title'] as List).length, 1);
+      String strType = NotionUtils.propertyTypeToString(PropertiesTypes.Title);
+      expect(json['type'], strType);
+      expect(json, contains(strType));
+      expect((json[strType] as List).length, 1);
     });
   });
 
@@ -58,13 +80,15 @@ void main() {
       expect(rich.content, isNotEmpty);
       expect(rich.content.length, 2);
     });
-    test('Create an json from property', () {
+    test('Create a json from property', () {
       Map<String, dynamic> json =
           RichTextProp(content: [Text('A'), Text('B')]).toJson();
 
-      expect(json['type'], 'rich_text');
-      expect(json, contains('rich_text'));
-      expect((json['rich_text'] as List).length, 2);
+      String strType =
+          NotionUtils.propertyTypeToString(PropertiesTypes.RichText);
+      expect(json['type'], strType);
+      expect(json, contains(strType));
+      expect((json[strType] as List).length, 2);
     });
   });
 
@@ -78,15 +102,54 @@ void main() {
       expect(multi.options.length, 1);
     });
 
-    test('Create an json from property', () {
+    test('Create an option for multi select', () {
+      MultiSelectOption option = MultiSelectOption(name: 'A');
+
+      expect(option.name, 'A');
+      expect(option.id, isNull);
+      expect(option.color, ColorsTypes.Default);
+    });
+
+    test('Create an option from json', () {
+      Map<String, dynamic> json = {'name': 'A', 'color': 'brown'};
+      MultiSelectOption option = MultiSelectOption.fromJson(json);
+
+      expect(option.name, 'A');
+      expect(option.id, isNull);
+      expect(option.color, ColorsTypes.Brown);
+    });
+
+    test('Create a json from property', () {
       Map<String, dynamic> json =
           MultiSelectProp(options: [MultiSelectOption(name: 'A')]).toJson();
 
-      expect(json['type'], 'multi_select');
-      expect(json, contains('multi_select'));
-      expect(json['multi_select'], contains('options'));
-      expect(json['multi_select']['options'], isList);
-      expect(json['multi_select']['options'], isNotEmpty);
+      String strType =
+          NotionUtils.propertyTypeToString(PropertiesTypes.MultiSelect);
+      expect(json['type'], strType);
+      expect(json, contains(strType));
+      expect(json[strType], contains('options'));
+      expect(json[strType]['options'], isList);
+      expect(json[strType]['options'], isNotEmpty);
+    });
+
+    test('Create a json from option', () {
+      Map<String, dynamic> json =
+          MultiSelectOption(name: 'A', color: ColorsTypes.Brown).toJson();
+
+      expect(json['name'], 'A');
+      expect(json['id'], isNull);
+      expect(json['color'],
+          contains(NotionUtils.colorTypeToString(ColorsTypes.Brown)));
+    });
+
+    test('Create an options list from json', () {
+      List<MultiSelectOption> list = MultiSelectOption.fromListJson([
+        {'name': 'A'},
+        {'name': 'B'}
+      ]);
+
+      expect(list, isNotEmpty);
+      expect(list.length, 2);
     });
   });
 
@@ -161,9 +224,10 @@ void main() {
     test('Create json from name json response', () {
       Map<String, dynamic> jsonTest = TitleProp.fromJson(json).toJson();
 
-      expect(jsonTest['type'], 'title');
-      expect(jsonTest, contains('title'));
-      expect(jsonTest['title'], isList);
+      String strType = NotionUtils.propertyTypeToString(PropertiesTypes.Title);
+      expect(jsonTest['type'], strType);
+      expect(jsonTest, contains(strType));
+      expect(jsonTest[strType], isList);
     });
 
     test('Map details from json response', () {
@@ -177,9 +241,11 @@ void main() {
       Map<String, dynamic> jsonTest =
           RichTextProp.fromJson(jsonDetails).toJson();
 
-      expect(jsonTest['type'], 'rich_text');
-      expect(jsonTest, contains('rich_text'));
-      expect(jsonTest['rich_text'], isList);
+      String strType =
+          NotionUtils.propertyTypeToString(PropertiesTypes.RichText);
+      expect(jsonTest['type'], strType);
+      expect(jsonTest, contains(strType));
+      expect(jsonTest[strType], isList);
     });
 
     test('Map tag from json response without options subfield', () {
