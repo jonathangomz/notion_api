@@ -137,16 +137,16 @@ void main() {
       NotionResponse res = await blocks.append(
         to: testBlockId as String,
         children: Children(
-          heading: Heading('Test'),
+          heading: Heading(text: Text('Test')),
           paragraph: Paragraph(
-            content: [
+            texts: [
               Text('Lorem ipsum (A)'),
               Text(
                 'Lorem ipsum (B)',
                 annotations: TextAnnotations(
                   bold: true,
                   underline: true,
-                  color: ColorsTypes.orange,
+                  color: ColorsTypes.Orange,
                 ),
               ),
             ],
@@ -167,15 +167,13 @@ void main() {
           toDo: [
             ToDo(text: Text('This is a todo item A')),
             ToDo(
-              content: Paragraph(
-                content: [
-                  Text('This is a todo item'),
-                  Text(
-                    'B',
-                    annotations: TextAnnotations(bold: true),
-                  ),
-                ],
-              ),
+              texts: [
+                Text('This is a todo item'),
+                Text(
+                  'B',
+                  annotations: TextAnnotations(bold: true),
+                ),
+              ],
             ),
           ],
         ),

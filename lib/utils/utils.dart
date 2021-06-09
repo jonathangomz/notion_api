@@ -1,11 +1,16 @@
 import 'package:notion_api/notion/general/types/notion_types.dart';
 
-class NotionUtils {
-  static List<ObjectsTypes> allObjectTypes = ObjectsTypes.values;
-  static List<BlocksTypes> allBlockTypes = BlocksTypes.values;
-  static List<PropertiesTypes> allPropertyTypes = PropertiesTypes.values;
+class NotionTypes {
+  final List<ObjectTypes> object = ObjectTypes.values;
+  final List<BlockTypes> block = BlockTypes.values;
+  final List<PropertiesTypes> properties = PropertiesTypes.values;
+  final List<ColorsTypes> colors = ColorsTypes.values;
+}
 
-  static List<String> allStrPropertyTypes = [
+class NotionUtils {
+  static NotionTypes types = NotionTypes();
+
+  static List<String> _allStrPropertyTypes = [
     'rich_text',
     'number',
     'select',
@@ -27,100 +32,79 @@ class NotionUtils {
     'title'
   ];
 
-  static List<PropertiesTypes> get haveContentList =>
-      [PropertiesTypes.Title, PropertiesTypes.MultiSelect];
-
   static get headingsTypes => [
-        BlocksTypes.H1,
-        BlocksTypes.H2,
-        BlocksTypes.H3,
+        BlockTypes.H1,
+        BlockTypes.H2,
+        BlockTypes.H3,
       ];
 
-  static get textProperty => _allBut([]);
-
-  static get childrenProperty => _allBut(headingsTypes);
-
-  static get checkedProperty => [BlocksTypes.ToDo];
-
-  static get titleProperty => [];
-
-  static bool contentIsList(PropertiesTypes type) =>
-      haveContentList.contains(type);
-
-  static List<BlocksTypes> _allBut(List<BlocksTypes> excludedTypes) {
-    List<BlocksTypes> copy = [...allBlockTypes];
-    copy.removeWhere((element) => excludedTypes.contains(element));
-    return copy;
-  }
-
-  static String blockTypeToString(BlocksTypes type) {
+  static String blockTypeToString(BlockTypes type) {
     switch (type) {
-      case BlocksTypes.None:
-        return '';
-      case BlocksTypes.ToDo:
-        return 'to_do';
-      case BlocksTypes.H1:
-        return 'heading_1';
-      case BlocksTypes.H2:
-        return 'heading_2';
-      case BlocksTypes.H3:
-        return 'heading_3';
-      case BlocksTypes.Paragraph:
-        return 'paragraph';
-      case BlocksTypes.BulletedList:
-        return 'bulleted_list_item';
-      case BlocksTypes.NumberedList:
-        return 'numbered_list_item';
-      case BlocksTypes.Toogle:
-        return 'toggle';
-      case BlocksTypes.Child:
-        return 'child_page';
-      case BlocksTypes.Unsupported:
-      default:
+      case BlockTypes.Unsupported:
         return 'unsupported';
+      case BlockTypes.ToDo:
+        return 'to_do';
+      case BlockTypes.H1:
+        return 'heading_1';
+      case BlockTypes.H2:
+        return 'heading_2';
+      case BlockTypes.H3:
+        return 'heading_3';
+      case BlockTypes.Paragraph:
+        return 'paragraph';
+      case BlockTypes.BulletedList:
+        return 'bulleted_list_item';
+      case BlockTypes.NumberedList:
+        return 'numbered_list_item';
+      case BlockTypes.Toogle:
+        return 'toggle';
+      case BlockTypes.Child:
+        return 'child_page';
+      case BlockTypes.None:
+        return '';
     }
   }
 
-  static BlocksTypes stringToBlockType(String type) {
+  static BlockTypes stringToBlockType(String type) {
     switch (type) {
-      case '':
-        return BlocksTypes.None;
       case 'heading_1':
-        return BlocksTypes.H1;
+        return BlockTypes.H1;
       case 'heading_2':
-        return BlocksTypes.H2;
+        return BlockTypes.H2;
       case 'heading_3':
-        return BlocksTypes.H3;
+        return BlockTypes.H3;
       case 'paragraph':
-        return BlocksTypes.Paragraph;
+        return BlockTypes.Paragraph;
       case 'bulleted_list_item':
-        return BlocksTypes.BulletedList;
+        return BlockTypes.BulletedList;
       case 'numbered_list_item':
-        return BlocksTypes.NumberedList;
+        return BlockTypes.NumberedList;
       case 'toogle':
-        return BlocksTypes.Toogle;
+        return BlockTypes.Toogle;
       case 'to_do':
-        return BlocksTypes.ToDo;
+        return BlockTypes.ToDo;
       case 'child_page':
-        return BlocksTypes.Child;
+        return BlockTypes.Child;
       case 'unsupported':
+        return BlockTypes.Unsupported;
+      case '':
       default:
-        return BlocksTypes.Unsupported;
+        return BlockTypes.None;
     }
   }
 
   /// Get the string value of the color type.
   static String colorTypeToString(ColorsTypes color) {
     switch (color) {
-      case ColorsTypes.gray:
+      case ColorsTypes.Gray:
         return 'gray';
-      case ColorsTypes.brown:
+      case ColorsTypes.Brown:
         return 'brown';
-      case ColorsTypes.orange:
+      case ColorsTypes.Orange:
         return 'orange';
-      case ColorsTypes.yellow:
+      case ColorsTypes.Yellow:
         return 'yellow';
-      case ColorsTypes.none:
+      case ColorsTypes.Default:
         return 'default';
     }
   }
@@ -129,55 +113,55 @@ class NotionUtils {
   static ColorsTypes stringToColorType(String color) {
     switch (color) {
       case 'gray':
-        return ColorsTypes.gray;
+        return ColorsTypes.Gray;
       case 'brown':
-        return ColorsTypes.brown;
+        return ColorsTypes.Brown;
       case 'orange':
-        return ColorsTypes.orange;
+        return ColorsTypes.Orange;
       case 'yellow':
-        return ColorsTypes.yellow;
+        return ColorsTypes.Yellow;
       case 'default':
       default:
-        return ColorsTypes.none;
+        return ColorsTypes.Default;
     }
   }
 
-  static String objectTypeToString(ObjectsTypes type) {
+  static String objectTypeToString(ObjectTypes type) {
     switch (type) {
-      case ObjectsTypes.Error:
+      case ObjectTypes.Error:
         return 'error';
-      case ObjectsTypes.Database:
+      case ObjectTypes.Database:
         return 'database';
-      case ObjectsTypes.List:
+      case ObjectTypes.List:
         return 'list';
-      case ObjectsTypes.Page:
+      case ObjectTypes.Page:
         return 'page';
-      case ObjectsTypes.Object:
+      case ObjectTypes.Object:
         return 'object';
-      case ObjectsTypes.Block:
+      case ObjectTypes.Block:
         return 'block';
-      case ObjectsTypes.None:
-        return 'none';
+      case ObjectTypes.None:
+        return '';
     }
   }
 
-  static ObjectsTypes stringToObjectType(String type) {
+  static ObjectTypes stringToObjectType(String type) {
     switch (type) {
       case 'error':
-        return ObjectsTypes.Error;
+        return ObjectTypes.Error;
       case 'database':
-        return ObjectsTypes.Database;
+        return ObjectTypes.Database;
       case 'list':
-        return ObjectsTypes.List;
+        return ObjectTypes.List;
       case 'page':
-        return ObjectsTypes.Page;
+        return ObjectTypes.Page;
       case 'object':
-        return ObjectsTypes.Object;
+        return ObjectTypes.Object;
       case 'block':
-        return ObjectsTypes.Block;
-      case 'none':
+        return ObjectTypes.Block;
+      case '':
       default:
-        return ObjectsTypes.None;
+        return ObjectTypes.None;
     }
   }
 
@@ -266,6 +250,7 @@ class NotionUtils {
         return PropertiesTypes.LastEditedBy;
       case 'title':
         return PropertiesTypes.Title;
+      case '':
       default:
         return PropertiesTypes.None;
     }
@@ -277,31 +262,12 @@ class NotionUtils {
     } else {
       PropertiesTypes type = PropertiesTypes.None;
       json.keys.forEach((key) {
-        if (allStrPropertyTypes.contains(key)) {
+        if (_allStrPropertyTypes.contains(key)) {
           type = stringToPropertyType(key);
         }
       });
       return type;
     }
-  }
-
-  static List<String> contentProperties(BlocksTypes type) {
-    List<String> properties = [];
-
-    if (textProperty.contains(type)) {
-      properties.add('text');
-    }
-    if (childrenProperty.contains(type)) {
-      properties.add('children');
-    }
-    if (checkedProperty.contains(type)) {
-      properties.add('checked');
-    }
-    if (titleProperty.contains(type)) {
-      properties.add('type');
-    }
-
-    return properties;
   }
 
   /// Find if a json [field] is a List

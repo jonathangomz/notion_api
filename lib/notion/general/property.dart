@@ -212,7 +212,7 @@ class MultiSelectOption {
   ColorsTypes color;
 
   MultiSelectOption(
-      {required this.name, this.id, this.color: ColorsTypes.none});
+      {required this.name, this.id, this.color: ColorsTypes.Default});
 
   MultiSelectOption.fromJson(Map<String, dynamic> json)
       : this.name = json['name'] ?? '',

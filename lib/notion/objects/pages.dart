@@ -6,7 +6,7 @@ import 'package:notion_api/notion/general/rich_text.dart';
 /// A representation of the Page notion object.
 class Page extends BaseProperties {
   /// The type of this object
-  ObjectsTypes object = ObjectsTypes.Page;
+  ObjectTypes object = ObjectTypes.Page;
 
   /// The type of this object
   bool archived;

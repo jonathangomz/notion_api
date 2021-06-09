@@ -2,13 +2,13 @@ import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/utils/utils.dart';
 
 class BaseProperties {
-  ObjectsTypes object;
+  ObjectTypes object;
   String id;
   String createdTime;
   String lastEditedTime;
 
   BaseProperties({
-    this.object: ObjectsTypes.Object,
+    this.object: ObjectTypes.Object,
     this.id: '',
     this.createdTime: '',
     this.lastEditedTime: '',

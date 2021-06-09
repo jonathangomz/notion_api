@@ -107,7 +107,7 @@ class TextAnnotations {
     this.strikethrough: false,
     this.underline: false,
     this.code: false,
-    this.color: ColorsTypes.none,
+    this.color: ColorsTypes.Default,
   });
 
   factory TextAnnotations.fromJson(Map<String, dynamic> json) {

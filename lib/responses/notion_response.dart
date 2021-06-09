@@ -7,7 +7,7 @@ import 'package:notion_api/responses/pagination.dart';
 import 'package:notion_api/utils/utils.dart';
 
 class NotionResponse {
-  ObjectsTypes object;
+  ObjectTypes object;
 
   Pagination? pagination;
   Database? database;
@@ -20,7 +20,7 @@ class NotionResponse {
   bool isOk = true;
 
   NotionResponse(
-      {this.object: ObjectsTypes.List,
+      {this.object: ObjectTypes.List,
       this.status: 200,
       this.code,
       this.message});
@@ -35,21 +35,21 @@ class NotionResponse {
     );
 
     _result.object = NotionUtils.stringToObjectType(json['object']);
-    if (_result.object == ObjectsTypes.List) {
+    if (_result.object == ObjectTypes.List) {
       _result.pagination = Pagination.fromJson(json);
-    } else if (_result.object == ObjectsTypes.Error) {
+    } else if (_result.object == ObjectTypes.Error) {
       _result.hasError = true;
       _result.isOk = false;
-    } else if (_result.object == ObjectsTypes.Database) {
+    } else if (_result.object == ObjectTypes.Database) {
       _result.database = Database.fromJson(json);
     }
 
     return _result;
   }
 
-  bool get isDatabase => this.object == ObjectsTypes.Database;
-  bool get isList => this.object == ObjectsTypes.List;
-  bool get isError => this.object == ObjectsTypes.Error;
-  bool get isObject => this.object == ObjectsTypes.Object;
-  bool get isPage => this.object == ObjectsTypes.Page;
+  bool get isDatabase => this.object == ObjectTypes.Database;
+  bool get isList => this.object == ObjectTypes.List;
+  bool get isError => this.object == ObjectTypes.Error;
+  bool get isObject => this.object == ObjectTypes.Object;
+  bool get isPage => this.object == ObjectTypes.Page;
 }

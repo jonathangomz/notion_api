@@ -12,7 +12,7 @@ void main() {
       expect(database, isNotNull);
       expect(database.title, isEmpty);
       expect(database.properties.entries, isEmpty);
-      expect(database.object, ObjectsTypes.Database);
+      expect(database.object, ObjectTypes.Database);
     });
 
     test('Create new instance with data', () {

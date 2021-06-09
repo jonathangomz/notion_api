@@ -1,5 +1,5 @@
 /// The basic notion types.
-enum BlocksTypes {
+enum BlockTypes {
   None,
   H1,
   H2,
@@ -13,7 +13,7 @@ enum BlocksTypes {
   Unsupported,
 }
 
-enum ObjectsTypes {
+enum ObjectTypes {
   None,
   Database,
   Block,
@@ -48,9 +48,9 @@ enum PropertiesTypes {
 
 /// The basic colors.
 enum ColorsTypes {
-  gray,
-  brown,
-  orange,
-  yellow,
-  none,
+  Gray,
+  Brown,
+  Orange,
+  Yellow,
+  Default,
 }

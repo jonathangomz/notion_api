@@ -3,9 +3,9 @@ import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/utils/utils.dart';
 
 class Block extends BaseProperties {
-  ObjectsTypes object = ObjectsTypes.Block;
+  ObjectTypes object = ObjectTypes.Block;
   String id = '';
-  BlocksTypes type = BlocksTypes.None;
+  BlockTypes type = BlockTypes.None;
   bool hasChildren = false;
   Map<String, dynamic> jsonContent = {};
 
@@ -13,7 +13,7 @@ class Block extends BaseProperties {
     this.id: '',
     this.hasChildren: false,
     this.jsonContent: const {},
-    this.type: BlocksTypes.None,
+    this.type: BlockTypes.None,
     String createdTime: '',
     String lastEditedTime: '',
   }) {
@@ -35,12 +35,12 @@ class Block extends BaseProperties {
   String get strType => NotionUtils.blockTypeToString(this.type);
   String get strObject => NotionUtils.objectTypeToString(this.object);
 
-  bool get isToDo => this.type == BlocksTypes.ToDo;
-  bool get isParagraph => this.type == BlocksTypes.Paragraph;
+  bool get isToDo => this.type == BlockTypes.ToDo;
+  bool get isParagraph => this.type == BlockTypes.Paragraph;
   bool get isHeading => NotionUtils.headingsTypes.contains(this.type);
-  bool get isToogle => this.type == BlocksTypes.Toogle;
-  bool get isBulleted => this.type == BlocksTypes.BulletedList;
-  bool get isNumbered => this.type == BlocksTypes.NumberedList;
-  bool get isChild => this.type == BlocksTypes.Child;
-  bool get isNone => this.type == BlocksTypes.None;
+  bool get isToogle => this.type == BlockTypes.Toogle;
+  bool get isBulleted => this.type == BlockTypes.BulletedList;
+  bool get isNumbered => this.type == BlockTypes.NumberedList;
+  bool get isChild => this.type == BlockTypes.Child;
+  bool get isNone => this.type == BlockTypes.None;
 }

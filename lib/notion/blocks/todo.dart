@@ -7,7 +7,7 @@ import 'paragraph.dart';
 
 /// A representation of the Paragraph notion object.
 class ToDo extends Block {
-  BlocksTypes type = BlocksTypes.ToDo;
+  BlockTypes type = BlockTypes.ToDo;
 
   /// The paragraph content intself.
   List<Text> _content = [];
@@ -20,15 +20,14 @@ class ToDo extends Block {
 
   ToDo(
       {Text? text,
-      Paragraph? content,
+      List<Text>? texts,
       this.textSeparator: ' ',
       this.checked: false}) {
-    if (content != null) {
-      this._content.addAll(content.texts);
-    } else if (text != null) {
+    if (text != null) {
       this._content.add(text);
-    } else {
-      this._content.add(Text(''));
+    }
+    if (texts != null) {
+      this._content.addAll(texts);
     }
   }
 
@@ -41,6 +40,15 @@ class ToDo extends Block {
 
   /// The string value of the notion type for this object.
   String get strType => NotionUtils.blockTypeToString(type);
+
+  /// The content of this.
+  List<Text> get texts => _content.toList();
+
+  /// Add new [text] to the paragraph content
+  ToDo addText(Text text) {
+    this._content.add(text);
+    return this;
+  }
 
   /// Convert this to a json representation valid for the Notion API.
   toJson() => {

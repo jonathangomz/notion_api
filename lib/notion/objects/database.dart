@@ -5,7 +5,7 @@ import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/utils/utils.dart';
 
 class Database extends BaseProperties {
-  ObjectsTypes object = ObjectsTypes.Database;
+  ObjectTypes object = ObjectTypes.Database;
 
   List<Text> title = <Text>[];
   Properties properties = Properties();

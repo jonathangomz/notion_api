@@ -23,28 +23,28 @@ class Pagination {
   });
 
   factory Pagination.fromJson(Map<String, dynamic> json,
-      {ObjectsTypes? staticType}) {
+      {ObjectTypes? staticType}) {
     Pagination pagination =
         Pagination(hasMore: json['has_more'], nextCursor: json['next_cursor']);
 
     // Extract the type of the list
     List listOfUnknowns = json['results'] as List;
     if (listOfUnknowns.length > 0) {
-      ObjectsTypes autoType =
+      ObjectTypes autoType =
           NotionUtils.stringToObjectType(listOfUnknowns.first['object'] ?? '');
 
       // Map the corresponding list accord to the type
-      ObjectsTypes object =
-          autoType == ObjectsTypes.None ? staticType ?? autoType : autoType;
-      if (object == ObjectsTypes.Block) {
+      ObjectTypes object =
+          autoType == ObjectTypes.None ? staticType ?? autoType : autoType;
+      if (object == ObjectTypes.Block) {
         List<Block> blocks = List<Block>.from(
             (json['results'] as List).map((e) => Block.fromJson(e)));
         pagination._blocks = [...blocks];
-      } else if (object == ObjectsTypes.Database) {
+      } else if (object == ObjectTypes.Database) {
         List<Database> databases = List<Database>.from(
             (json['results'] as List).map((e) => Database.fromJson(e)));
         pagination._databases = [...databases];
-      } else if (object == ObjectsTypes.Page) {}
+      } else if (object == ObjectTypes.Page) {}
     } else {
       pagination.isEmpty = true;
     }
@@ -61,9 +61,9 @@ class Pagination {
   bool get isPagesList => _pages != null;
 
   List<Block> filterBlocks({
-    List<BlocksTypes> exclude: const [],
-    List<BlocksTypes> include: const [],
-    BlocksTypes? onlyLeft,
+    List<BlockTypes> exclude: const [],
+    List<BlockTypes> include: const [],
+    BlockTypes? onlyLeft,
     String? id,
   }) {
     List<Block> filetered = <Block>[];
