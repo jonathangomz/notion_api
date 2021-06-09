@@ -1,10 +1,11 @@
-import '../rich_text/notion_types.dart';
-import 'text.dart';
+import 'package:notion_api/notion/blocks/block.dart';
+import 'package:notion_api/notion/general/types/notion_types.dart';
+import 'package:notion_api/notion/general/rich_text.dart';
+import 'package:notion_api/utils/utils.dart';
 
 /// A representation of the Paragraph notion object.
-class Paragraph {
-  String _object = 'block';
-  NotionTypes _type = NotionTypes.Paragraph;
+class Paragraph extends Block {
+  BlocksTypes type = BlocksTypes.Paragraph;
 
   /// The paragraph content intself.
   List<Text> _content = [];
@@ -27,16 +28,16 @@ class Paragraph {
   }
 
   /// The string value of the notion type for this object.
-  String get type => strType(_type);
+  String get strType => NotionUtils.blockTypeToString(type);
 
   /// Extract the list of Text objects
   List<Text> get texts => _content.toList();
 
   /// Convert this to a json representation valid for the Notion API.
   toJson() => {
-        'object': _object,
-        'type': type,
-        type: {
+        'object': strObject,
+        'type': strType,
+        strType: {
           'text': _content
               .map((e) => e.toJson(textSeparator: textSeparator))
               .toList()

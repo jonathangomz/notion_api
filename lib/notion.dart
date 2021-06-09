@@ -15,8 +15,8 @@ class NotionClient {
   // The Notion API client for databases requests
   NotionDatabasesClient databases;
 
-  NotionClient({required token})
-      : this.pages = NotionPagesClient(token: token),
-        this.databases = NotionDatabasesClient(token: token),
-        this.blocks = NotionBlockClient(token: token);
+  NotionClient({required String token, String version: '/v1'})
+      : this.pages = NotionPagesClient(token: token, version: version),
+        this.databases = NotionDatabasesClient(token: token, version: version),
+        this.blocks = NotionBlockClient(token: token, version: version);
 }

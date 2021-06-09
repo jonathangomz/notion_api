@@ -102,7 +102,7 @@ notion.blocks.append(
           annotations: TextAnnotations(
             bold: true,
             underline: true,
-            color: RichTextColors.orange,
+            color: ColorsTypes.orange,
           ),
         ),
       ],
@@ -112,7 +112,7 @@ notion.blocks.append(
 ```
 
 ##### Result
-![heading&paragraph](./images/heading_paragraph.png)
+![heading&paragraph](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/heading_paragraph.png)
 
 #### To do
 ##### Code
@@ -139,6 +139,6 @@ notion.blocks.append(
 ```
 
 ##### Result
-![todo](./images/todo.png)
+![todo](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/todo.png)
 
 [1]: https://developers.notion.com/reference/get-databases

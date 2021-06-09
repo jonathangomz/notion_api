@@ -1,6 +1,6 @@
-import 'blocks/heading.dart';
-import 'blocks/paragraph.dart';
-import 'blocks/todo.dart';
+import '../blocks/heading.dart';
+import '../blocks/paragraph.dart';
+import '../blocks/todo.dart';
 
 /// A representation of the Children json for the Notion API.
 class Children {

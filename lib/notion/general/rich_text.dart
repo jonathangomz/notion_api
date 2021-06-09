@@ -1,4 +1,5 @@
-import '../rich_text/colors.dart';
+import 'types/notion_types.dart';
+import '../../utils/utils.dart';
 
 /// A representation of the Text notion object.
 class Text {
@@ -14,6 +15,20 @@ class Text {
   Uri? url;
 
   Text(this.text, {this.annotations, this.url});
+
+  factory Text.fromJson(Map<String, dynamic> json) {
+    return Text(
+      json['text']['content'],
+      annotations: TextAnnotations.fromJson(json['annotations'] ?? {}),
+      url: json['href'],
+    );
+  }
+
+  static List<Text> fromListJson(List<dynamic> json) {
+    List<Text> texts = [];
+    json.forEach((e) => texts.add(Text.fromJson(e)));
+    return texts;
+  }
 
   /// Convert this to a json representation valid for the Notion API.
   ///
@@ -84,7 +99,7 @@ class TextAnnotations {
   bool code;
 
   /// The color of the text.
-  RichTextColors color;
+  ColorsTypes color;
 
   TextAnnotations({
     this.bold: false,
@@ -92,24 +107,22 @@ class TextAnnotations {
     this.strikethrough: false,
     this.underline: false,
     this.code: false,
-    this.color: RichTextColors.none,
+    this.color: ColorsTypes.none,
   });
 
-  /// The string value of the color.
-  String get strColor {
-    switch (color) {
-      case RichTextColors.none:
-        return 'default';
-      case RichTextColors.gray:
-        return 'gray';
-      case RichTextColors.brown:
-        return 'brown';
-      case RichTextColors.orange:
-        return 'orange';
-      case RichTextColors.yellow:
-        return 'yellow';
-    }
+  factory TextAnnotations.fromJson(Map<String, dynamic> json) {
+    return TextAnnotations(
+      bold: json['bold'] ?? false,
+      italic: json['italic'] ?? false,
+      strikethrough: json['strikethrough'] ?? false,
+      underline: json['underline'] ?? false,
+      code: json['code'] ?? false,
+      color: NotionUtils.stringToColorType(json['color'] ?? ''),
+    );
   }
+
+  /// The string value of the color.
+  String get strColor => NotionUtils.colorTypeToString(color);
 
   /// Convert this to a json representation valid for the Notion API.
   toJson() {

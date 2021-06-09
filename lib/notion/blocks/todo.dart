@@ -1,12 +1,13 @@
-import 'package:notion_api/models/blocks/paragraph.dart';
+import 'package:notion_api/notion/blocks/block.dart';
+import 'package:notion_api/notion/general/types/notion_types.dart';
+import 'package:notion_api/notion/general/rich_text.dart';
+import 'package:notion_api/utils/utils.dart';
 
-import '../rich_text/notion_types.dart';
-import 'text.dart';
+import 'paragraph.dart';
 
 /// A representation of the Paragraph notion object.
-class ToDo {
-  String _object = 'block';
-  NotionTypes _type = NotionTypes.ToDo;
+class ToDo extends Block {
+  BlocksTypes type = BlocksTypes.ToDo;
 
   /// The paragraph content intself.
   List<Text> _content = [];
@@ -31,14 +32,21 @@ class ToDo {
     }
   }
 
+  factory ToDo.fromBlock(Block block) {
+    ToDo todo = ToDo();
+    todo.checked = block.jsonContent['checked'];
+    todo._content = Text.fromListJson(block.jsonContent['text'] as List);
+    return todo;
+  }
+
   /// The string value of the notion type for this object.
-  String get type => strType(_type);
+  String get strType => NotionUtils.blockTypeToString(type);
 
   /// Convert this to a json representation valid for the Notion API.
   toJson() => {
-        'object': _object,
-        'type': type,
-        type: {
+        'object': strObject,
+        'type': strType,
+        strType: {
           'text': _content
               .map((e) => e.toJson(textSeparator: textSeparator))
               .toList(),
