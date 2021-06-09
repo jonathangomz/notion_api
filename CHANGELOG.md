@@ -36,7 +36,8 @@
 * Add `block children` API request tests
 
 ## v0.0.1:
-> Release date: 28/May/2021
+> Release date: 01/Jun/2021
 * Improve testing
 * Improve Rich Text usage
-  * Add to do block for `(PATCH): block children` endpoint
+* Add more blocks for `(PATCH): block children` endpoint
+  * `ToDo` block
