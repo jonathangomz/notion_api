@@ -41,7 +41,7 @@
 * Add more blocks for `(PATCH): block children` endpoint
   * `ToDo` block
 
-## v1.0.0-beta1:
+## v1.0.0-beta1: ✅
 > Release date: 15/Jun/2021
 * Improve code implementation
   * Refactor package structure
@@ -49,7 +49,6 @@
   * Add useful functions
   * Separate classes to avoid duplicated code
 * Add more tests
-  * Tests for every piece of code
   * Separate tests by sections
 * Improve code documentation
 * Improve Pub Points
@@ -59,6 +58,7 @@
 ## v1.0.0:
 > Release date: 31/Jun/2021
 * Fix any error
+* Tests for every piece of code
 
 ## v1.1.0:
 > Release date: 10/Jul/2021
