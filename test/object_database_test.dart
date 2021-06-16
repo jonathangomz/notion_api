@@ -106,5 +106,34 @@ void main() {
       expect(database.properties.containsProperty('Details'), true);
       expect(database.properties.getProperty('Details').isTitle, true);
     });
+
+    test('Add properties from json', () {
+      Database database = Database().addPropertiesFromJson({
+        "Tags": {
+          "id": ">cp;",
+          "type": "multi_select",
+          "multi_select": {
+            "options": [
+              {"name": "A"},
+              {"name": "B"}
+            ]
+          }
+        },
+        "Details": {"id": "title", "type": "title", "title": {}}
+      });
+
+      expect(database.properties.containsProperty('Tags'), true);
+      expect(database.properties.getProperty('Tags').isMultiSelect, true);
+      expect(
+          database.properties.getProperty('Tags').value,
+          allOf([
+            isList,
+            hasLength(2),
+            isA<List<MultiSelectOption>>(),
+          ]));
+      expect(database.properties.containsProperty('Details'), true);
+      expect(database.properties.getProperty('Details').isTitle, true);
+      expect(database.properties.getProperty('Details').value, isList);
+    });
   });
 }

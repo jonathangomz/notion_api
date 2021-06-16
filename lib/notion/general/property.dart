@@ -5,7 +5,7 @@ import 'package:notion_api/utils/utils.dart';
 class Properties {
   final Map<String, Property> _map = {};
 
-  get entries => _map;
+  Map<String, Property> get entries => _map;
 
   Properties({Map<String, Property> map: const {}}) {
     this._map.addAll(map);
@@ -52,6 +52,8 @@ class Properties {
 class Property {
   final PropertiesTypes type = PropertiesTypes.None;
   String? id;
+
+  dynamic get value => false;
 
   String get strType => NotionUtils.propertyTypeToString(type);
   bool get isTitle => type == PropertiesTypes.Title;
@@ -128,6 +130,9 @@ class TitleProp extends Property {
       json[PropertiesTypes.Title]?.isEmpty;
 
   @override
+  List<Text> get value => this.content;
+
+  @override
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {'type': strType};
 
@@ -153,6 +158,9 @@ class RichTextProp extends Property {
             json[NotionUtils.propertyTypeToString(PropertiesTypes.RichText)]
                 as List),
         super(id: json['id']);
+
+  @override
+  List<Text> get value => this.content;
 
   @override
   Map<String, dynamic> toJson() {
@@ -191,6 +199,9 @@ class MultiSelectProp extends Property {
     this.options.add(option);
     return this.options;
   }
+
+  @override
+  List<MultiSelectOption> get value => this.options;
 
   @override
   Map<String, dynamic> toJson() {
