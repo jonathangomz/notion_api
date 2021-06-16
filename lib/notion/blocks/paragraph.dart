@@ -2,7 +2,7 @@ import 'package:notion_api/notion/blocks/block.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 
-/// A representation of the Paragraph notion block object.
+/// A representation of the Paragraph Notion block object.
 class Paragraph extends Block {
   /// The block type. Always Paragraph for this.
   @override
@@ -35,7 +35,7 @@ class Paragraph extends Block {
   }
 
   /// Add a new [text] to the paragraph content and returns this instance.
-  Paragraph addText(Text text) {
+  Paragraph add(Text text) {
     this._content.add(text);
     return this;
   }

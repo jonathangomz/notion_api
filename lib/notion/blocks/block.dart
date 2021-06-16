@@ -82,10 +82,6 @@ class Block extends BaseProperties {
           lastEditedTime: json['last_edited_time'] ?? '',
         );
 
-  /// Map a list of blocks from a json list with dynamics.
-  static List<Block> fromListJson(List<dynamic> json) =>
-      List<Block>.from(json.map((e) => Block.fromJson(e)).toList());
-
   /// Convert this to a valid json representation for the Notion API.
   ///
   /// Throw an exception if the block have no type (BlockTypes.None).
@@ -100,4 +96,8 @@ class Block extends BaseProperties {
       strType: jsonContent,
     };
   }
+
+  /// Map a list of blocks from a [json] list with dynamics.
+  static List<Block> fromListJson(List<dynamic> json) =>
+      List<Block>.from(json.map((e) => Block.fromJson(e)).toList());
 }

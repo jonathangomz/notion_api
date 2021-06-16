@@ -18,7 +18,7 @@ void main() {
     });
 
     test('Create an instance with information', () {
-      ToDo todo = ToDo(text: Text('A'), checked: true).addText(Text('B'));
+      ToDo todo = ToDo(text: Text('A'), checked: true).add(Text('B'));
 
       expect(todo.checked, true);
       expect(todo.content.length, 2);
@@ -34,7 +34,7 @@ void main() {
           Text('bar'),
         ],
         checked: true,
-      ).addText(Text('last'));
+      ).add(Text('last'));
 
       expect(todo.checked, true);
       expect(todo.content.length, 4);

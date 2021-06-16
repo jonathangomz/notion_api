@@ -13,6 +13,7 @@ enum BlockTypes {
   Unsupported,
 }
 
+/// The notion objects types.
 enum ObjectTypes {
   None,
   Database,
@@ -23,6 +24,7 @@ enum ObjectTypes {
   Error,
 }
 
+/// The notion objects properties types.
 enum PropertiesTypes {
   None,
   Title,
@@ -55,7 +57,7 @@ enum ColorsTypes {
   Default,
 }
 
-/// The parent type for pages
+/// The parent types for pages objects.
 enum ParentType {
   None,
   Workspace,

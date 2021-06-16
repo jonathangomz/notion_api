@@ -30,7 +30,7 @@ class NotionPagesClient {
       'Authorization': 'Bearer $_token',
     });
 
-    return NotionResponse.fromJson(res);
+    return NotionResponse.fromResponse(res);
   }
 
   /// Create a new [page]
@@ -42,6 +42,6 @@ class NotionPagesClient {
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
-    return NotionResponse.fromJson(res);
+    return NotionResponse.fromResponse(res);
   }
 }

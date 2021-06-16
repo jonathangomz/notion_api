@@ -27,7 +27,7 @@ class NotionDatabasesClient {
       'Authorization': 'Bearer $_token',
     });
 
-    return NotionResponse.fromJson(res);
+    return NotionResponse.fromResponse(res);
   }
 
   /// Retrieve all databases.
@@ -48,6 +48,6 @@ class NotionDatabasesClient {
       'Authorization': 'Bearer $_token',
     });
 
-    return NotionResponse.fromJson(res);
+    return NotionResponse.fromResponse(res);
   }
 }

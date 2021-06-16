@@ -45,7 +45,7 @@ class NotionBlockClient {
       'Authorization': 'Bearer $_token',
     });
 
-    return NotionResponse.fromJson(response);
+    return NotionResponse.fromResponse(response);
   }
 
   /// Append a block [children] [to] a specific block.
@@ -61,6 +61,6 @@ class NotionBlockClient {
           'Content-Type': 'application/json; charset=UTF-8',
         });
 
-    return NotionResponse.fromJson(res);
+    return NotionResponse.fromResponse(res);
   }
 }

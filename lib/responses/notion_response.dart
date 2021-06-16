@@ -6,30 +6,66 @@ import 'package:notion_api/notion/objects/database.dart';
 import 'package:notion_api/responses/pagination.dart';
 import 'package:notion_api/utils/utils.dart';
 
+/// A representation of the Response from the Notion API.
 class NotionResponse {
+  /// The object type of the response.
   ObjectTypes object;
 
+  /// The pagination if the object is a list.
   Pagination? pagination;
+
+  /// The database information if the result is a database.
   Database? database;
 
+  /// The response status.
   int status;
+
+  /// The Notion code for the errors.
   String? code;
+
+  /// The Notion message for the errors.
   String? message;
 
+  /// The marker to know when an error occur.
   bool hasError = false;
+
+  /// The marker to know if the response is ok.
   bool isOk = true;
 
+  /// Returns true if the response is a database.
+  bool get isDatabase => this.object == ObjectTypes.Database;
+
+  /// Returns true if the response is a list.
+  bool get isList => this.object == ObjectTypes.List;
+
+  /// Returns true if the response is an error.
+  bool get isError => this.object == ObjectTypes.Error;
+
+  /// Returns true if the response is an object.
+  bool get isObject => this.object == ObjectTypes.Object;
+
+  /// Returns true if the response is a page.
+  bool get isPage => this.object == ObjectTypes.Page;
+
+  /// Main Notion response constructor.
+  ///
+  /// Can receive the [object] type, the [status] code, the error [code] and the error [message].
+  ///
+  /// By default the [object] is a list and the [status] is ok (200).
   NotionResponse(
       {this.object: ObjectTypes.List,
       this.status: 200,
       this.code,
       this.message});
 
-  factory NotionResponse.fromJson(Response res) {
-    Map<String, dynamic> json = jsonDecode(res.body);
+  /// Map a new Notion response instance from a [response].
+  ///
+  /// The class of the [response] parameter is the one in the `http` package.
+  factory NotionResponse.fromResponse(Response response) {
+    Map<String, dynamic> json = jsonDecode(response.body);
 
     NotionResponse _result = NotionResponse(
-      status: json['status'] ?? res.statusCode,
+      status: json['status'] ?? response.statusCode,
       code: json['code'] ?? '',
       message: json['message'] ?? '',
     );
@@ -46,10 +82,4 @@ class NotionResponse {
 
     return _result;
   }
-
-  bool get isDatabase => this.object == ObjectTypes.Database;
-  bool get isList => this.object == ObjectTypes.List;
-  bool get isError => this.object == ObjectTypes.Error;
-  bool get isObject => this.object == ObjectTypes.Object;
-  bool get isPage => this.object == ObjectTypes.Page;
 }

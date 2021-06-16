@@ -3,16 +3,44 @@ import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/objects/database.dart';
 import 'package:notion_api/utils/utils.dart';
 
+/// A representation of the pagination response from the Notion API.
 class Pagination {
+  /// The cursor to the next page.
   String? nextCursor;
+
+  /// The marker to know if has more pages.
   bool hasMore;
+
+  /// The marker to know if is empty.
   bool isEmpty;
+
   List<Block>? _blocks;
   List<Database>? _databases;
 
   /// TODO: made pages class
   List<dynamic>? _pages;
 
+  /// The list of blocks for when the response is for blocks.
+  List<Block> get blocks => isEmpty ? [] : _blocks!;
+
+  /// The list of databases for when the response is for databases.
+  List<Database> get databases => isEmpty ? [] : _databases!;
+
+  /// The list of pages for when the response is for pages.
+  List<dynamic> get pages => isEmpty ? [] : _pages!;
+
+  /// Returns true if the result is a list of blocks.
+  bool get isBlocksList => _blocks != null;
+
+  /// Returns true if the result is a list of databases.
+  bool get isDatabasesList => _databases != null;
+
+  /// Returns true if the result is a list of pages.
+  bool get isPagesList => _pages != null;
+
+  /// Main pagination constructor.
+  ///
+  /// Can receive the [nextCursor], if [hasMore] pages, if [isEmpty] and the corresponding list: [blocks], [databases] or [pages].
   Pagination({
     this.nextCursor,
     this.hasMore: false,
@@ -22,6 +50,7 @@ class Pagination {
     List<dynamic>? pages,
   });
 
+  /// Map a new pagination instance from a [json] map.
   factory Pagination.fromJson(Map<String, dynamic> json,
       {ObjectTypes? staticType}) {
     Pagination pagination =
@@ -51,14 +80,6 @@ class Pagination {
 
     return pagination;
   }
-
-  List<Block> get blocks => isEmpty ? [] : _blocks!;
-  List<Database> get databases => isEmpty ? [] : _databases!;
-  List<dynamic> get pages => isEmpty ? [] : _pages!;
-
-  bool get isBlocksList => _blocks != null;
-  bool get isDatabasesList => _databases != null;
-  bool get isPagesList => _pages != null;
 
   List<Block> filterBlocks({
     List<BlockTypes> exclude: const [],

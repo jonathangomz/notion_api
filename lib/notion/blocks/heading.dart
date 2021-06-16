@@ -2,7 +2,7 @@ import 'package:notion_api/notion/blocks/block.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 
-/// A representation of the Heading notion block object.
+/// A representation of the Heading Notion block object.
 class Heading extends Block {
   /// The block type. Always H1, H2 or H3 for this.
   @override

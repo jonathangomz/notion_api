@@ -5,9 +5,10 @@ import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/objects/children.dart';
 import 'package:notion_api/utils/utils.dart';
 
-/// A representation of the Page notion object.
+/// A representation of the Page Notion object.
 class Page extends BaseProperties {
-  /// The type of this object.
+  /// The type of this object. Always Page for this.
+  @override
   ObjectTypes object = ObjectTypes.Page;
 
   /// The information of the page parent.
@@ -71,20 +72,18 @@ class Page extends BaseProperties {
       this.properties.remove('title');
     }
 
-    this
-        .properties
-        .addProperty(name: 'title', property: TitleProp(content: [title]));
+    this.properties.add(name: 'title', property: TitleProp(content: [title]));
   }
 
   /// Add a [property] with a specific [name] to this properties.
   Page addProperty({required String name, required Property property}) {
-    this.properties.addProperty(name: name, property: property);
+    this.properties.add(name: name, property: property);
     return this;
   }
 
   /// Add a multiples properties from a [json] to this properties.
   Page addPropertiesFromJson(Map<String, dynamic> json) {
-    this.properties.addPropertiesFromJson(json);
+    this.properties.addAllFromJson(json);
     return this;
   }
 
