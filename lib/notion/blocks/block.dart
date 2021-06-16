@@ -47,9 +47,15 @@ class Block extends BaseProperties {
   bool get isChild => this.type == BlockTypes.Child;
   bool get isNone => this.type == BlockTypes.None;
 
-  Map<String, dynamic> toJson() => {
-        'object': strObject,
-        'type': strType,
-        strType: jsonContent,
-      };
+  Map<String, dynamic> toJson() {
+    if (this.type == BlockTypes.None) {
+      throw 'None type for block';
+    }
+
+    return {
+      'object': strObject,
+      'type': strType,
+      strType: jsonContent,
+    };
+  }
 }

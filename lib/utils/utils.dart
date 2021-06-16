@@ -32,7 +32,7 @@ class NotionUtils {
     'title'
   ];
 
-  static get headingsTypes => [
+  static List<BlockTypes> get headingsTypes => [
         BlockTypes.H1,
         BlockTypes.H2,
         BlockTypes.H3,
