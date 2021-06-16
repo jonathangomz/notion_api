@@ -14,7 +14,9 @@ class Database extends BaseProperties {
     this.title: const <Text>[],
     String createdTime: '',
     String lastEditedTime: '',
+    String id: '',
   }) {
+    this.id = id;
     this.setBaseProperties(
       createdTime: createdTime,
       lastEditedTime: lastEditedTime,
@@ -22,10 +24,11 @@ class Database extends BaseProperties {
   }
 
   factory Database.fromJson(Map<String, dynamic> json) => Database(
-        title: Text.fromListJson(json['title']),
-        createdTime: json['created_time'],
-        lastEditedTime: json['last_edited_time'],
-      ).addPropertiesFromJson(json['properties']);
+        id: json['id'] ?? '',
+        title: Text.fromListJson(json['title'] ?? []),
+        createdTime: json['created_time'] ?? '',
+        lastEditedTime: json['last_edited_time'] ?? '',
+      ).addPropertiesFromJson(json['properties'] ?? {});
 
   Database addProperty({required String name, required Property property}) {
     this.properties.addProperty(name: name, property: property);

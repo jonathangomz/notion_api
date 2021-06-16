@@ -101,10 +101,22 @@ void main() {
       Database database = Database.fromJson(jsonDatabase);
 
       expect(database.title, isNotEmpty);
+      expect(database.id, isNotEmpty);
       expect(database.properties.containsProperty('Tags'), true);
       expect(database.properties.getProperty('Tags').isMultiSelect, true);
       expect(database.properties.containsProperty('Details'), true);
       expect(database.properties.getProperty('Details').isTitle, true);
+    });
+
+    test('Map from wrong json', () {
+      Map<String, dynamic> wrongJsonDatabase = {};
+
+      Database database = Database.fromJson(wrongJsonDatabase);
+
+      expect(database.title, isEmpty);
+      expect(database.id, isEmpty);
+      expect(database.properties.containsProperty('Tags'), false);
+      expect(database.properties.containsProperty('Details'), false);
     });
 
     test('Add properties from json', () {
