@@ -11,7 +11,7 @@ void main() {
 
       expect(heading, isNotNull);
       expect(heading.strType, NotionUtils.blockTypeToString(BlockTypes.H1));
-      expect(heading.texts, allOf([isList, isEmpty]));
+      expect(heading.content, allOf([isList, isEmpty]));
       expect(heading.isHeading, true);
       expect(heading.type, BlockTypes.H1);
     });
@@ -33,21 +33,21 @@ void main() {
     });
 
     test('Create an instance with information', () {
-      Heading heading = Heading(text: Text('A')).addText(Text('B'));
+      Heading heading = Heading(text: Text('A')).add(Text('B'));
 
-      expect(heading.texts.length, 2);
-      expect(heading.texts.first.text, 'A');
-      expect(heading.texts.last.text, 'B');
+      expect(heading.content.length, 2);
+      expect(heading.content.first.text, 'A');
+      expect(heading.content.last.text, 'B');
     });
 
     test('Create an instance with mixed information', () {
       Heading heading =
           Heading(text: Text('first'), texts: [Text('foo'), Text('bar')])
-              .addText(Text('last'));
+              .add(Text('last'));
 
-      expect(heading.texts.length, 4);
-      expect(heading.texts.first.text, 'first');
-      expect(heading.texts.last.text, 'last');
+      expect(heading.content.length, 4);
+      expect(heading.content.first.text, 'first');
+      expect(heading.content.last.text, 'last');
     });
 
     test('Create json from instance', () {

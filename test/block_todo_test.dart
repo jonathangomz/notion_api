@@ -11,7 +11,7 @@ void main() {
 
       expect(todo, isNotNull);
       expect(todo.strType, NotionUtils.blockTypeToString(BlockTypes.ToDo));
-      expect(todo.texts, allOf([isList, isEmpty]));
+      expect(todo.content, allOf([isList, isEmpty]));
       expect(todo.checked, false);
       expect(todo.isToDo, true);
       expect(todo.type, BlockTypes.ToDo);
@@ -21,9 +21,9 @@ void main() {
       ToDo todo = ToDo(text: Text('A'), checked: true).addText(Text('B'));
 
       expect(todo.checked, true);
-      expect(todo.texts.length, 2);
-      expect(todo.texts.first.text, 'A');
-      expect(todo.texts.last.text, 'B');
+      expect(todo.content.length, 2);
+      expect(todo.content.first.text, 'A');
+      expect(todo.content.last.text, 'B');
     });
 
     test('Create an instance with mixed information', () {
@@ -37,9 +37,9 @@ void main() {
       ).addText(Text('last'));
 
       expect(todo.checked, true);
-      expect(todo.texts.length, 4);
-      expect(todo.texts.first.text, 'first');
-      expect(todo.texts.last.text, 'last');
+      expect(todo.content.length, 4);
+      expect(todo.content.first.text, 'first');
+      expect(todo.content.last.text, 'last');
     });
 
     test('Create json from instance', () {

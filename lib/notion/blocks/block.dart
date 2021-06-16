@@ -4,7 +4,7 @@ import 'package:notion_api/utils/utils.dart';
 
 /// A base representation of any Notion block object.
 class Block extends BaseProperties {
-  /// The type of object. Always block for this.
+  /// The type of object. Always Block for this.
   ObjectTypes object = ObjectTypes.Block;
 
   /// The block id.
@@ -18,6 +18,36 @@ class Block extends BaseProperties {
 
   /// The json representation for the content of the block.
   Map<String, dynamic> jsonContent = {};
+
+  /// The string value for this block type.
+  String get strType => NotionUtils.blockTypeToString(this.type);
+
+  /// The string value for this object type.
+  String get strObject => NotionUtils.objectTypeToString(this.object);
+
+  /// Returns true if is a ToDo block.
+  bool get isToDo => this.type == BlockTypes.ToDo;
+
+  /// Returns true if is a Paragraph block.
+  bool get isParagraph => this.type == BlockTypes.Paragraph;
+
+  /// Returns true if is a Heading block.
+  bool get isHeading => NotionUtils.headingsTypes.contains(this.type);
+
+  /// Returns true if is a Toogle block.
+  bool get isToogle => this.type == BlockTypes.Toogle;
+
+  /// Returns true if is a Bulleted block.
+  bool get isBulleted => this.type == BlockTypes.BulletedList;
+
+  /// Returns true if is a Numbered block.
+  bool get isNumbered => this.type == BlockTypes.NumberedList;
+
+  /// Returns true if is a Child block.
+  bool get isChild => this.type == BlockTypes.Child;
+
+  /// Returns true if is none block.
+  bool get isNone => this.type == BlockTypes.None;
 
   /// Main block constructor.
   ///
@@ -56,37 +86,7 @@ class Block extends BaseProperties {
   static List<Block> fromListJson(List<dynamic> json) =>
       List<Block>.from(json.map((e) => Block.fromJson(e)).toList());
 
-  /// Get the string value for this block type.
-  String get strType => NotionUtils.blockTypeToString(this.type);
-
-  /// Get the string value for this object type.
-  String get strObject => NotionUtils.objectTypeToString(this.object);
-
-  /// Get if is a ToDo block.
-  bool get isToDo => this.type == BlockTypes.ToDo;
-
-  /// Get if is a Paragraph block.
-  bool get isParagraph => this.type == BlockTypes.Paragraph;
-
-  /// Get if is a Heading block.
-  bool get isHeading => NotionUtils.headingsTypes.contains(this.type);
-
-  /// Get if is a Toogle block.
-  bool get isToogle => this.type == BlockTypes.Toogle;
-
-  /// Get if is a Bulleted block.
-  bool get isBulleted => this.type == BlockTypes.BulletedList;
-
-  /// Get if is a Numbered block.
-  bool get isNumbered => this.type == BlockTypes.NumberedList;
-
-  /// Get if is a Child block.
-  bool get isChild => this.type == BlockTypes.Child;
-
-  /// Get if is none block.
-  bool get isNone => this.type == BlockTypes.None;
-
-  /// Convert this to a json representation valid for the Notion API.
+  /// Convert this to a valid json representation for the Notion API.
   ///
   /// Throw an exception if the block have no type (BlockTypes.None).
   Map<String, dynamic> toJson() {
