@@ -23,6 +23,12 @@ class Children {
     }
   }
 
+  /// Get if the children list IS empty
+  bool get isEmpty => this.children.isEmpty;
+
+  /// Get if the children list IS NOT empty
+  bool get isNotEmpty => this.children.isNotEmpty;
+
   /// Convert this to a json representation valid for the Notion API.
   toJson() => {'children': children.map((e) => e.toJson()).toList()};
 }

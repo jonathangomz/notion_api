@@ -34,12 +34,14 @@ class NotionPagesClient {
   }
 
   /// Create a new [page]
-  Future<http.Response> create(Page page) async {
-    return await http.post(Uri.https(host, '$v/$_path'),
+  Future<NotionResponse> create(Page page) async {
+    http.Response res = await http.post(Uri.https(host, '$v/$_path'),
         body: jsonEncode(page.toJson()),
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json; charset=UTF-8',
         });
+
+    return NotionResponse.fromJson(res);
   }
 }

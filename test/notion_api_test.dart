@@ -4,6 +4,7 @@ import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'package:notion_api/notion/blocks/heading.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
+import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/objects/children.dart';
 import 'package:notion_api/notion/objects/pages.dart';
@@ -47,30 +48,47 @@ void main() {
     });
   });
 
-  group('Notion Pages Client', () {
+  group('Notion Pages Client =>', () {
     test('Create a page', () async {
       final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
 
       final Page page = Page(
-        databaseId: testDatabaseId,
-        title: 'NotionClient: Page test',
+        parent: Parent.database(id: testDatabaseId ?? ''),
+        title: Text('NotionClient (v1): Page test'),
       );
 
       var res = await pages.create(page);
 
-      expect(res.statusCode, 200);
+      expect(res.status, 200);
     });
 
     test('Create a page with default title', () async {
       final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
 
       final Page page = Page(
-        databaseId: testDatabaseId,
+        parent: Parent.database(id: testDatabaseId ?? ''),
       );
 
       var res = await pages.create(page);
 
-      expect(res.statusCode, 200);
+      expect(res.status, 200);
+    });
+
+    test('Invalid property', () async {
+      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+
+      final Page page = Page(
+        parent: Parent.database(id: testDatabaseId ?? ''),
+      ).addProperty(
+        name: 'TEST',
+        property: TitleProp(content: [Text('ABC')]),
+      );
+
+      var res = await pages.create(page);
+
+      expect(res.status, 400);
+      expect(res.isError, true);
+      expect(res.code, 'validation_error');
     });
   });
 

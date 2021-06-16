@@ -2,45 +2,91 @@ import 'package:notion_api/notion/general/base_properties.dart';
 import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
+import 'package:notion_api/notion/objects/children.dart';
+import 'package:notion_api/utils/utils.dart';
 
 /// A representation of the Page notion object.
 class Page extends BaseProperties {
-  /// The type of this object
+  /// The type of this object.
   ObjectTypes object = ObjectTypes.Page;
 
-  /// The type of this object
+  /// The information of the page parent.
+  Parent parent;
+
+  /// The field that defined if is archived or not.
   bool archived;
 
-  /// The information of the parent for the page
-  PageParent parent = PageParent();
+  /// The content of the page.
+  Children? children;
 
   /// The properties of the page.
-  PageProperties properties = PageProperties();
-  Map<String, Property> _properties = {};
+  final Properties properties = Properties();
 
-  /// The content of the page.
-  PageChildren children = PageChildren();
-
+  /// Main constructor for the page.
+  ///
+  /// This constructor require the [parent] and can
+  /// receive if is [archived] and his [children].
+  /// Also the [id] of the page and the [title].
+  ///
+  /// The [children] and [title] fields are defined
+  /// for when a new page is created.
   Page({
+    required this.parent,
     this.archived: false,
-    required databaseId,
-    String title: 'New page from API',
+    this.children,
     String id: '',
+    Text? title,
   }) {
-    this.parent.databaseId = databaseId;
-    properties.title.add(Text(title));
     this.id = id;
+    if (title != null) {
+      this.title = title;
+    }
+    if (this.children == null) {
+      this.children = Children();
+    }
+  }
+
+  /// Constructor for empty page.
+  Page.empty()
+      : this.parent = Parent.none(),
+        this.archived = false;
+
+  /// Contructor from json.
+  factory Page.fromJson(Map<String, dynamic> json) {
+    Page page = Page(
+      id: json['id'] ?? '',
+      parent: Parent.fromJson(json['parent'] ?? {}),
+      archived: json['archived'] ?? false,
+    ).addPropertiesFromJson(json['properties'] ?? {});
+    page.setBaseProperties(
+        createdTime: json['created_time'] ?? '',
+        lastEditedTime: json['last_edited_time'] ?? '');
+    return page;
   }
 
   /// Set the [title] of the page.
-  set title(Text value) {
-    properties.title.clear();
-    properties.title.add(value);
+  set title(Text title) {
+    // Only set one title at a time.
+    if (this.properties.containsProperty('title')) {
+      this.properties.remove('title');
+    }
+
+    this
+        .properties
+        .addProperty(name: 'title', property: TitleProp(content: [title]));
   }
 
-  addProperty({
-    required PropertiesTypes type,
-  }) {}
+  /// Add a [property] with a specific [name] to this properties.
+  Page addProperty({required String name, required Property property}) {
+    this.properties.addProperty(name: name, property: property);
+    return this;
+  }
+
+  /// Add a multiples properties from a [json] to this properties.
+  Page addPropertiesFromJson(Map<String, dynamic> json) {
+    this.properties.addPropertiesFromJson(json);
+    return this;
+  }
 
   /// Convert this to a json representation valid for the Notion API.
   toJson({bool isResponse: false}) {
@@ -49,6 +95,7 @@ class Page extends BaseProperties {
       'properties': this.properties.toJson(),
     };
 
+    // Add response json fields.
     if (isResponse) {
       json['object'] = strObject;
       json['id'] = id;
@@ -57,33 +104,69 @@ class Page extends BaseProperties {
       json['archived'] = archived;
     }
 
+    // Only add children to json if have items.
+    if (this.children != null && this.children!.isNotEmpty) {
+      json['children'] = this.children!.toJson();
+    }
+
     return json;
   }
 }
 
-/// A representation of the Page parent json field for the Notion API.
-class PageParent {
-  /// The databaseId parent.
-  String? databaseId;
+/// A representation of the parent json field for the Notion API.
+class Parent {
+  /// The type of parent.
+  ParentType type;
+
+  /// The id of the parent.
+  String id;
+
+  /// Main constructor for the page parent.
+  ///
+  /// This constructor require the parent [id] and the [type] of parent.
+  /// Possible types are defined by ParentType enum.
+  Parent({required this.type, required this.id});
+
+  /// Constructor for empty parent.
+  Parent.none()
+      : this.type = ParentType.None,
+        this.id = '';
+
+  /// Constructor for workspace parent.
+  Parent.wokspace()
+      : this.type = ParentType.Workspace,
+        this.id = '';
+
+  /// Constructor for database parent.
+  ///
+  /// This constructor require the database [id].
+  Parent.database({required this.id}) : this.type = ParentType.Database;
+
+  /// Constructor for page parent.
+  ///
+  /// This constructor require the page [id].
+  Parent.page({required this.id}) : this.type = ParentType.Page;
+
+  /// Constructor parent from json.
+  ///
+  /// This constructor receive a [json] from where the information
+  /// is extracted.
+  Parent.fromJson(Map<String, dynamic> json)
+      : this.id = json[json['type']] ?? '',
+        this.type = NotionUtils.stringToParentType(json['type'] ?? '');
+
+  /// The string value of this type.
+  String get strType => NotionUtils.parentTypeToString(this.type);
 
   /// Convert this to a json representation valid for the Notion API.
-  toJson() => {
-        'database_id': databaseId,
-      };
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {'type': this.strType};
+
+    // Only database and page types contain an id.
+    if (this.type == ParentType.Database || this.type == ParentType.Page) {
+      json[strType] = this.id;
+    }
+
+    return json;
+  }
 }
-
-/// A representation of the Page properties field for the Notion API.
-class PageProperties {
-  /// The title for the page.
-  List<Text> title = [];
-
-  /// Convert this to a json representation valid for the Notion API.
-  toJson() => {
-        'title': {
-          'title': title.map((e) => e.toJson()).toList(),
-        },
-      };
-}
-
-/// A representation of the Page children field for the Notion API.
-class PageChildren {}

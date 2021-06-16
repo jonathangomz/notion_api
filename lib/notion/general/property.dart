@@ -23,11 +23,13 @@ class Properties {
   void addProperty({required String name, required Property property}) =>
       this._map[name] = property;
 
+  Property remove(String name) => this._map.remove(name) ?? Property.empty();
+
   Property getProperty(String name) => this._map[name] ?? Property.empty();
 
   bool containsProperty(String name) => this._map.containsKey(name);
 
-  isEmpty() => this._map.isEmpty;
+  bool get isEmpty => this._map.isEmpty;
 
   void addPropertiesFromJson(Map<String, dynamic> json) {
     Map<String, Property> properties = {};
@@ -124,7 +126,8 @@ class TitleProp extends Property {
         super(id: json['id']);
 
   static bool contentIsList(Map<String, dynamic> json) =>
-      NotionUtils.fieldIsList(json[PropertiesTypes.Title]);
+      NotionUtils.fieldIsList(
+          json[NotionUtils.propertyTypeToString(PropertiesTypes.Title)]);
 
   static bool isEmpty(Map<String, dynamic> json) =>
       json[PropertiesTypes.Title]?.isEmpty;
