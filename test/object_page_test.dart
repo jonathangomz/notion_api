@@ -68,8 +68,7 @@ void main() {
       expect(page['created_time'], isNull);
       expect(page['last_edited_time'], isNull);
       expect(page['archived'], isNull);
-      expect(page['parent']['type'],
-          NotionUtils.parentTypeToString(ParentType.Database));
+      expect(page['parent']['type'], parentTypeToString(ParentType.Database));
       expect(page['properties'], isMap);
     });
 
@@ -114,8 +113,7 @@ void main() {
       expect(page['created_time'], allOf([isNotNull, isNotEmpty]));
       expect(page['last_edited_time'], allOf([isNotNull, isNotEmpty]));
       expect(page['archived'], true);
-      expect(page['parent']['type'],
-          NotionUtils.parentTypeToString(ParentType.Database));
+      expect(page['parent']['type'], parentTypeToString(ParentType.Database));
       expect(page['properties'], isMap);
       expect(page['children'], isNull);
     });

@@ -6,19 +6,19 @@ void main() {
   group('Utils tests (General)', () {
     test('Check if a dynamic field is a list (List)', () {
       dynamic field = [1, 2, 3];
-      bool isList = NotionUtils.fieldIsList(field);
+      bool isList = fieldIsList(field);
       expect(isList, true);
     });
 
     test('Check if a dynamic field is a list (Map)', () {
       dynamic field = {1: 'A', 2: 'B'};
-      bool isList = NotionUtils.fieldIsList(field);
+      bool isList = fieldIsList(field);
       expect(isList, false);
     });
 
     test('Check if a dynamic field is a list (String)', () {
       dynamic field = 'ABC';
-      bool isList = NotionUtils.fieldIsList(field);
+      bool isList = fieldIsList(field);
       expect(isList, false);
     });
 
@@ -36,11 +36,9 @@ void main() {
         'multi_select': []
       };
 
-      PropertiesTypes titleType = NotionUtils.extractPropertyType(titleField);
-      PropertiesTypes richTextType =
-          NotionUtils.extractPropertyType(richTextField);
-      PropertiesTypes multiSelectType =
-          NotionUtils.extractPropertyType(multiSelectField);
+      PropertiesTypes titleType = extractPropertyType(titleField);
+      PropertiesTypes richTextType = extractPropertyType(richTextField);
+      PropertiesTypes multiSelectType = extractPropertyType(multiSelectField);
 
       expect(titleType, PropertiesTypes.Title);
       expect(richTextType, PropertiesTypes.RichText);
@@ -56,11 +54,9 @@ void main() {
       };
       Map<String, dynamic> multiSelectField = {'multi_select': []};
 
-      PropertiesTypes titleType = NotionUtils.extractPropertyType(titleField);
-      PropertiesTypes richTextType =
-          NotionUtils.extractPropertyType(richTextField);
-      PropertiesTypes multiSelectType =
-          NotionUtils.extractPropertyType(multiSelectField);
+      PropertiesTypes titleType = extractPropertyType(titleField);
+      PropertiesTypes richTextType = extractPropertyType(richTextField);
+      PropertiesTypes multiSelectType = extractPropertyType(multiSelectField);
 
       expect(titleType, PropertiesTypes.Title);
       expect(richTextType, PropertiesTypes.RichText);
@@ -69,18 +65,18 @@ void main() {
 
     test('Get the property type (no type)', () {
       Map<String, dynamic> field = {};
-      PropertiesTypes type = NotionUtils.extractPropertyType(field);
+      PropertiesTypes type = extractPropertyType(field);
       expect(type, PropertiesTypes.None);
     });
   });
 
   group('Utils tests (ObjectTypes) =>', () {
     test('Return an ObjectTypes type', () {
-      ObjectTypes type1 = NotionUtils.stringToObjectType('invali_string');
-      ObjectTypes type2 = NotionUtils.stringToObjectType('database');
-      ObjectTypes type3 = NotionUtils.stringToObjectType('block');
-      ObjectTypes type4 = NotionUtils.stringToObjectType('error');
-      ObjectTypes type5 = NotionUtils.stringToObjectType('page');
+      ObjectTypes type1 = stringToObjectType('invali_string');
+      ObjectTypes type2 = stringToObjectType('database');
+      ObjectTypes type3 = stringToObjectType('block');
+      ObjectTypes type4 = stringToObjectType('error');
+      ObjectTypes type5 = stringToObjectType('page');
 
       expect([type1, type2, type3, type4, type5],
           everyElement(isA<ObjectTypes>()));
@@ -92,9 +88,9 @@ void main() {
     });
 
     test('Invalid string return None type', () {
-      ObjectTypes type1 = NotionUtils.stringToObjectType('invali_string');
-      ObjectTypes type2 = NotionUtils.stringToObjectType('asdlfknasdkjl');
-      ObjectTypes type3 = NotionUtils.stringToObjectType('');
+      ObjectTypes type1 = stringToObjectType('invali_string');
+      ObjectTypes type2 = stringToObjectType('asdlfknasdkjl');
+      ObjectTypes type3 = stringToObjectType('');
 
       expect([type1, type2, type3], everyElement(ObjectTypes.None));
     });
@@ -102,11 +98,11 @@ void main() {
 
   group('Utils tests (BlockTypes) =>', () {
     test('Return an ObjectTypes type', () {
-      BlockTypes type1 = NotionUtils.stringToBlockType('invalid_string');
-      BlockTypes type2 = NotionUtils.stringToBlockType('heading_2');
-      BlockTypes type3 = NotionUtils.stringToBlockType('paragraph');
-      BlockTypes type4 = NotionUtils.stringToBlockType('to_do');
-      BlockTypes type5 = NotionUtils.stringToBlockType('toogle');
+      BlockTypes type1 = stringToBlockType('invalid_string');
+      BlockTypes type2 = stringToBlockType('heading_2');
+      BlockTypes type3 = stringToBlockType('paragraph');
+      BlockTypes type4 = stringToBlockType('to_do');
+      BlockTypes type5 = stringToBlockType('toogle');
 
       expect(
           [type1, type2, type3, type4, type5], everyElement(isA<BlockTypes>()));
@@ -118,9 +114,9 @@ void main() {
     });
 
     test('Invalid string return None type', () {
-      BlockTypes type1 = NotionUtils.stringToBlockType('invalid_string');
-      BlockTypes type2 = NotionUtils.stringToBlockType('asdlfknasdkjl');
-      BlockTypes type3 = NotionUtils.stringToBlockType('');
+      BlockTypes type1 = stringToBlockType('invalid_string');
+      BlockTypes type2 = stringToBlockType('asdlfknasdkjl');
+      BlockTypes type3 = stringToBlockType('');
 
       expect([type1, type2, type3], everyElement(BlockTypes.None));
     });
@@ -128,12 +124,11 @@ void main() {
 
   group('Utils tests (PropertiesTypes) =>', () {
     test('Return an ObjectTypes type', () {
-      PropertiesTypes type1 =
-          NotionUtils.stringToPropertyType('invalid_string');
-      PropertiesTypes type2 = NotionUtils.stringToPropertyType('title');
-      PropertiesTypes type3 = NotionUtils.stringToPropertyType('rich_text');
-      PropertiesTypes type4 = NotionUtils.stringToPropertyType('number');
-      PropertiesTypes type5 = NotionUtils.stringToPropertyType('select');
+      PropertiesTypes type1 = stringToPropertyType('invalid_string');
+      PropertiesTypes type2 = stringToPropertyType('title');
+      PropertiesTypes type3 = stringToPropertyType('rich_text');
+      PropertiesTypes type4 = stringToPropertyType('number');
+      PropertiesTypes type5 = stringToPropertyType('select');
 
       expect([type1, type2, type3, type4, type5],
           everyElement(isA<PropertiesTypes>()));
@@ -145,10 +140,9 @@ void main() {
     });
 
     test('Invalid string return None type', () {
-      PropertiesTypes type1 =
-          NotionUtils.stringToPropertyType('invalid_string');
-      PropertiesTypes type2 = NotionUtils.stringToPropertyType('asdlfknasdkjl');
-      PropertiesTypes type3 = NotionUtils.stringToPropertyType('');
+      PropertiesTypes type1 = stringToPropertyType('invalid_string');
+      PropertiesTypes type2 = stringToPropertyType('asdlfknasdkjl');
+      PropertiesTypes type3 = stringToPropertyType('');
 
       expect([type1, type2, type3], everyElement(PropertiesTypes.None));
     });

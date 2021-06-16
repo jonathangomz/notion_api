@@ -152,10 +152,10 @@ class Parent {
   /// is extracted.
   Parent.fromJson(Map<String, dynamic> json)
       : this.id = json[json['type']] ?? '',
-        this.type = NotionUtils.stringToParentType(json['type'] ?? '');
+        this.type = stringToParentType(json['type'] ?? '');
 
   /// The string value of this type.
-  String get strType => NotionUtils.parentTypeToString(this.type);
+  String get strType => parentTypeToString(this.type);
 
   /// Convert this to a json representation valid for the Notion API.
   Map<String, dynamic> toJson() {

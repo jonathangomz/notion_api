@@ -106,7 +106,7 @@ class TextAnnotations {
   ColorsTypes color;
 
   /// The string value of the color type.
-  String get strColor => NotionUtils.colorTypeToString(color);
+  String get strColor => colorTypeToString(color);
 
   /// Main text annotations constructor.
   ///
@@ -131,7 +131,7 @@ class TextAnnotations {
         this.strikethrough = json['strikethrough'] ?? false,
         this.underline = json['underline'] ?? false,
         this.code = json['code'] ?? false,
-        this.color = NotionUtils.stringToColorType(json['color'] ?? '');
+        this.color = stringToColorType(json['color'] ?? '');
 
   /// Convert this to a json representation valid for the Notion API.
   Map<String, dynamic> toJson() {

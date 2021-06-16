@@ -65,7 +65,7 @@ class Database extends BaseProperties {
 
   /// Convert this to a valid json representation for the Notion API.
   Map<String, dynamic> toJson() => {
-        'object': NotionUtils.objectTypeToString(this.object),
+        'object': objectTypeToString(this.object),
         'title': title.map((e) => e.toJson()).toList(),
         'properties': properties.toJson(),
       };

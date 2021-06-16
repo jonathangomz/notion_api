@@ -10,7 +10,7 @@ void main() {
       ToDo todo = ToDo();
 
       expect(todo, isNotNull);
-      expect(todo.strType, NotionUtils.blockTypeToString(BlockTypes.ToDo));
+      expect(todo.strType, blockTypeToString(BlockTypes.ToDo));
       expect(todo.content, allOf([isList, isEmpty]));
       expect(todo.checked, false);
       expect(todo.isToDo, true);
@@ -45,30 +45,20 @@ void main() {
     test('Create json from instance', () {
       Map<String, dynamic> json = ToDo(text: Text('A')).toJson();
 
-      expect(
-          json['type'],
-          allOf([
-            isNotNull,
-            isNotEmpty,
-            NotionUtils.blockTypeToString(BlockTypes.ToDo)
-          ]));
-      expect(json, contains(NotionUtils.blockTypeToString(BlockTypes.ToDo)));
-      expect(json[NotionUtils.blockTypeToString(BlockTypes.ToDo)]['text'],
+      expect(json['type'],
+          allOf([isNotNull, isNotEmpty, blockTypeToString(BlockTypes.ToDo)]));
+      expect(json, contains(blockTypeToString(BlockTypes.ToDo)));
+      expect(json[blockTypeToString(BlockTypes.ToDo)]['text'],
           allOf([isList, isNotEmpty]));
     });
 
     test('Create json from empty instance', () {
       Map<String, dynamic> json = ToDo().toJson();
 
-      expect(
-          json['type'],
-          allOf([
-            isNotNull,
-            isNotEmpty,
-            NotionUtils.blockTypeToString(BlockTypes.ToDo)
-          ]));
-      expect(json, contains(NotionUtils.blockTypeToString(BlockTypes.ToDo)));
-      expect(json[NotionUtils.blockTypeToString(BlockTypes.ToDo)]['text'],
+      expect(json['type'],
+          allOf([isNotNull, isNotEmpty, blockTypeToString(BlockTypes.ToDo)]));
+      expect(json, contains(blockTypeToString(BlockTypes.ToDo)));
+      expect(json[blockTypeToString(BlockTypes.ToDo)]['text'],
           allOf([isList, isEmpty]));
     });
   });

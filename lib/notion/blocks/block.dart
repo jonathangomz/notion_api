@@ -20,10 +20,10 @@ class Block extends BaseProperties {
   Map<String, dynamic> jsonContent = {};
 
   /// The string value for this block type.
-  String get strType => NotionUtils.blockTypeToString(this.type);
+  String get strType => blockTypeToString(this.type);
 
   /// The string value for this object type.
-  String get strObject => NotionUtils.objectTypeToString(this.object);
+  String get strObject => objectTypeToString(this.object);
 
   /// Returns true if is a ToDo block.
   bool get isToDo => this.type == BlockTypes.ToDo;
@@ -32,7 +32,7 @@ class Block extends BaseProperties {
   bool get isParagraph => this.type == BlockTypes.Paragraph;
 
   /// Returns true if is a Heading block.
-  bool get isHeading => NotionUtils.headingsTypes.contains(this.type);
+  bool get isHeading => headingsTypes.contains(this.type);
 
   /// Returns true if is a Toogle block.
   bool get isToogle => this.type == BlockTypes.Toogle;
@@ -76,7 +76,7 @@ class Block extends BaseProperties {
       : this.id = json['id'] ?? '',
         this.hasChildren = json['has_children'] ?? false,
         this.jsonContent = json['type'] != null ? json[json['type']] ?? {} : {},
-        this.type = NotionUtils.stringToBlockType(json['type'] ?? ''),
+        this.type = stringToBlockType(json['type'] ?? ''),
         super(
           createdTime: json['created_time'] ?? '',
           lastEditedTime: json['last_edited_time'] ?? '',

@@ -77,7 +77,7 @@ class Property {
   dynamic get value => false;
 
   /// The string value for this property type.
-  String get strType => NotionUtils.propertyTypeToString(type);
+  String get strType => propertyTypeToString(type);
 
   /// Returns true if property is Title type.
   bool get isTitle => type == PropertiesTypes.Title;
@@ -124,7 +124,7 @@ class Property {
   ///
   /// Receive a [json] from where the information is extracted.
   static Property propertyFromJson(Map<String, dynamic> json) {
-    PropertiesTypes type = NotionUtils.extractPropertyType(json);
+    PropertiesTypes type = extractPropertyType(json);
     if (type == PropertiesTypes.Title) {
       bool contentIsList = TitleProp.contentIsList(json);
       return TitleProp.fromJson(json, subfield: contentIsList ? null : 'title');
@@ -162,18 +162,16 @@ class TitleProp extends Property {
       : this.content = Text.fromListJson(isEmpty
                 ? []
                 : ((subfield != null
-                        ? json[NotionUtils.propertyTypeToString(
-                            PropertiesTypes.Title)][subfield]
-                        : json[NotionUtils.propertyTypeToString(
-                            PropertiesTypes.Title)]) ??
+                        ? json[propertyTypeToString(PropertiesTypes.Title)]
+                            [subfield]
+                        : json[propertyTypeToString(PropertiesTypes.Title)]) ??
                     []) as List)
             .toList(),
         super(id: json['id']);
 
   /// Check if the specific json have a content list.
   static bool contentIsList(Map<String, dynamic> json) =>
-      NotionUtils.fieldIsList(
-          json[NotionUtils.propertyTypeToString(PropertiesTypes.Title)]);
+      fieldIsList(json[propertyTypeToString(PropertiesTypes.Title)]);
 
   /// Returns true if the properties are empty.
   static bool isEmpty(Map<String, dynamic> json) =>
@@ -219,8 +217,7 @@ class RichTextProp extends Property {
   /// Receive a [json] from where the information is extracted.
   RichTextProp.fromJson(Map<String, dynamic> json)
       : this.content = Text.fromListJson(
-            json[NotionUtils.propertyTypeToString(PropertiesTypes.RichText)]
-                as List),
+            json[propertyTypeToString(PropertiesTypes.RichText)] as List),
         super(id: json['id']);
 
   /// Convert this to a valid json representation for the Notion API.
@@ -253,10 +250,8 @@ class MultiSelectProp extends Property {
 
   MultiSelectProp.fromJson(Map<String, dynamic> json, {String? subfield})
       : this.options = MultiSelectOption.fromListJson((subfield != null
-            ? json[NotionUtils.propertyTypeToString(
-                PropertiesTypes.MultiSelect)][subfield]
-            : json[NotionUtils.propertyTypeToString(
-                PropertiesTypes.MultiSelect)]) as List),
+            ? json[propertyTypeToString(PropertiesTypes.MultiSelect)][subfield]
+            : json[propertyTypeToString(PropertiesTypes.MultiSelect)]) as List),
         super(id: json['id']);
 
   /// Add a new [option] to the multi select options and returns this instance.
@@ -281,8 +276,7 @@ class MultiSelectProp extends Property {
 
   /// Returns true if a json field is a list.
   static bool contentIsList(Map<String, dynamic> json) =>
-      NotionUtils.fieldIsList(
-          json[NotionUtils.propertyTypeToString(PropertiesTypes.MultiSelect)]);
+      fieldIsList(json[propertyTypeToString(PropertiesTypes.MultiSelect)]);
 }
 
 /// A representation of a multi select option property for any Notion object.
@@ -308,13 +302,13 @@ class MultiSelectOption {
   MultiSelectOption.fromJson(Map<String, dynamic> json)
       : this.name = json['name'] ?? '',
         this.id = json['id'],
-        this.color = NotionUtils.stringToColorType(json['color'] ?? '');
+        this.color = stringToColorType(json['color'] ?? '');
 
   /// Convert this to a valid json representation for the Notion API.
   Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {
       'name': name,
-      'color': NotionUtils.colorTypeToString(color),
+      'color': colorTypeToString(color),
     };
 
     if (id != null) {

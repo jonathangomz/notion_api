@@ -60,7 +60,7 @@ class Pagination {
     List listOfUnknowns = json['results'] as List;
     if (listOfUnknowns.length > 0) {
       ObjectTypes autoType =
-          NotionUtils.stringToObjectType(listOfUnknowns.first['object'] ?? '');
+          stringToObjectType(listOfUnknowns.first['object'] ?? '');
 
       // Map the corresponding list accord to the type
       ObjectTypes object =

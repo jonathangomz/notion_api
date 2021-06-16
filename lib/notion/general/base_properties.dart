@@ -16,7 +16,7 @@ class BaseProperties {
   String lastEditedTime;
 
   /// The string value of the object type.
-  String get strObject => NotionUtils.objectTypeToString(object);
+  String get strObject => objectTypeToString(object);
 
   /// Main base properties constructor.
   ///
@@ -32,7 +32,7 @@ class BaseProperties {
 
   /// Map the properties from a [json] map.
   BaseProperties.fromJson(Map<String, dynamic> json)
-      : this.object = NotionUtils.stringToObjectType(json['object']),
+      : this.object = stringToObjectType(json['object']),
         this.id = json['id'] ?? '',
         this.createdTime = json['created_time'] ?? '',
         this.lastEditedTime = json['last_edited_time'] ?? '';

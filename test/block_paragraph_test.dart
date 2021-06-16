@@ -10,8 +10,7 @@ void main() {
       Paragraph paragraph = Paragraph();
 
       expect(paragraph, isNotNull);
-      expect(paragraph.strType,
-          NotionUtils.blockTypeToString(BlockTypes.Paragraph));
+      expect(paragraph.strType, blockTypeToString(BlockTypes.Paragraph));
       expect(paragraph.texts, allOf([isList, isEmpty]));
       expect(paragraph.isParagraph, true);
       expect(paragraph.type, BlockTypes.Paragraph);
@@ -44,11 +43,10 @@ void main() {
           allOf([
             isNotNull,
             isNotEmpty,
-            NotionUtils.blockTypeToString(BlockTypes.Paragraph)
+            blockTypeToString(BlockTypes.Paragraph)
           ]));
-      expect(
-          json, contains(NotionUtils.blockTypeToString(BlockTypes.Paragraph)));
-      expect(json[NotionUtils.blockTypeToString(BlockTypes.Paragraph)]['text'],
+      expect(json, contains(blockTypeToString(BlockTypes.Paragraph)));
+      expect(json[blockTypeToString(BlockTypes.Paragraph)]['text'],
           allOf([isList, isNotEmpty]));
     });
 
@@ -60,11 +58,10 @@ void main() {
           allOf([
             isNotNull,
             isNotEmpty,
-            NotionUtils.blockTypeToString(BlockTypes.Paragraph)
+            blockTypeToString(BlockTypes.Paragraph)
           ]));
-      expect(
-          json, contains(NotionUtils.blockTypeToString(BlockTypes.Paragraph)));
-      expect(json[NotionUtils.blockTypeToString(BlockTypes.Paragraph)]['text'],
+      expect(json, contains(blockTypeToString(BlockTypes.Paragraph)));
+      expect(json[blockTypeToString(BlockTypes.Paragraph)]['text'],
           allOf([isList, isEmpty]));
     });
 
@@ -75,8 +72,7 @@ void main() {
       Map<String, dynamic> json =
           Paragraph(textSeparator: separator).add(Text(char)).toJson();
 
-      List jsonTexts =
-          json[NotionUtils.blockTypeToString(BlockTypes.Paragraph)]['text'];
+      List jsonTexts = json[blockTypeToString(BlockTypes.Paragraph)]['text'];
 
       List<Text> texts = Text.fromListJson(jsonTexts);
 

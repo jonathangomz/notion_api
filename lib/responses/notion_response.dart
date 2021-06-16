@@ -70,7 +70,7 @@ class NotionResponse {
       message: json['message'] ?? '',
     );
 
-    _result.object = NotionUtils.stringToObjectType(json['object']);
+    _result.object = stringToObjectType(json['object']);
     if (_result.object == ObjectTypes.List) {
       _result.pagination = Pagination.fromJson(json);
     } else if (_result.object == ObjectTypes.Error) {
