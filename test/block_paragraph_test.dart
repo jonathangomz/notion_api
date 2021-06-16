@@ -18,7 +18,7 @@ void main() {
     });
 
     test('Create an instance with information', () {
-      Paragraph paragraph = Paragraph().addText(Text('A')).addText(Text('B'));
+      Paragraph paragraph = Paragraph().add(Text('A')).add(Text('B'));
 
       expect(paragraph.texts.length, 2);
       expect(paragraph.texts.first.text, 'A');
@@ -28,7 +28,7 @@ void main() {
     test('Create an instance with mixed information', () {
       Paragraph paragraph =
           Paragraph(text: Text('first'), texts: [Text('foo'), Text('bar')])
-              .addText(Text('last'));
+              .add(Text('last'));
 
       expect(paragraph.texts.length, 4);
       expect(paragraph.texts.first.text, 'first');
@@ -37,7 +37,7 @@ void main() {
 
     test('Create json from instance', () {
       Map<String, dynamic> json =
-          Paragraph().addText(Text('A')).addText(Text('B')).toJson();
+          Paragraph().add(Text('A')).add(Text('B')).toJson();
 
       expect(
           json['type'],
@@ -73,7 +73,7 @@ void main() {
       String separator = '-';
 
       Map<String, dynamic> json =
-          Paragraph(textSeparator: separator).addText(Text(char)).toJson();
+          Paragraph(textSeparator: separator).add(Text(char)).toJson();
 
       List jsonTexts =
           json[NotionUtils.blockTypeToString(BlockTypes.Paragraph)]['text'];

@@ -5,9 +5,10 @@ import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/objects/children.dart';
 import 'package:notion_api/utils/utils.dart';
 
-/// A representation of the Page notion object.
+/// A representation of the Page Notion object.
 class Page extends BaseProperties {
-  /// The type of this object.
+  /// The type of this object. Always Page for this.
+  @override
   ObjectTypes object = ObjectTypes.Page;
 
   /// The information of the page parent.
