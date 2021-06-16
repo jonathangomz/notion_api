@@ -11,7 +11,7 @@ void main() {
       expect(prop.type, PropertiesTypes.None);
     });
 
-    test('Create a json from property', () {
+    test('Create a json from empty property', () {
       Property prop = Property.empty();
       expect(() => prop.toJson(), throwsA(isA<String>()));
     });
