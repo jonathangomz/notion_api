@@ -24,13 +24,16 @@ class Block extends BaseProperties {
   }
 
   factory Block.fromJson(Map<String, dynamic> json) => Block(
-        id: json['id'],
-        hasChildren: json['has_children'],
-        jsonContent: json[json['type']],
-        type: NotionUtils.stringToBlockType(json['type']),
-        createdTime: json['created_time'],
-        lastEditedTime: json['last_edited_time'],
+        id: json['id'] ?? '',
+        hasChildren: json['has_children'] ?? false,
+        jsonContent: json['type'] != null ? json[json['type']] ?? {} : {},
+        type: NotionUtils.stringToBlockType(json['type'] ?? ''),
+        createdTime: json['created_time'] ?? '',
+        lastEditedTime: json['last_edited_time'] ?? '',
       );
+
+  static List<Block> fromListJson(List<dynamic> json) =>
+      List<Block>.from(json.map((e) => Block.fromJson(e)).toList());
 
   String get strType => NotionUtils.blockTypeToString(this.type);
   String get strObject => NotionUtils.objectTypeToString(this.object);
@@ -43,4 +46,10 @@ class Block extends BaseProperties {
   bool get isNumbered => this.type == BlockTypes.NumberedList;
   bool get isChild => this.type == BlockTypes.Child;
   bool get isNone => this.type == BlockTypes.None;
+
+  Map<String, dynamic> toJson() => {
+        'object': strObject,
+        'type': strType,
+        strType: jsonContent,
+      };
 }

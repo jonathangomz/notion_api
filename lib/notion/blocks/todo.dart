@@ -51,7 +51,8 @@ class ToDo extends Block {
   }
 
   /// Convert this to a json representation valid for the Notion API.
-  toJson() => {
+  @override
+  Map<String, dynamic> toJson() => {
         'object': strObject,
         'type': strType,
         strType: {
