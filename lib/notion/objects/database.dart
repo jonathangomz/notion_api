@@ -40,7 +40,7 @@ class Database extends BaseProperties {
         lastEditedTime: json['last_edited_time'] ?? '',
       ).addPropertiesFromJson(json['properties'] ?? {});
 
-  /// Add a new database [property] with a specific [name].
+  /// Add a new database [property] with an specific [name].
   ///
   /// Example:
   /// ```dart
