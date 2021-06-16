@@ -36,9 +36,9 @@ void main() {
       expect(database, isNotNull);
       expect(database.title.length, 1);
       expect(database.properties.entries, isNotEmpty);
-      expect(database.properties.getProperty('Tags').isMultiSelect, true);
-      expect(database.properties.getProperty('Details').isRichText, true);
-      expect(database.properties.getProperty('Name').isTitle, true);
+      expect(database.properties.get('Tags').isMultiSelect, true);
+      expect(database.properties.get('Details').isRichText, true);
+      expect(database.properties.get('Name').isTitle, true);
     });
 
     test('Create json from instance', () {
@@ -102,10 +102,10 @@ void main() {
 
       expect(database.title, isNotEmpty);
       expect(database.id, isNotEmpty);
-      expect(database.properties.containsProperty('Tags'), true);
-      expect(database.properties.getProperty('Tags').isMultiSelect, true);
-      expect(database.properties.containsProperty('Details'), true);
-      expect(database.properties.getProperty('Details').isTitle, true);
+      expect(database.properties.contains('Tags'), true);
+      expect(database.properties.get('Tags').isMultiSelect, true);
+      expect(database.properties.contains('Details'), true);
+      expect(database.properties.get('Details').isTitle, true);
     });
 
     test('Map from wrong json', () {
@@ -115,8 +115,8 @@ void main() {
 
       expect(database.title, isEmpty);
       expect(database.id, isEmpty);
-      expect(database.properties.containsProperty('Tags'), false);
-      expect(database.properties.containsProperty('Details'), false);
+      expect(database.properties.contains('Tags'), false);
+      expect(database.properties.contains('Details'), false);
     });
 
     test('Add properties from json', () {
@@ -134,18 +134,18 @@ void main() {
         "Details": {"id": "title", "type": "title", "title": {}}
       });
 
-      expect(database.properties.containsProperty('Tags'), true);
-      expect(database.properties.getProperty('Tags').isMultiSelect, true);
+      expect(database.properties.contains('Tags'), true);
+      expect(database.properties.get('Tags').isMultiSelect, true);
       expect(
-          database.properties.getProperty('Tags').value,
+          database.properties.get('Tags').value,
           allOf([
             isList,
             hasLength(2),
             isA<List<MultiSelectOption>>(),
           ]));
-      expect(database.properties.containsProperty('Details'), true);
-      expect(database.properties.getProperty('Details').isTitle, true);
-      expect(database.properties.getProperty('Details').value, isList);
+      expect(database.properties.contains('Details'), true);
+      expect(database.properties.get('Details').isTitle, true);
+      expect(database.properties.get('Details').value, isList);
     });
   });
 }

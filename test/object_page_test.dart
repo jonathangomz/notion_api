@@ -38,9 +38,9 @@ void main() {
                   property: TitleProp(content: [Text('Something here...')]));
 
       expect(page.properties.entries, isNotEmpty);
-      expect(page.properties.getProperty('Tags').isMultiSelect, true);
-      expect(page.properties.getProperty('Details').isRichText, true);
-      expect(page.properties.getProperty('Name').isTitle, true);
+      expect(page.properties.get('Tags').isMultiSelect, true);
+      expect(page.properties.get('Details').isRichText, true);
+      expect(page.properties.get('Name').isTitle, true);
     });
 
     test('Create json (for API) from instance', () {
@@ -157,8 +157,8 @@ void main() {
 
       expect(page.id, isNotEmpty);
       expect(page.parent.type, ParentType.Database);
-      expect(page.properties.containsProperty('title'), true);
-      expect(page.properties.getProperty('title').isTitle, true);
+      expect(page.properties.contains('title'), true);
+      expect(page.properties.get('title').isTitle, true);
     });
 
     test('Map from wrong json', () {
@@ -167,7 +167,7 @@ void main() {
       Page page = Page.fromJson(wrongJsonDatabase);
 
       expect(page.id, isEmpty);
-      expect(page.properties.containsProperty('title'), false);
+      expect(page.properties.contains('title'), false);
       expect(page.parent.type, ParentType.None);
     });
 
@@ -176,9 +176,9 @@ void main() {
         "title": {"id": "title", "type": "title", "title": {}}
       });
 
-      expect(page.properties.containsProperty('title'), true);
-      expect(page.properties.getProperty('title').isTitle, true);
-      expect(page.properties.getProperty('title').value, isList);
+      expect(page.properties.contains('title'), true);
+      expect(page.properties.get('title').isTitle, true);
+      expect(page.properties.get('title').value, isList);
     });
   });
 }

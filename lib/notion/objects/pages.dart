@@ -68,7 +68,7 @@ class Page extends BaseProperties {
   /// Set the [title] of the page.
   set title(Text title) {
     // Only set one title at a time.
-    if (this.properties.containsProperty('title')) {
+    if (this.properties.contains('title')) {
       this.properties.remove('title');
     }
 

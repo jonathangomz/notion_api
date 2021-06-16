@@ -48,10 +48,10 @@ class Properties {
   Property remove(String name) => this._map.remove(name) ?? Property.empty();
 
   /// Get the property with the specific [name]. If not found return an empty instance.
-  Property getProperty(String name) => this._map[name] ?? Property.empty();
+  Property get(String name) => this._map[name] ?? Property.empty();
 
   /// Returns true if the property with the specific [name] is contained.
-  bool containsProperty(String name) => this._map.containsKey(name);
+  bool contains(String name) => this._map.containsKey(name);
 
   /// Convert this to a valid json representation for the Notion API.
   Map<String, dynamic> toJson() {
@@ -241,6 +241,9 @@ class MultiSelectProp extends Property {
   final PropertiesTypes type = PropertiesTypes.MultiSelect;
 
   /// The options of the multi select.
+  @override
+  List<MultiSelectOption> get value => this.options;
+
   List<MultiSelectOption> options;
 
   /// Main multi select constructor.

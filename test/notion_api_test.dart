@@ -114,7 +114,7 @@ void main() {
     });
   });
 
-  group('Notion Block Client', () {
+  group('Notion Block Client =>', () {
     test('Retrieve block children', () async {
       final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
 
@@ -133,7 +133,7 @@ void main() {
       expect(res.status, 404);
       expect(res.isOk, false);
       expect(res.hasError, true);
-      expect(res.object, 'error');
+      expect(res.isError, true);
       expect(res.code, 'object_not_found');
     });
 
@@ -145,7 +145,7 @@ void main() {
       expect(res.status, 401);
       expect(res.isOk, false);
       expect(res.hasError, true);
-      expect(res.object, 'error');
+      expect(res.isError, true);
       expect(res.code, 'unauthorized');
     });
 
