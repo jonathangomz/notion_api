@@ -256,6 +256,33 @@ class NotionUtils {
     }
   }
 
+  static String parentTypeToString(ParentType type) {
+    switch (type) {
+      case ParentType.Workspace:
+        return 'workspace';
+      case ParentType.Database:
+        return 'database_id';
+      case ParentType.Page:
+        return 'page_id';
+      case ParentType.None:
+        return '';
+    }
+  }
+
+  static ParentType stringToParentType(String type) {
+    switch (type) {
+      case 'workspace':
+        return ParentType.Workspace;
+      case 'database_id':
+        return ParentType.Database;
+      case 'page_id':
+        return ParentType.Page;
+      case '':
+      default:
+        return ParentType.None;
+    }
+  }
+
   static PropertiesTypes extractPropertyType(Map<String, dynamic> json) {
     if (json.keys.contains('type')) {
       return stringToPropertyType(json['type']);

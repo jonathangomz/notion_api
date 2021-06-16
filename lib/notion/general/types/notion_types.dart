@@ -54,3 +54,11 @@ enum ColorsTypes {
   Yellow,
   Default,
 }
+
+/// The parent type for pages
+enum ParentType {
+  None,
+  Workspace,
+  Database,
+  Page,
+}
