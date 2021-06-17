@@ -11,7 +11,7 @@ class NotionDatabasesClient {
   String _token;
 
   /// The API version.
-  String v;
+  String _v;
 
   /// The path of the requests group.
   String _path = 'databases';
@@ -21,12 +21,12 @@ class NotionDatabasesClient {
   /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
   NotionDatabasesClient({required String token, String version: latestVersion})
       : this._token = token,
-        this.v = version;
+        this._v = version;
 
   /// Retrieve the database with [id].
   Future<NotionResponse> fetch(String id) async {
     http.Response res =
-        await http.get(Uri.https(host, '/$v/$_path/$id'), headers: {
+        await http.get(Uri.https(host, '/$_v/$_path/$id'), headers: {
       'Authorization': 'Bearer $_token',
     });
 
@@ -47,7 +47,7 @@ class NotionDatabasesClient {
     }
 
     http.Response res =
-        await http.get(Uri.https(host, '/$v/$_path', query), headers: {
+        await http.get(Uri.https(host, '/$_v/$_path', query), headers: {
       'Authorization': 'Bearer $_token',
     });
 

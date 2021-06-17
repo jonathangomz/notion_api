@@ -14,7 +14,7 @@ class NotionBlockClient {
   String _token;
 
   /// The API version.
-  String v;
+  String _v;
 
   /// The path of the requests group.
   String _path = 'blocks';
@@ -24,7 +24,7 @@ class NotionBlockClient {
   /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
   NotionBlockClient({required String token, String version: latestVersion})
       : this._token = token,
-        this.v = version;
+        this._v = version;
 
   /// Retrieve the block children from block with [id].
   ///
@@ -44,7 +44,7 @@ class NotionBlockClient {
     }
 
     http.Response response = await http
-        .get(Uri.https(host, '/$v/$_path/$id/children', query), headers: {
+        .get(Uri.https(host, '/$_v/$_path/$id/children', query), headers: {
       'Authorization': 'Bearer $_token',
     });
 
@@ -57,7 +57,7 @@ class NotionBlockClient {
     required Children children,
   }) async {
     http.Response res = await http.patch(
-        Uri.https(host, '/$v/$_path/$to/children'),
+        Uri.https(host, '/$_v/$_path/$to/children'),
         body: jsonEncode(children.toJson()),
         headers: {
           'Authorization': 'Bearer $_token',
