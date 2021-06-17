@@ -4,7 +4,6 @@ import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'package:notion_api/notion/blocks/heading.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
-import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/objects/children.dart';
 import 'package:notion_api/notion/objects/pages.dart';
@@ -73,23 +72,6 @@ void main() {
 
       expect(res.status, 200);
     });
-
-    test('Invalid property', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
-
-      final Page page = Page(
-        parent: Parent.database(id: testDatabaseId ?? ''),
-      ).addProperty(
-        name: 'TEST',
-        property: TitleProp(content: [Text('ABC')]),
-      );
-
-      var res = await pages.create(page);
-
-      expect(res.status, 400);
-      expect(res.isError, true);
-      expect(res.code, 'validation_error');
-    });
   });
 
   group('Notion Databases Client', () {
@@ -122,31 +104,6 @@ void main() {
 
       expect(res.status, 200);
       expect(res.isOk, true);
-    });
-
-    test('Wrong uuid for block children', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
-
-      NotionResponse res = await blocks.fetch(
-          testBlockId != null ? testBlockId!.replaceFirst('d', 'b') : '');
-
-      expect(res.status, 404);
-      expect(res.isOk, false);
-      expect(res.hasError, true);
-      expect(res.isError, true);
-      expect(res.code, 'object_not_found');
-    });
-
-    test('Wrong auth for block children', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: '');
-
-      NotionResponse res = await blocks.fetch(testBlockId ?? '');
-
-      expect(res.status, 401);
-      expect(res.isOk, false);
-      expect(res.hasError, true);
-      expect(res.isError, true);
-      expect(res.code, 'unauthorized');
     });
 
     test('Append heading & text', () async {

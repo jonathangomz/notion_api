@@ -32,6 +32,16 @@ class NotionResponse {
   /// The marker to know if the response is ok.
   bool isOk = true;
 
+  get content {
+    if (this.isList) {
+      return this.pagination;
+    } else if (this.isDatabase) {
+      return this.database;
+    } else {
+      return this.pagination;
+    }
+  }
+
   /// Returns true if the response is a database.
   bool get isDatabase => this.object == ObjectTypes.Database;
 
@@ -47,16 +57,20 @@ class NotionResponse {
   /// Returns true if the response is a page.
   bool get isPage => this.object == ObjectTypes.Page;
 
+  /// Returns true if the response have no object type.
+  bool get isNone => this.object == ObjectTypes.None;
+
   /// Main Notion response constructor.
   ///
   /// Can receive the [object] type, the [status] code, the error [code] and the error [message].
   ///
-  /// By default the [object] is a list and the [status] is ok (200).
-  NotionResponse(
-      {this.object: ObjectTypes.List,
-      this.status: 200,
-      this.code,
-      this.message});
+  /// By default the [object] type is None and the [status] is zero.
+  NotionResponse({
+    this.object: ObjectTypes.None,
+    this.status: 0,
+    this.code,
+    this.message,
+  });
 
   /// Map a new Notion response instance from a http [response].
   ///

@@ -17,8 +17,15 @@ class Pagination {
   List<Block>? _blocks;
   List<Database>? _databases;
 
-  /// TODO: made pages class
-  List<dynamic>? _pages;
+  get list {
+    if (this.isEmpty) {
+      return [];
+    } else if (this.isBlocksList) {
+      return this.blocks;
+    } else if (this.isDatabasesList) {
+      return this.databases;
+    }
+  }
 
   /// The list of blocks for when the response is for blocks.
   List<Block> get blocks => isEmpty ? [] : _blocks!;
@@ -26,17 +33,11 @@ class Pagination {
   /// The list of databases for when the response is for databases.
   List<Database> get databases => isEmpty ? [] : _databases!;
 
-  /// The list of pages for when the response is for pages.
-  List<dynamic> get pages => isEmpty ? [] : _pages!;
-
   /// Returns true if the result is a list of blocks.
   bool get isBlocksList => _blocks != null;
 
   /// Returns true if the result is a list of databases.
   bool get isDatabasesList => _databases != null;
-
-  /// Returns true if the result is a list of pages.
-  bool get isPagesList => _pages != null;
 
   /// Main pagination constructor.
   ///
@@ -47,17 +48,17 @@ class Pagination {
     this.isEmpty: false,
     List<Block>? blocks,
     List<Database>? databases,
-    List<dynamic>? pages,
   });
 
   /// Map a new pagination instance from a [json] map.
   factory Pagination.fromJson(Map<String, dynamic> json,
       {ObjectTypes? staticType}) {
-    Pagination pagination =
-        Pagination(hasMore: json['has_more'], nextCursor: json['next_cursor']);
+    Pagination pagination = Pagination(
+        hasMore: json['has_more'] ?? false, nextCursor: json['next_cursor']);
 
     // Extract the type of the list
-    List listOfUnknowns = json['results'] as List;
+    List listOfUnknowns =
+        json['results'] != null ? json['results'] as List : [];
     if (listOfUnknowns.length > 0) {
       ObjectTypes autoType =
           stringToObjectType(listOfUnknowns.first['object'] ?? '');
