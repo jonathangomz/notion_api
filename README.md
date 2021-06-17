@@ -1,7 +1,7 @@
 Notion API client for dart.
 
 # Using
-**Important**: The methods return a `http.Response`. You can find how to use it in its [documentation][1].
+**Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
 
 You can see some examples [here](example/example.md).
 
@@ -25,4 +25,4 @@ NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
 databases.fetchAll();
 ```
 
-[1]:https://pub.dev/documentation/http/latest/http/Response-class.html
+[1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html

@@ -58,7 +58,7 @@ class NotionResponse {
       this.code,
       this.message});
 
-  /// Map a new Notion response instance from a [response].
+  /// Map a new Notion response instance from a http [response].
   ///
   /// The class of the [response] parameter is the one in the `http` package.
   factory NotionResponse.fromResponse(Response response) {

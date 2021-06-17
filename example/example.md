@@ -21,7 +21,7 @@
 
 # Initialization
 ## Full instance
-You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class methods.
+You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class properties methods.
 ```dart
 NotionClient notion = NotionClient(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
 ```
@@ -43,9 +43,16 @@ databases.fetchAll();
 # Pages
 ## Creating pages
 ```dart
+// With database parent
 Page page = Page(
-  databaseId: 'YOUR DATABASE ID',
-  title: 'The title of the new page',
+  parent: Parent.database(id: 'YOUR_DATABASE_ID'), // <- database
+  title: Text('NotionClient (v1): Page test'),
+);
+
+// With page parent
+Page page = Page(
+  parent: Parent.page(id: 'YOUR_PAGE_ID'), // <- page
+  title: Text('NotionClient (v1): Page test'),
 );
 
 notion.pages.create(page);
@@ -90,24 +97,41 @@ _Parameters:_
 #### Heading & Paragraph
 ##### Code
 ```dart
+// Create children instance:
+// * Old way
+Children oldWay = Children(
+  heading: Heading('Test'),
+  paragraph: Paragraph(
+    content: [
+      Text('Lorem ipsum (A)'),
+      Text(
+        'Lorem ipsum (B)',
+        annotations: TextAnnotations(
+          bold: true,
+          underline: true,
+          color: ColorsTypes.orange,
+        ),
+      ),
+    ],
+  ),
+);
+
+// * New way
+Children newWay =
+  Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text('Lorem ipsum (B)',
+        annotations: TextAnnotations(
+          bold: true,
+          underline: true,
+          color: ColorsTypes.Orange,
+        ))
+  ]));
+
+// Send the instance to Notion
 notion.blocks.append(
   to: 'YOUR_BLOCK_ID',
-  children: Children(
-    heading: Heading('Test'),
-    paragraph: Paragraph(
-      content: [
-        Text('Lorem ipsum (A)'),
-        Text(
-          'Lorem ipsum (B)',
-          annotations: TextAnnotations(
-            bold: true,
-            underline: true,
-            color: ColorsTypes.orange,
-          ),
-        ),
-      ],
-    ),
-  ),
+  children: newWay,
 );
 ```
 
@@ -117,24 +141,25 @@ notion.blocks.append(
 #### To do
 ##### Code
 ```dart
+Children children = Children(
+                      toDo: [
+                        ToDo(text: Text('This is a todo item A')),
+                        ToDo(
+                          texts: [
+                            Text('This is a todo item'),
+                            Text(
+                              'B',
+                              annotations: TextAnnotations(bold: true),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+
+// Send the instance to Notion
 notion.blocks.append(
   to: 'YOUR_BLOCK_ID',
-  children: Children(
-    toDo: [
-      ToDo(text: Text('This is a todo item A')),
-      ToDo(
-        content: Paragraph(
-          content: [
-            Text('This is a todo item'),
-            Text(
-              'B',
-              annotations: TextAnnotations(bold: true),
-            ),
-          ],
-        ),
-      ),
-    ],
-  ),
+  children: children,
 );
 ```
 
