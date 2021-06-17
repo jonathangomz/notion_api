@@ -1508,5 +1508,40 @@ void main() {
 
       expect(children.isEmpty, true);
     });
+
+    test('Add blocks in distinct ways', () {
+      Children children1 = Children(
+        heading: Heading(text: Text('Test')),
+        paragraph: Paragraph(
+          texts: [
+            Text('Lorem ipsum (A)'),
+            Text(
+              'Lorem ipsum (B)',
+              annotations: TextAnnotations(
+                bold: true,
+                underline: true,
+                color: ColorsTypes.Orange,
+              ),
+            ),
+          ],
+        ),
+      );
+
+      Children children2 =
+          Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
+                Text('Lorem ipsum (A)'),
+                Text('Lorem ipsum (B)',
+                    annotations: TextAnnotations(
+                      bold: true,
+                      underline: true,
+                      color: ColorsTypes.Orange,
+                    ))
+              ]));
+
+      var json1 = children1.toJson();
+      var json2 = children2.toJson();
+
+      expect(json1, json2);
+    });
   });
 }
