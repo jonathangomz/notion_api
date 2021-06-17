@@ -25,4 +25,7 @@ NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
 databases.fetchAll();
 ```
 
+# Contributions
+Please help, I don't even know if what I'm doing is right.
+
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html

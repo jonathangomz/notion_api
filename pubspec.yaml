@@ -1,6 +1,6 @@
 name: notion_api
-description: A wrapper for public beta of the Notion API to manage like a Notion SDK for dart.
-version: 1.0.0-beta1
+description: A wrapper for the public beta Notion API to manage it like a Notion SDK package for dart.
+version: 1.0.0-beta2
 homepage: https://github.com/jonathangomz/notion_api
 
 environment:

@@ -55,10 +55,15 @@
 * Add custom response
 * Remove dependency for `flutter`
 
+## v1.0.0-beta2:
+> Release date: 25/Jun/2021
+* Fix any error
+* Tests for every piece of code
+* Improve docs
+
 ## v1.0.0:
 > Release date: 31/Jun/2021
 * Fix any error
-* Tests for every piece of code
 
 ## v1.1.0:
 > Release date: 10/Jul/2021
