@@ -88,7 +88,7 @@ class Page extends BaseProperties {
   }
 
   /// Convert this to a json representation valid for the Notion API.
-  toJson({bool isResponse: false}) {
+  Map<String, dynamic> toJson({bool isResponse: false}) {
     Map<String, dynamic> json = {
       'parent': this.parent.toJson(),
       'properties': this.properties.toJson(),
