@@ -7,23 +7,26 @@ import 'statics.dart';
 
 /// A client for Notion API databases requests.
 class NotionDatabasesClient {
-  // The API integration secret token
+  /// The API integration secret token.
   String _token;
 
-  // The API version
+  /// The API version.
   String v;
 
-  // The path of the requests group
+  /// The path of the requests group.
   String _path = 'databases';
 
-  NotionDatabasesClient({required String token, String version: '/v1'})
+  /// Main Notion database client constructor.
+  ///
+  /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
+  NotionDatabasesClient({required String token, String version: latestVersion})
       : this._token = token,
         this.v = version;
 
-  /// Retrieve the database with [id]
+  /// Retrieve the database with [id].
   Future<NotionResponse> fetch(String id) async {
     http.Response res =
-        await http.get(Uri.https(host, '$v/$_path/$id'), headers: {
+        await http.get(Uri.https(host, '/$v/$_path/$id'), headers: {
       'Authorization': 'Bearer $_token',
     });
 
@@ -32,7 +35,7 @@ class NotionDatabasesClient {
 
   /// Retrieve all databases.
   ///
-  /// A [startCursor] can be defined to sepeficied the page where to start.
+  /// A [startCursor] can be defined to specify the page where to start.
   /// Also a [pageSize] can be defined to limit the result. The max value is 100.
   Future<NotionResponse> fetchAll({String? startCursor, int? pageSize}) async {
     Map<String, dynamic> query = {};
@@ -44,7 +47,7 @@ class NotionDatabasesClient {
     }
 
     http.Response res =
-        await http.get(Uri.https(host, '$v/$_path', query), headers: {
+        await http.get(Uri.https(host, '/$v/$_path', query), headers: {
       'Authorization': 'Bearer $_token',
     });
 
