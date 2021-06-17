@@ -81,6 +81,11 @@ class Pagination {
     return pagination;
   }
 
+  /// Filter the list of blocks children.
+  ///
+  /// Can [exclude] or [include] blocks of a certain types. Also can [onlyLeft] blocks of one type or search blocks by [id].
+  ///
+  /// If all fields are included then all filters are applied as a chain following the next order: [exclude], [include], [onlyLeft], and the [id].
   List<Block> filterBlocks({
     List<BlockTypes> exclude: const [],
     List<BlockTypes> include: const [],
