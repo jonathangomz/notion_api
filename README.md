@@ -1,5 +1,7 @@
 Notion API client for dart.
 
+See the [ROADMAP](ROADMAP.md) file to see what is coming next.
+
 # Using
 **Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
 
