@@ -1,11 +1,11 @@
 Notion API client for dart.
 
+![CI](https://github.com/jonathangomz/notion_api/actions/workflows/main.yml/badge.svg)
+
 See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
-# Using
+# Usage
 **Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
-
-You can see some examples [here](example/example.md).
 
 ## `NotionClient` class
 You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class methods.
@@ -26,6 +26,50 @@ notion.databases.fetchAll();
 NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
 databases.fetchAll();
 ```
+
+## Some examples
+_To see more examples [go here](example/example.md)._
+
+### Append blocks children
+```dart
+// Create children instance:
+Children children = Children().addAll([
+  Heading(text: Text('Test')),
+  Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text('Lorem ipsum (B)',
+        annotations: TextAnnotations(
+          bold: true,
+          underline: true,
+          color: ColorsTypes.Orange,
+        ))
+  ])
+]);
+
+// Send the instance to Notion
+notion.blocks.append(
+  to: 'YOUR_BLOCK_ID',
+  children: children,
+);
+```
+
+### Create a page
+```dart
+// Create a page instance
+Page page = Page(
+  parent: Parent.database(id: 'YOUR_DATABASE_ID'),
+  title: Text('NotionClient (v1): Page test'),
+);
+
+// Send the instance to Notion.
+notion.pages.create(page);
+```
+
+# Next release
+## v1.0.0:
+> Release date: 25/Jun/2021
+### Changes
+* Fix any error
 
 # Contributions
 Please help, I don't even know if what I'm doing is right.

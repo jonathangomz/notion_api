@@ -3,13 +3,13 @@
   - [Full instance](#full-instance)
   - [Individual classes](#individual-classes)
 - [Pages](#pages)
-  - [Creating pages](#creating-pages)
-  - [Retrieving pages](#retrieving-pages)
+  - [Create a page](#create-a-page)
+  - [Retrieve a page](#retrieve-a-page)
 - [Databases](#databases)
-  - [Retrieving a database](#retrieving-a-database)
-  - [Retrieving all databases](#retrieving-all-databases)
+  - [Retrieve a database](#retrieve-a-database)
+  - [List databases](#list-databases)
 - [Block children](#block-children)
-  - [Retrieving block children](#retrieving-block-children)
+  - [Retrieve block children](#retrieve-block-children)
   - [Append block children](#append-block-children)
     - [Example](#example)
       - [Heading & Paragraph](#heading--paragraph)
@@ -41,7 +41,13 @@ databases.fetchAll();
 ```
 
 # Pages
-## Creating pages
+## Create a page
+You have to define the parent of the page. It can be:
+- `database`
+- `page`
+- `workspace`
+
+There is a constructor for each one (_see example below_) but the main constructor can be used as well but the `ParentType` will be required.
 ```dart
 // With database parent
 Page page = Page(
@@ -58,18 +64,18 @@ Page page = Page(
 notion.pages.create(page);
 ```
 
-## Retrieving pages
+## Retrieve a page
 ```dart
 notion.pages.fetch('YOUR_PAGE_ID');
 ```
 
 # Databases
-## Retrieving a database
+## Retrieve a database
 ```dart
 notion.databases.fetch('YOUR_DATABASE_ID');
 ```
 
-## Retrieving all databases
+## List databases
 > **Warning**: [This endpoint is not recommended][1] by the Notion team.
 
 _Parameters:_
@@ -80,7 +86,7 @@ notion.databases.fetchAll();
 ```
 
 # Block children
-## Retrieving block children
+## Retrieve block children
 ```dart
 notion.blocks.fetch('YOUR_BLOCK_ID');
 ```
@@ -99,25 +105,39 @@ _Parameters:_
 ```dart
 // Create children instance:
 // * Old way
-Children oldWay = Children(
-  heading: Heading('Test'),
-  paragraph: Paragraph(
-    content: [
-      Text('Lorem ipsum (A)'),
-      Text(
-        'Lorem ipsum (B)',
+// Children oldWay = Children(
+//  heading: Heading('Test'),
+//  paragraph: Paragraph(
+//   content: [
+//      Text('Lorem ipsum (A)'),
+//      Text(
+//        'Lorem ipsum (B)',
+//        annotations: TextAnnotations(
+//          bold: true,
+//          underline: true,
+//          color: ColorsTypes.orange,
+//        ),
+//      ),
+//    ],
+//  ),
+//);
+//
+// * New way using `addAll()`
+Children childrenA = Children().addAll([
+  Heading(text: Text('Test')),
+  Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text('Lorem ipsum (B)',
         annotations: TextAnnotations(
           bold: true,
           underline: true,
-          color: ColorsTypes.orange,
-        ),
-      ),
-    ],
-  ),
-);
+          color: ColorsTypes.Orange,
+        ))
+  ])
+]);
 
-// * New way
-Children newWay =
+// * New way using single `add()`
+Children childrenB =
   Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
     Text('Lorem ipsum (A)'),
     Text('Lorem ipsum (B)',
@@ -131,7 +151,7 @@ Children newWay =
 // Send the instance to Notion
 notion.blocks.append(
   to: 'YOUR_BLOCK_ID',
-  children: newWay,
+  children: childrenB, // or `childrenA`, both are the same.
 );
 ```
 
@@ -141,20 +161,21 @@ notion.blocks.append(
 #### To do
 ##### Code
 ```dart
-Children children = Children(
-                      toDo: [
-                        ToDo(text: Text('This is a todo item A')),
-                        ToDo(
-                          texts: [
-                            Text('This is a todo item'),
-                            Text(
-                              'B',
-                              annotations: TextAnnotations(bold: true),
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
+Children children = 
+  Children(
+    toDo: [
+      ToDo(text: Text('This is a todo item A')),
+      ToDo(
+        texts: [
+          Text('This is a todo item'),
+          Text(
+            'B',
+            annotations: TextAnnotations(bold: true),
+          ),
+        ],
+      ),
+    ],
+  );
 
 // Send the instance to Notion
 notion.blocks.append(
