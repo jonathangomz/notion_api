@@ -3,7 +3,7 @@ import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/lists/pagination.dart';
 import 'package:test/test.dart';
 
-import 'data.dart';
+import '../long_data.dart';
 
 void main() {
   group('Paginations tests =>', () {
