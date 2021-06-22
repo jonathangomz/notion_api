@@ -74,11 +74,11 @@ class Children {
     if (exclude.isNotEmpty) {
       filetered.removeWhere((block) => exclude.contains(block.type));
     } else if (include.isNotEmpty) {
-      filetered.removeWhere((block) => !include.contains(block.type));
+      filetered.retainWhere((block) => include.contains(block.type));
     } else if (onlyLeft != null) {
-      filetered.removeWhere((element) => element.type != onlyLeft);
+      filetered.retainWhere((element) => element.type == onlyLeft);
     } else if (id != null) {
-      filetered.removeWhere((element) => element.id == id);
+      filetered.retainWhere((element) => element.id == id);
     }
 
     return filetered;

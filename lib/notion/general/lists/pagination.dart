@@ -96,18 +96,44 @@ class Pagination {
     String? id,
   }) {
     List<Block> filetered = <Block>[];
-    if (isBlocksList) {
+    if (this.isBlocksList) {
       filetered.addAll(_blocks!);
       if (exclude.isNotEmpty) {
         filetered.removeWhere((block) => exclude.contains(block.type));
       } else if (include.isNotEmpty) {
-        filetered.removeWhere((block) => !include.contains(block.type));
+        filetered.retainWhere((block) => include.contains(block.type));
       } else if (onlyLeft != null) {
-        filetered.removeWhere((element) => element.type != onlyLeft);
+        filetered.retainWhere((element) => element.type == onlyLeft);
       } else if (id != null) {
-        filetered.removeWhere((element) => element.id == id);
+        filetered.retainWhere((element) => element.id == id);
       }
     }
+
+    return filetered;
+  }
+
+  /// Filter the list of databases children.
+  ///
+  /// Can [exclude] or [include] databases with certain ids. Also can search search databases by [id].
+  ///
+  /// If all fields are included then all filters are applied as a chain following the next order: [exclude], [include], and the [id].
+  List<Database> filterDatabases({
+    List<String> exclude: const [],
+    List<String> include: const [],
+    String? id,
+  }) {
+    List<Database> filetered = <Database>[];
+    if (this.isDatabasesList) {
+      filetered.addAll(_databases!);
+      if (exclude.isNotEmpty) {
+        filetered.removeWhere((database) => exclude.contains(database.id));
+      } else if (include.isNotEmpty) {
+        filetered.retainWhere((database) => include.contains(database.id));
+      } else if (id != null) {
+        filetered.retainWhere((element) => element.id == id);
+      }
+    }
+
     return filetered;
   }
 }
