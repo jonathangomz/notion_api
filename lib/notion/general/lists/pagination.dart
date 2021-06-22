@@ -27,6 +27,9 @@ class Pagination {
     }
   }
 
+  /// The legth of the list.
+  int get length => this.list.length;
+
   /// The list of blocks for when the response is for blocks.
   List<Block> get blocks => isEmpty ? [] : _blocks!;
 
