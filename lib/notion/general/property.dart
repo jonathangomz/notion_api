@@ -63,7 +63,7 @@ class Property {
   static Property propertyFromJson(Map<String, dynamic> json) {
     PropertiesTypes type = extractPropertyType(json);
     if (type == PropertiesTypes.Title) {
-      bool contentIsList = TitleProp.contentIsList(json);
+      bool contentIsList = Property.contentIsList(json, type);
       return TitleProp.fromJson(json, subfield: contentIsList ? null : 'title');
     } else if (type == PropertiesTypes.RichText) {
       return RichTextProp.fromJson(json);
@@ -75,6 +75,18 @@ class Property {
     } else {
       return Property();
     }
+  }
+
+  /// Check if the specific json have a content list.
+  static bool contentIsList(Map<String, dynamic> json, PropertiesTypes type) =>
+      fieldIsList(json[propertyTypeToString(type)]);
+
+  /// Returns true if the properties are empty.
+  static bool isEmpty(Map<String, dynamic> json, PropertiesTypes type) {
+    if (json[propertyTypeToString(type)] != null) {
+      return json[propertyTypeToString(type)]!.isEmpty;
+    }
+    return true;
   }
 }
 
@@ -94,25 +106,14 @@ class TitleProp extends Property {
   /// Create a new property instance from json.
   ///
   /// Receive a [json] from where the information is extracted.
-  TitleProp.fromJson(Map<String, dynamic> json,
-      {String? subfield, bool isEmpty: false})
-      : this.content = Text.fromListJson(isEmpty
-                ? []
-                : ((subfield != null
-                        ? json[propertyTypeToString(PropertiesTypes.Title)]
-                            [subfield]
-                        : json[propertyTypeToString(PropertiesTypes.Title)]) ??
-                    []) as List)
+  TitleProp.fromJson(Map<String, dynamic> json, {String? subfield})
+      : this.content = Text.fromListJson(((subfield != null
+                    ? json[propertyTypeToString(PropertiesTypes.Title)]
+                        [subfield]
+                    : json[propertyTypeToString(PropertiesTypes.Title)]) ??
+                []) as List)
             .toList(),
         super(id: json['id']);
-
-  /// Check if the specific json have a content list.
-  static bool contentIsList(Map<String, dynamic> json) =>
-      fieldIsList(json[propertyTypeToString(PropertiesTypes.Title)]);
-
-  /// Returns true if the properties are empty.
-  static bool isEmpty(Map<String, dynamic> json) =>
-      json[PropertiesTypes.Title]?.isEmpty;
 
   /// The value of the content.
   @override
@@ -195,9 +196,9 @@ class MultiSelectProp extends Property {
         super(id: json['id']);
 
   /// Add a new [option] to the multi select options and returns this instance.
-  List<MultiSelectOption> addOption(MultiSelectOption option) {
+  MultiSelectProp addOption(MultiSelectOption option) {
     this.options.add(option);
-    return this.options;
+    return this;
   }
 
   /// Convert this to a valid json representation for the Notion API.

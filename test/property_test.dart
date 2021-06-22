@@ -9,6 +9,7 @@ void main() {
     test('Create an instance of property', () {
       Property prop = Property.empty();
       expect(prop.type, PropertiesTypes.None);
+      expect(prop.value, false);
     });
 
     test('Create a json from empty property', () {
@@ -32,7 +33,21 @@ void main() {
           "type": "multi_select",
           "multi_select": {"options": []}
         },
-        "Name": {"id": "title", "type": "title", "title": {}}
+        "Name": {
+          "id": "title",
+          "type": "title",
+          "title": {},
+        },
+        "Details": {
+          'id': 'D[X|',
+          'type': 'rich_text',
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {"content": "foo bar"}
+            }
+          ]
+        }
       });
 
       expect(json, isNotEmpty);
@@ -40,6 +55,8 @@ void main() {
       expect(json['Tags']!.isMultiSelect, true);
       expect(json, contains('Name'));
       expect(json['Name']!.isTitle, true);
+      expect(json, contains('Details'));
+      expect(json['Details']!.isRichText, true);
     });
 
     test('Create json from Property inherited class', () {
@@ -51,6 +68,33 @@ void main() {
       expect(json, contains(strType));
       expect((json[strType] as List).length, 1);
     });
+
+    test('Check if property is empty', () {
+      bool isEmptyTrue = Property.isEmpty(
+          {'id': 'title', 'type': 'title', 'title': []}, PropertiesTypes.Title);
+      bool isEmptyFalse = Property.isEmpty({
+        'id': 'title',
+        'type': 'title',
+        'title': [
+          {
+            "type": "text",
+            "text": {"content": "Page from Test", "link": null},
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "Page from Test",
+            "href": null
+          }
+        ]
+      }, PropertiesTypes.Title);
+      expect(isEmptyTrue, true);
+      expect(isEmptyFalse, false);
+    });
   });
 
   group('Title property =>', () {
@@ -61,6 +105,7 @@ void main() {
       expect(prop.content, isNotEmpty);
       expect(prop.content.length, 1);
     });
+
     test('Create a json from property', () {
       Map<String, dynamic> json = TitleProp(content: [Text('TITLE')]).toJson();
 
@@ -78,6 +123,8 @@ void main() {
       expect(rich.type, PropertiesTypes.RichText);
       expect(rich.content, isNotEmpty);
       expect(rich.content.length, 2);
+      expect(rich.value, isNotEmpty);
+      expect(rich.value.length, 2);
     });
     test('Create a json from property', () {
       Map<String, dynamic> json =
@@ -98,6 +145,18 @@ void main() {
       expect(multi.type, PropertiesTypes.MultiSelect);
       expect(multi.options, isNotEmpty);
       expect(multi.options.length, 1);
+    });
+
+    test('Create an instance with mixed options', () {
+      MultiSelectProp multi =
+          MultiSelectProp(options: [MultiSelectOption(name: 'A')])
+              .addOption(MultiSelectOption(name: 'B'))
+              .addOption(MultiSelectOption(name: 'C'));
+
+      expect(multi.type, PropertiesTypes.MultiSelect);
+      expect(multi.options, hasLength(3));
+      expect(multi.options.first.name, 'A');
+      expect(multi.options.last.name, 'C');
     });
 
     test('Create an option for multi select', () {
@@ -129,7 +188,7 @@ void main() {
       expect(json[strType]['options'], isNotEmpty);
     });
 
-    test('Create a json from option', () {
+    test('Create a json from option without id', () {
       Map<String, dynamic> json =
           MultiSelectOption(name: 'A', color: ColorsTypes.Brown).toJson();
 
@@ -138,10 +197,20 @@ void main() {
       expect(json['color'], contains(colorTypeToString(ColorsTypes.Brown)));
     });
 
+    test('Create a json from option with id', () {
+      Map<String, dynamic> json =
+          MultiSelectOption(name: 'A', color: ColorsTypes.Brown, id: 'a')
+              .toJson();
+
+      expect(json['name'], 'A');
+      expect(json['id'], isNotNull);
+      expect(json['color'], contains(colorTypeToString(ColorsTypes.Brown)));
+    });
+
     test('Create an options list from json', () {
       List<MultiSelectOption> list = MultiSelectOption.fromListJson([
-        {'name': 'A'},
-        {'name': 'B'}
+        {'name': 'A', 'id': 'a'},
+        {'name': 'B', 'id': 'b'},
       ]);
 
       expect(list, isNotEmpty);
@@ -172,6 +241,8 @@ void main() {
     };
 
     Map<String, dynamic> jsonDetails = {
+      'id': 'D[X|',
+      'type': 'rich_text',
       "rich_text": [
         {
           "type": "text",
@@ -239,6 +310,7 @@ void main() {
 
       String strType = propertyTypeToString(PropertiesTypes.RichText);
       expect(jsonTest['type'], strType);
+      expect(jsonTest['id'], isNotNull);
       expect(jsonTest, contains(strType));
       expect(jsonTest[strType], isList);
     });
@@ -256,6 +328,19 @@ void main() {
           subfield: 'options');
 
       expect(multi.options, isNotEmpty);
+    });
+
+    test('Create json from tags json response', () {
+      Map<String, dynamic> multi = MultiSelectProp.fromJson(
+              jsonMultiSelectWithSubfield,
+              subfield: 'options')
+          .toJson();
+
+      String strType = propertyTypeToString(PropertiesTypes.MultiSelect);
+      expect(multi['type'], strType);
+      expect(multi['id'], isNotNull);
+      expect(multi, contains(strType));
+      expect(multi[strType], isMap);
     });
   });
 }
