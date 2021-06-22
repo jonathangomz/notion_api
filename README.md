@@ -67,10 +67,12 @@ notion.pages.create(page);
 ```
 
 # Next release
-## v1.0.0:
-> Release date: 25/Jun/2021
-### Changes
-* Fix any error
+## v1.1.0:
+> Release date: 10/Jul/2021
+* Add more blocks for `(PATCH): block children` endpoint
+  * `BulletedList` block
+  * `NumberedList` block
+  * `Toggle` block
 
 # Contributions
 Please help, I don't even know if what I'm doing is right.
