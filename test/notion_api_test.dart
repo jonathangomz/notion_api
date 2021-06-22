@@ -95,15 +95,28 @@ void main() {
       expect(res.isOk, true);
     });
 
+    test('Retrieve all databases with wrong query', () async {
+      final NotionDatabasesClient databases =
+          NotionDatabasesClient(token: token ?? '');
+
+      NotionResponse res = await databases.fetchAll(startCursor: '');
+
+      expect(res.status, 400);
+      expect(res.code, 'validation_error');
+      expect(res.isOk, false);
+      expect(res.isError, true);
+    });
+
     test('Retrieve all databases with query', () async {
       final NotionDatabasesClient databases =
           NotionDatabasesClient(token: token ?? '');
 
-      NotionResponse res =
-          await databases.fetchAll(pageSize: 2, startCursor: '');
+      const int limit = 2;
+      NotionResponse res = await databases.fetchAll(pageSize: limit);
 
-      expect(res.status, 200);
       expect(res.isOk, true);
+      expect(res.isList, true);
+      expect(res.content.length, lessThanOrEqualTo(limit));
     });
   });
 
@@ -117,14 +130,28 @@ void main() {
       expect(res.isOk, true);
     });
 
-    test('Retrieve block children with query', () async {
+    test('Retrieve block children with wrong query', () async {
       final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
 
       NotionResponse res =
-          await blocks.fetch(testBlockId ?? '', pageSize: 2, startCursor: '');
+          await blocks.fetch(testBlockId ?? '', startCursor: '');
 
-      expect(res.status, 200);
+      expect(res.status, 400);
+      expect(res.code, 'validation_error');
+      expect(res.isOk, false);
+      expect(res.isError, true);
+    });
+
+    test('Retrieve block children with query', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      const int limit = 2;
+      NotionResponse res =
+          await blocks.fetch(testBlockId ?? '', pageSize: limit);
+
       expect(res.isOk, true);
+      expect(res.isList, true);
+      expect(res.content.length, lessThanOrEqualTo(limit));
     });
 
     test('Append heading & text', () async {
