@@ -123,4 +123,18 @@ void main() {
       expect(res.content.list.first.object, ObjectTypes.Block);
     });
   });
+
+  group('Database response test =>', () {
+    test('Instance from response', () async {
+      NotionDatabasesClient db = NotionDatabasesClient(token: token ?? '');
+
+      NotionResponse response = await db.fetch(testDatabaseId ?? '');
+
+      expect(response.isDatabase, true);
+      expect(response.content.title, allOf([isList, isNotEmpty, hasLength(1)]));
+      expect(response.content.title.first.text, 'test');
+      expect(response.content.properties.entries,
+          allOf([isMap, isNotEmpty, hasLength(2)]));
+    });
+  });
 }

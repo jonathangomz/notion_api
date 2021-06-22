@@ -94,6 +94,17 @@ void main() {
       expect(res.status, 200);
       expect(res.isOk, true);
     });
+
+    test('Retrieve all databases with query', () async {
+      final NotionDatabasesClient databases =
+          NotionDatabasesClient(token: token ?? '');
+
+      NotionResponse res =
+          await databases.fetchAll(pageSize: 2, startCursor: '');
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
   });
 
   group('Notion Block Client =>', () {
