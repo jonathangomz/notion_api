@@ -37,7 +37,7 @@ class NotionBlockClient {
   }) async {
     Map<String, dynamic> query = {};
     if (startCursor != null) {
-      query['start_cursos'] = startCursor;
+      query['start_cursor'] = startCursor;
     }
     if (pageSize != null && pageSize >= 0 && pageSize <= 100) {
       query['page_size'] = pageSize;

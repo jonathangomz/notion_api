@@ -117,6 +117,16 @@ void main() {
       expect(res.isOk, true);
     });
 
+    test('Retrieve block children with query', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      NotionResponse res =
+          await blocks.fetch(testBlockId ?? '', pageSize: 2, startCursor: '');
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
     test('Append heading & text', () async {
       final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
 
