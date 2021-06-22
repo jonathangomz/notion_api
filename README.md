@@ -1,6 +1,7 @@
 Notion API client for dart.
 
 ![CI](https://github.com/jonathangomz/notion_api/actions/workflows/main.yml/badge.svg)
+[![codecov](https://codecov.io/gh/jonathangomz/notion_api/branch/main/graph/badge.svg?token=4XYHP1W8ZY)](https://codecov.io/gh/jonathangomz/notion_api)
 
 See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
