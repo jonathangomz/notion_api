@@ -1,6 +1,7 @@
 env.dart
 .env*
 .vscode
+coverage/
 
 # Miscellaneous
 *.class
