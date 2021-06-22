@@ -43,7 +43,7 @@ class NotionDatabasesClient {
       query['start_cursor'] = startCursor;
     }
     if (pageSize != null && pageSize >= 0 && pageSize <= 100) {
-      query['page_size'] = pageSize;
+      query['page_size'] = pageSize.toString();
     }
 
     http.Response res =
