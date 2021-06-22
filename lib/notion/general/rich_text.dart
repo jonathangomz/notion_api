@@ -1,19 +1,31 @@
-import '../rich_text/colors.dart';
+import 'types/notion_types.dart';
+import '../../utils/utils.dart';
 
-/// A representation of the Text notion object.
+/// A representation of the Rich Text Notion.
 class Text {
   String _type = 'text';
 
   /// The text intself.
   String text;
 
-  /// The styles of the text.
+  /// The annotations of the text.
   TextAnnotations? annotations = TextAnnotations();
 
   /// The url of the text when the text is a link.
   Uri? url;
 
+  /// Main text constructor.
+  ///
+  /// Required the [text] itself. Also can receive the [annotations] and/or the [url] of the text.
   Text(this.text, {this.annotations, this.url});
+
+  /// Create a new Text instance from json.
+  ///
+  /// Receive a [json] from where the information is extracted.
+  Text.fromJson(Map<String, dynamic> json)
+      : this.text = json['text']['content'] ?? '',
+        this.annotations = TextAnnotations.fromJson(json['annotations'] ?? {}),
+        this.url = json['href'] != null ? Uri.parse(json['href']) : null;
 
   /// Convert this to a json representation valid for the Notion API.
   ///
@@ -43,7 +55,7 @@ class Text {
   ///     textSeparator: '-')));
   /// // append => "A-B-"
   /// ```
-  toJson({String textSeparator: ''}) {
+  Map<String, dynamic> toJson({String textSeparator: ''}) {
     Map<String, dynamic> json = {
       'type': _type,
       'text': {
@@ -64,9 +76,16 @@ class Text {
 
     return json;
   }
+
+  /// Map a list of texts from a [json] list with dynamics.
+  static List<Text> fromListJson(List<dynamic> json) {
+    List<Text> texts = [];
+    json.forEach((e) => texts.add(Text.fromJson(e)));
+    return texts;
+  }
 }
 
-/// The text styles.
+/// The text style.
 class TextAnnotations {
   /// A marker for bold text.
   bool bold;
@@ -83,36 +102,39 @@ class TextAnnotations {
   /// A marker for code text.
   bool code;
 
-  /// The color of the text.
-  RichTextColors color;
+  /// The color of the text. Default by... by default hehe.
+  ColorsTypes color;
 
+  /// The string value of the color type.
+  String get strColor => colorTypeToString(color);
+
+  /// Main text annotations constructor.
+  ///
+  /// Can receive if the text will be [bold], [italic], [strikethrough], [underline] and/or [code]. Also the [color] of the text.
+  ///
+  /// Valid colors are defined by the Colors enum. By default the color type is... Default dah.
   TextAnnotations({
     this.bold: false,
     this.italic: false,
     this.strikethrough: false,
     this.underline: false,
     this.code: false,
-    this.color: RichTextColors.none,
+    this.color: ColorsTypes.Default,
   });
 
-  /// The string value of the color.
-  String get strColor {
-    switch (color) {
-      case RichTextColors.none:
-        return 'default';
-      case RichTextColors.gray:
-        return 'gray';
-      case RichTextColors.brown:
-        return 'brown';
-      case RichTextColors.orange:
-        return 'orange';
-      case RichTextColors.yellow:
-        return 'yellow';
-    }
-  }
+  /// Create a new text annotation instance from json.
+  ///
+  /// Receive a [json] from where the information is extracted.
+  TextAnnotations.fromJson(Map<String, dynamic> json)
+      : this.bold = json['bold'] ?? false,
+        this.italic = json['italic'] ?? false,
+        this.strikethrough = json['strikethrough'] ?? false,
+        this.underline = json['underline'] ?? false,
+        this.code = json['code'] ?? false,
+        this.color = stringToColorType(json['color'] ?? '');
 
   /// Convert this to a json representation valid for the Notion API.
-  toJson() {
+  Map<String, dynamic> toJson() {
     Map<String, dynamic> json = {
       'color': strColor,
     };

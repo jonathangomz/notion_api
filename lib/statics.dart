@@ -1,5 +1,7 @@
-// The host of the API
+// The domain of the API.
 const String host = "api.notion.com";
 
-// The version of the API
-const String v = "/v1";
+/// The latests stable version.
+///
+/// **Note:** At this point there is not a stable version yet.
+const String latestVersion = 'v1';

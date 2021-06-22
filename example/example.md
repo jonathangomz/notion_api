@@ -3,13 +3,13 @@
   - [Full instance](#full-instance)
   - [Individual classes](#individual-classes)
 - [Pages](#pages)
-  - [Creating pages](#creating-pages)
-  - [Retrieving pages](#retrieving-pages)
+  - [Create a page](#create-a-page)
+  - [Retrieve a page](#retrieve-a-page)
 - [Databases](#databases)
-  - [Retrieving a database](#retrieving-a-database)
-  - [Retrieving all databases](#retrieving-all-databases)
+  - [Retrieve a database](#retrieve-a-database)
+  - [List databases](#list-databases)
 - [Block children](#block-children)
-  - [Retrieving block children](#retrieving-block-children)
+  - [Retrieve block children](#retrieve-block-children)
   - [Append block children](#append-block-children)
     - [Example](#example)
       - [Heading & Paragraph](#heading--paragraph)
@@ -21,7 +21,7 @@
 
 # Initialization
 ## Full instance
-You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class methods.
+You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class properties methods.
 ```dart
 NotionClient notion = NotionClient(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
 ```
@@ -41,28 +41,41 @@ databases.fetchAll();
 ```
 
 # Pages
-## Creating pages
+## Create a page
+You have to define the parent of the page. It can be:
+- `database`
+- `page`
+- `workspace`
+
+There is a constructor for each one (_see example below_) but the main constructor can be used as well but the `ParentType` will be required.
 ```dart
+// With database parent
 Page page = Page(
-  databaseId: 'YOUR DATABASE ID',
-  title: 'The title of the new page',
+  parent: Parent.database(id: 'YOUR_DATABASE_ID'), // <- database
+  title: Text('NotionClient (v1): Page test'),
+);
+
+// With page parent
+Page page = Page(
+  parent: Parent.page(id: 'YOUR_PAGE_ID'), // <- page
+  title: Text('NotionClient (v1): Page test'),
 );
 
 notion.pages.create(page);
 ```
 
-## Retrieving pages
+## Retrieve a page
 ```dart
 notion.pages.fetch('YOUR_PAGE_ID');
 ```
 
 # Databases
-## Retrieving a database
+## Retrieve a database
 ```dart
 notion.databases.fetch('YOUR_DATABASE_ID');
 ```
 
-## Retrieving all databases
+## List databases
 > **Warning**: [This endpoint is not recommended][1] by the Notion team.
 
 _Parameters:_
@@ -73,7 +86,7 @@ notion.databases.fetchAll();
 ```
 
 # Block children
-## Retrieving block children
+## Retrieve block children
 ```dart
 notion.blocks.fetch('YOUR_BLOCK_ID');
 ```
@@ -90,55 +103,88 @@ _Parameters:_
 #### Heading & Paragraph
 ##### Code
 ```dart
+// Create children instance:
+// * Old way
+// Children oldWay = Children(
+//  heading: Heading('Test'),
+//  paragraph: Paragraph(
+//   content: [
+//      Text('Lorem ipsum (A)'),
+//      Text(
+//        'Lorem ipsum (B)',
+//        annotations: TextAnnotations(
+//          bold: true,
+//          underline: true,
+//          color: ColorsTypes.orange,
+//        ),
+//      ),
+//    ],
+//  ),
+//);
+//
+// * New way using `addAll()`
+Children childrenA = Children().addAll([
+  Heading(text: Text('Test')),
+  Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text('Lorem ipsum (B)',
+        annotations: TextAnnotations(
+          bold: true,
+          underline: true,
+          color: ColorsTypes.Orange,
+        ))
+  ])
+]);
+
+// * New way using single `add()`
+Children childrenB =
+  Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text('Lorem ipsum (B)',
+        annotations: TextAnnotations(
+          bold: true,
+          underline: true,
+          color: ColorsTypes.Orange,
+        ))
+  ]));
+
+// Send the instance to Notion
 notion.blocks.append(
   to: 'YOUR_BLOCK_ID',
-  children: Children(
-    heading: Heading('Test'),
-    paragraph: Paragraph(
-      content: [
-        Text('Lorem ipsum (A)'),
-        Text(
-          'Lorem ipsum (B)',
-          annotations: TextAnnotations(
-            bold: true,
-            underline: true,
-            color: RichTextColors.orange,
-          ),
-        ),
-      ],
-    ),
-  ),
+  children: childrenB, // or `childrenA`, both are the same.
 );
 ```
 
 ##### Result
-![heading&paragraph](./images/heading_paragraph.png)
+![heading&paragraph](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/heading_paragraph.png)
 
 #### To do
 ##### Code
 ```dart
-notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
-  children: Children(
+Children children = 
+  Children(
     toDo: [
       ToDo(text: Text('This is a todo item A')),
       ToDo(
-        content: Paragraph(
-          content: [
-            Text('This is a todo item'),
-            Text(
-              'B',
-              annotations: TextAnnotations(bold: true),
-            ),
-          ],
-        ),
+        texts: [
+          Text('This is a todo item'),
+          Text(
+            'B',
+            annotations: TextAnnotations(bold: true),
+          ),
+        ],
       ),
     ],
-  ),
+  );
+
+// Send the instance to Notion
+notion.blocks.append(
+  to: 'YOUR_BLOCK_ID',
+  children: children,
 );
 ```
 
 ##### Result
-![todo](./images/todo.png)
+![todo](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/todo.png)
 
 [1]: https://developers.notion.com/reference/get-databases

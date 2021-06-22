@@ -36,7 +36,30 @@
 * Add `block children` API request tests
 
 ## v0.0.1:
-> Release date: 28/May/2021
+> Release date: 01/Jun/2021
 * Improve testing
 * Improve Rich Text usage
-  * Add to do block for `(PATCH): block children` endpoint
+* Add more blocks for `(PATCH): block children` endpoint
+  * `ToDo` block
+
+## v1.0.0-beta1:
+> Release date: 16/Jun/2021
+* Improve code implementation
+  * Refactor package structure
+  * Refactor some properties & function names
+  * Add useful functions
+  * Separate classes to avoid duplicated code
+* Add more tests
+  * Tests for every piece of code
+  * Separate tests by sections
+* Improve code documentation
+* Improve Pub Points
+* Add custom response
+* Remove dependency for `flutter`
+
+## v1.0.0-beta2:
+> Release date: 22/Jun/2021
+* Fix any error
+* Tests for every piece of code
+* Improve coverage
+* Improve docs
