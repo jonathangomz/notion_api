@@ -10,11 +10,11 @@
   * `Toogle` block
 
 ## v1.0.0:
-> Release date: 31/Jun/2021
+> Release date: 25/Jun/2021
 * Fix any error
 
 ## v1.0.0-beta2: ✅
-> Release date: 25/Jun/2021
+> Release date: 22/Jun/2021
 * Fix any error
 * Tests for every piece of code
 * Improve coverage
