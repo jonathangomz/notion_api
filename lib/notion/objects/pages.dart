@@ -133,7 +133,7 @@ class Parent {
         this.id = '';
 
   /// Constructor for workspace parent.
-  Parent.wokspace()
+  Parent.workspace()
       : this.type = ParentType.Workspace,
         this.id = '';
 
