@@ -8,7 +8,7 @@ enum BlockTypes {
   BulletedList,
   NumberedList,
   ToDo,
-  Toogle,
+  Toggle,
   Child,
   Unsupported,
 }

@@ -32,7 +32,7 @@ String blockTypeToString(BlockTypes type) {
       return 'bulleted_list_item';
     case BlockTypes.NumberedList:
       return 'numbered_list_item';
-    case BlockTypes.Toogle:
+    case BlockTypes.Toggle:
       return 'toggle';
     case BlockTypes.Child:
       return 'child_page';
@@ -57,7 +57,7 @@ BlockTypes stringToBlockType(String type) {
     case 'numbered_list_item':
       return BlockTypes.NumberedList;
     case 'toogle':
-      return BlockTypes.Toogle;
+      return BlockTypes.Toggle;
     case 'to_do':
       return BlockTypes.ToDo;
     case 'child_page':

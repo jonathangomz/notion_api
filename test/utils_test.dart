@@ -110,7 +110,7 @@ void main() {
       expect(type2, BlockTypes.H2);
       expect(type3, BlockTypes.Paragraph);
       expect(type4, BlockTypes.ToDo);
-      expect(type5, BlockTypes.Toogle);
+      expect(type5, BlockTypes.Toggle);
     });
 
     test('Invalid string return None type', () {
@@ -145,6 +145,34 @@ void main() {
       PropertiesTypes type3 = stringToPropertyType('');
 
       expect([type1, type2, type3], everyElement(PropertiesTypes.None));
+    });
+  });
+
+  group('(Types to String) || (String to Type tests) =>', () {
+    test('Block types', () {
+      String strParagraph = blockTypeToString(BlockTypes.Paragraph);
+      String strBulleted = blockTypeToString(BlockTypes.BulletedList);
+      String strNumbered = blockTypeToString(BlockTypes.NumberedList);
+      String strToogle = blockTypeToString(BlockTypes.Toggle);
+      String strChild = blockTypeToString(BlockTypes.Child);
+
+      expect(strParagraph, 'paragraph');
+      expect(strBulleted, 'bulleted_list_item');
+      expect(strNumbered, 'numbered_list_item');
+      expect(strToogle, 'toggle');
+      expect(strChild, 'child_page');
+    });
+
+    test('None types', () {
+      String blockType = blockTypeToString(BlockTypes.None);
+      String objectType = objectTypeToString(ObjectTypes.None);
+      String parentType = parentTypeToString(ParentType.None);
+      expect([blockType, objectType, parentType], everyElement(isEmpty));
+    });
+
+    test('Page types', () {
+      String page = parentTypeToString(ParentType.Page);
+      expect(page, 'page_id');
     });
   });
 }

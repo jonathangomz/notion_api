@@ -35,7 +35,7 @@ class Block extends BaseFields {
   bool get isHeading => headingsTypes.contains(this.type);
 
   /// Returns true if is a Toogle block.
-  bool get isToogle => this.type == BlockTypes.Toogle;
+  bool get isToogle => this.type == BlockTypes.Toggle;
 
   /// Returns true if is a Bulleted block.
   bool get isBulleted => this.type == BlockTypes.BulletedList;
