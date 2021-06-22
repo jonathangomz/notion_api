@@ -4,7 +4,7 @@ import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
-import 'package:notion_api/notion/objects/children.dart';
+import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:test/test.dart';
 
 void main() {

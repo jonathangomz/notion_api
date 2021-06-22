@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'notion/objects/children.dart';
+import 'notion/general/lists/children.dart';
 import 'responses/notion_response.dart';
 import 'statics.dart';
 

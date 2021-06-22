@@ -4,18 +4,18 @@ import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 
-/// A representation of the children Notion object.
+/// A representation of the children Notion object. Also list of blocks.
 class Children {
-  List<Block> _children = [];
+  List<Block> _blocks = [];
 
   /// The length of the list children.
-  int get length => this._children.length;
+  int get length => this._blocks.length;
 
-  /// Returns true if the children list IS empty
-  bool get isEmpty => this._children.isEmpty;
+  /// Returns true if the children list IS empty.
+  bool get isEmpty => this._blocks.isEmpty;
 
-  /// Returns true if the children list IS NOT empty
-  bool get isNotEmpty => this._children.isNotEmpty;
+  /// Returns true if the children list IS NOT empty.
+  bool get isNotEmpty => this._blocks.isNotEmpty;
 
   /// Main children constructor.
   ///
@@ -26,13 +26,13 @@ class Children {
     List<ToDo>? toDo,
   }) {
     if (heading != null) {
-      _children.add(heading);
+      _blocks.add(heading);
     }
     if (paragraph != null) {
-      _children.add(paragraph);
+      _blocks.add(paragraph);
     }
     if (toDo != null) {
-      _children.addAll(toDo.toList());
+      _blocks.addAll(toDo.toList());
     }
   }
 
@@ -41,14 +41,20 @@ class Children {
   /// The blocks with the block type None are excluded because that type represent blocks than can't be mapped as a knowing Notion block type.
   factory Children.fromJson(List<dynamic> json) {
     Children children = Children();
-    children._children = Block.fromListJson(json);
-    children._children = children.filterBlocks(exclude: [BlockTypes.None]);
+    children._blocks = Block.fromListJson(json);
+    children._blocks = children.filterBlocks(exclude: [BlockTypes.None]);
     return children;
   }
 
   /// Add a new [block] to the list of blocks and returns this instance.
   Children add(Block block) {
-    this._children.add(block);
+    this._blocks.add(block);
+    return this;
+  }
+
+  /// Add [blocks] to the list of blocks and returns this instance.
+  Children addAll(List<Block> blocks) {
+    this._blocks.addAll(blocks);
     return this;
   }
 
@@ -64,7 +70,7 @@ class Children {
     String? id,
   }) {
     List<Block> filetered = <Block>[];
-    filetered.addAll(_children);
+    filetered.addAll(_blocks);
     if (exclude.isNotEmpty) {
       filetered.removeWhere((block) => exclude.contains(block.type));
     } else if (include.isNotEmpty) {
@@ -80,5 +86,5 @@ class Children {
 
   /// Convert this to a valid json representation for the Notion API.
   Map<String, dynamic> toJson() =>
-      {'children': _children.map((e) => e.toJson()).toList()};
+      {'children': _blocks.map((e) => e.toJson()).toList()};
 }

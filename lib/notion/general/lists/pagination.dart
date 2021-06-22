@@ -3,7 +3,7 @@ import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/objects/database.dart';
 import 'package:notion_api/utils/utils.dart';
 
-/// A representation of the pagination response from the Notion API.
+/// A representation of the pagination response from the Notion API. Also list of objects.
 class Pagination {
   /// The cursor to the next page.
   String? nextCursor;
@@ -67,8 +67,7 @@ class Pagination {
       ObjectTypes object =
           autoType == ObjectTypes.None ? staticType ?? autoType : autoType;
       if (object == ObjectTypes.Block) {
-        List<Block> blocks = List<Block>.from(
-            (json['results'] as List).map((e) => Block.fromJson(e)));
+        List<Block> blocks = Block.fromListJson(json['results'] as List);
         pagination._blocks = [...blocks];
       } else if (object == ObjectTypes.Database) {
         List<Database> databases = List<Database>.from(

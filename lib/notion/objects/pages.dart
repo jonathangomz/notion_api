@@ -1,8 +1,9 @@
 import 'package:notion_api/notion/general/base_properties.dart';
+import 'package:notion_api/notion/general/lists/properties.dart';
 import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
-import 'package:notion_api/notion/objects/children.dart';
+import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:notion_api/utils/utils.dart';
 
 /// A representation of the Page Notion object.

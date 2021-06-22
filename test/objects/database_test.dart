@@ -36,9 +36,9 @@ void main() {
       expect(database, isNotNull);
       expect(database.title.length, 1);
       expect(database.properties.entries, isNotEmpty);
-      expect(database.properties.get('Tags').isMultiSelect, true);
-      expect(database.properties.get('Details').isRichText, true);
-      expect(database.properties.get('Name').isTitle, true);
+      expect(database.properties.getByName('Tags').isMultiSelect, true);
+      expect(database.properties.getByName('Details').isRichText, true);
+      expect(database.properties.getByName('Name').isTitle, true);
     });
 
     test('Create json from instance', () {
@@ -103,9 +103,9 @@ void main() {
       expect(database.title, isNotEmpty);
       expect(database.id, isNotEmpty);
       expect(database.properties.contains('Tags'), true);
-      expect(database.properties.get('Tags').isMultiSelect, true);
+      expect(database.properties.getByName('Tags').isMultiSelect, true);
       expect(database.properties.contains('Details'), true);
-      expect(database.properties.get('Details').isTitle, true);
+      expect(database.properties.getByName('Details').isTitle, true);
     });
 
     test('Map from wrong json', () {
@@ -135,17 +135,17 @@ void main() {
       });
 
       expect(database.properties.contains('Tags'), true);
-      expect(database.properties.get('Tags').isMultiSelect, true);
+      expect(database.properties.getByName('Tags').isMultiSelect, true);
       expect(
-          database.properties.get('Tags').value,
+          database.properties.getByName('Tags').value,
           allOf([
             isList,
             hasLength(2),
             isA<List<MultiSelectOption>>(),
           ]));
       expect(database.properties.contains('Details'), true);
-      expect(database.properties.get('Details').isTitle, true);
-      expect(database.properties.get('Details').value, isList);
+      expect(database.properties.getByName('Details').isTitle, true);
+      expect(database.properties.getByName('Details').value, isList);
     });
   });
 }
