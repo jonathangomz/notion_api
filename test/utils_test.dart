@@ -164,10 +164,12 @@ void main() {
     });
 
     test('None types', () {
+      String propertyType = propertyTypeToString(PropertiesTypes.None);
       String blockType = blockTypeToString(BlockTypes.None);
       String objectType = objectTypeToString(ObjectTypes.None);
       String parentType = parentTypeToString(ParentType.None);
-      expect([blockType, objectType, parentType], everyElement(isEmpty));
+      expect([propertyType, blockType, objectType, parentType],
+          everyElement(isEmpty));
     });
 
     test('Page types', () {
