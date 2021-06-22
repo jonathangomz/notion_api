@@ -1,3 +1,5 @@
+import 'package:notion_api/notion/blocks/heading.dart';
+import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
@@ -16,6 +18,28 @@ void main() {
       expect(page.object, ObjectTypes.Page);
       expect(page.parent.type, ParentType.None);
       expect(page.properties.isEmpty, true);
+    });
+
+    test('Override page title on set', () {
+      Page page = Page.empty();
+
+      const String oldTitle = 'OLD';
+      page.title = Text(oldTitle);
+
+      expect(page.properties.getByName('title'), isNotNull);
+      expect(page.properties.getByName('title').isTitle, true);
+      expect(page.properties.getByName('title').value,
+          allOf([isList, hasLength(1)]));
+      expect(page.properties.getByName('title').value.first.text, oldTitle);
+
+      const String newTitle = 'NEW';
+      page.title = Text(newTitle);
+
+      expect(page.properties.getByName('title'), isNotNull);
+      expect(page.properties.getByName('title').isTitle, true);
+      expect(page.properties.getByName('title').value,
+          allOf([isList, hasLength(1)]));
+      expect(page.properties.getByName('title').value.first.text, newTitle);
     });
 
     test('Create new instance with data', () {
@@ -118,7 +142,22 @@ void main() {
       expect(page['children'], isNull);
     });
 
-    test('Map from json', () {
+    test('Create json with & without children field', () {
+      Parent parent = Parent(type: ParentType.Database, id: 'DATABASE_ID');
+
+      Page pageWithChildren = Page(
+          parent: parent,
+          children: Children(heading: Heading(text: Text('A'))));
+      Page pageWithoutChildren = Page(parent: parent);
+
+      Map<String, dynamic> jsonWithChildren = pageWithChildren.toJson();
+      Map<String, dynamic> jsonWithoutChildren = pageWithoutChildren.toJson();
+
+      expect(jsonWithChildren, contains('children'));
+      expect(jsonWithoutChildren, isNot(contains('children')));
+    });
+
+    test('Map page isntance from json', () {
       var json = {
         "object": "page",
         "id": "c3d51019-4470-443b-a141-94a3a1a54f60",
@@ -179,6 +218,37 @@ void main() {
       expect(page.properties.contains('title'), true);
       expect(page.properties.getByName('title').isTitle, true);
       expect(page.properties.getByName('title').value, isList);
+    });
+  });
+
+  group('Parent tests =>', () {
+    test('Create an empty instance', () {
+      Parent parent = Parent.none();
+      expect(parent.type, ParentType.None);
+      expect(parent.id, isEmpty);
+    });
+
+    test('Create an instance with data', () {
+      Parent parent = Parent(type: ParentType.Page, id: 'ABC');
+      expect(parent.id, 'ABC');
+      expect(parent.type, ParentType.Page);
+    });
+
+    test('Create page parent from constructor', () {
+      Parent parent = Parent.page(id: 'ABC');
+      expect(parent.type, ParentType.Page);
+    });
+
+    test('Create workspace parent from constructor', () {
+      Parent parent = Parent.workspace();
+      expect(parent.type, ParentType.Workspace);
+      expect(parent.id, isEmpty);
+    });
+
+    test('Json should not have id for workspace', () {
+      Map<String, dynamic> json = Parent.workspace().toJson();
+      expect(json, isNot(contains('database_id')));
+      expect(json, isNot(contains('page_id')));
     });
   });
 }
