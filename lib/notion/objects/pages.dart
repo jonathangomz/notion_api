@@ -1,4 +1,4 @@
-import 'package:notion_api/notion/general/base_properties.dart';
+import 'package:notion_api/notion/general/base_fields.dart';
 import 'package:notion_api/notion/general/lists/properties.dart';
 import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
@@ -7,7 +7,7 @@ import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:notion_api/utils/utils.dart';
 
 /// A representation of the Page Notion object.
-class Page extends BaseProperties {
+class Page extends BaseFields {
   /// The type of this object. Always Page for this.
   @override
   ObjectTypes object = ObjectTypes.Page;

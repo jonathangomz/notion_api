@@ -1,9 +1,9 @@
-import 'package:notion_api/notion/general/base_properties.dart';
+import 'package:notion_api/notion/general/base_fields.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/utils/utils.dart';
 
 /// A base representation of any Notion block object.
-class Block extends BaseProperties {
+class Block extends BaseFields {
   /// The type of object. Always Block for this.
   ObjectTypes object = ObjectTypes.Block;
 

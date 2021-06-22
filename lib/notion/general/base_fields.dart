@@ -2,7 +2,7 @@ import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/utils/utils.dart';
 
 /// A base representation of the base properties of almost any Notion object.
-class BaseProperties {
+class BaseFields {
   /// The object type.
   ObjectTypes object;
 
@@ -23,7 +23,7 @@ class BaseProperties {
   /// Can receive the [object], the [id], the [createdTime] and the [lastEditedTime] of the object.
   ///
   /// **Note:** This class is mainly (if no only) used by extending it.
-  BaseProperties({
+  BaseFields({
     this.object: ObjectTypes.Object,
     this.id: '',
     this.createdTime: '',
@@ -31,7 +31,7 @@ class BaseProperties {
   });
 
   /// Map the properties from a [json] map.
-  BaseProperties.fromJson(Map<String, dynamic> json)
+  BaseFields.fromJson(Map<String, dynamic> json)
       : this.object = stringToObjectType(json['object']),
         this.id = json['id'] ?? '',
         this.createdTime = json['created_time'] ?? '',

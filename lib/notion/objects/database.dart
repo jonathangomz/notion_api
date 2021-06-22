@@ -1,4 +1,4 @@
-import 'package:notion_api/notion/general/base_properties.dart';
+import 'package:notion_api/notion/general/base_fields.dart';
 import 'package:notion_api/notion/general/lists/properties.dart';
 import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
@@ -6,7 +6,7 @@ import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/utils/utils.dart';
 
 /// A representation of the Databse Notion object.
-class Database extends BaseProperties {
+class Database extends BaseFields {
   /// The type of this object. Always Database for this.
   @override
   ObjectTypes object = ObjectTypes.Database;
