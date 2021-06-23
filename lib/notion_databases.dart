@@ -1,5 +1,3 @@
-library notion_api;
-
 import 'package:http/http.dart' as http;
 
 import 'responses/notion_response.dart';
