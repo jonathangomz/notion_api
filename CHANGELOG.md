@@ -67,3 +67,4 @@
 ## v1.0.0:
 > Release date: 25/Jun/2021
 * Fix any error
+* Add library-documentation
