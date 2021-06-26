@@ -1,6 +1,7 @@
 Notion API client for dart.
 
 ![CI](https://github.com/jonathangomz/notion_api/actions/workflows/main.yml/badge.svg)
+[![codecov](https://codecov.io/gh/jonathangomz/notion_api/branch/main/graph/badge.svg?token=4XYHP1W8ZY)](https://codecov.io/gh/jonathangomz/notion_api)
 
 See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
@@ -66,10 +67,12 @@ notion.pages.create(page);
 ```
 
 # Next release
-## v1.0.0:
-> Release date: 25/Jun/2021
-### Changes
-* Fix any error
+## v1.1.0:
+> Release date: 10/Jul/2021
+* Add more blocks for `(PATCH): block children` endpoint
+  * `BulletedList` block
+  * `NumberedList` block
+  * `Toggle` block
 
 # Contributions
 Please help, I don't even know if what I'm doing is right.

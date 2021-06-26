@@ -7,11 +7,12 @@
 * Add more blocks for `(PATCH): block children` endpoint
   * `BulletedList` block
   * `NumberedList` block
-  * `Toogle` block
+  * `Toggle` block
 
-## v1.0.0:
+## v1.0.0: ✅
 > Release date: 25/Jun/2021
 * Fix any error
+* Add library-documentation
 
 ## v1.0.0-beta2: ✅
 > Release date: 22/Jun/2021

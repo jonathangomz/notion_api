@@ -1,3 +1,9 @@
+/// A wrapper for the public beta Notion API to manage it like a Notion SDK package for dart.
+///
+/// To see code examples you can go to https://pub.dev/packages/notion_api/example.
+///
+/// Documentation for Notion API here https://developers.notion.com.
+/// API Reference here https://developers.notion.com/reference/intro.
 library notion_api;
 
 import 'package:notion_api/statics.dart';
