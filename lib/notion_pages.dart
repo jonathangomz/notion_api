@@ -14,21 +14,29 @@ class NotionPagesClient {
   /// The API version.
   String _v;
 
+  /// Notion versioning. For reference, see: [Notion versioning](https://developers.notion.com/reference/versioning)
+  String _dateVersion;
+
   /// The path of the requests group.
   String _path = 'pages';
 
   /// Main Notion page client constructor.
   ///
   /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
-  NotionPagesClient({required String token, String version: latestVersion})
+  NotionPagesClient(
+      {required String token,
+      String version: latestVersion,
+      String dateVersion: latestDateVersion})
       : this._token = token,
-        this._v = version;
+        this._v = version,
+        this._dateVersion = latestDateVersion;
 
   /// Retrieve the page with [id].
   Future<NotionResponse> fetch(String id) async {
     http.Response res =
         await http.get(Uri.https(host, '/$_v/$_path/$id'), headers: {
       'Authorization': 'Bearer $_token',
+      'Notion-Version': _dateVersion,
     });
 
     return NotionResponse.fromResponse(res);
@@ -41,6 +49,7 @@ class NotionPagesClient {
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json; charset=UTF-8',
+          'Notion-Version': _dateVersion,
         });
 
     return NotionResponse.fromResponse(res);
