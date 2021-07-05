@@ -115,5 +115,7 @@ TEST_BLOCK_ID=c8hac4bb32af48889228bf483d938e34
   * `BulletedList` block
   * `NumberedList` block
   * `Toggle` block
+* Add `Children.with(List<Block> blocks)` constructor
+* Add singleton (_if possible_)
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html
