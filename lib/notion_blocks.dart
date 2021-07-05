@@ -17,12 +17,19 @@ class NotionBlockClient {
   /// The path of the requests group.
   String _path = 'blocks';
 
+  /// Notion versioning. For reference, see: [Notion versioning](https://developers.notion.com/reference/versioning)
+  String _dateVersion;
+
   /// Main Notion block client constructor.
   ///
   /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
-  NotionBlockClient({required String token, String version: latestVersion})
+  NotionBlockClient(
+      {required String token,
+      String version: latestVersion,
+      String dateVersion: latestDateVersion})
       : this._token = token,
-        this._v = version;
+        this._v = version,
+        this._dateVersion = dateVersion;
 
   /// Retrieve the block children from block with [id].
   ///
@@ -44,6 +51,7 @@ class NotionBlockClient {
     http.Response response = await http
         .get(Uri.https(host, '/$_v/$_path/$id/children', query), headers: {
       'Authorization': 'Bearer $_token',
+      'Notion-Version': _dateVersion,
     });
 
     return NotionResponse.fromResponse(response);
@@ -60,6 +68,7 @@ class NotionBlockClient {
         headers: {
           'Authorization': 'Bearer $_token',
           'Content-Type': 'application/json; charset=UTF-8',
+          'Notion-Version': _dateVersion,
         });
 
     return NotionResponse.fromResponse(res);
