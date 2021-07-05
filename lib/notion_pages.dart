@@ -14,7 +14,9 @@ class NotionPagesClient {
   /// The API version.
   String _v;
 
-  /// Notion versioning. For reference, see: [Notion versioning](https://developers.notion.com/reference/versioning)
+  /// The API date version.
+  ///
+  /// It's not the same as the API version.
   String _dateVersion;
 
   /// The path of the requests group.
