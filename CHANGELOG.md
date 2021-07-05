@@ -68,3 +68,7 @@
 > Release date: 25/Jun/2021
 * Fix any error
 * Add library-documentation
+
+## v1.0.1:
+> Release date: 04/Jul/2021
+* Fix Notion-Version header missing

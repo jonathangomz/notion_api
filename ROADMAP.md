@@ -8,6 +8,11 @@
   * `BulletedList` block
   * `NumberedList` block
   * `Toggle` block
+* Add singleton
+
+## v1.0.1:
+> Release date: 04/Jul/2021
+* Fix Notion-Version header missing
 
 ## v1.0.0: ✅
 > Release date: 25/Jun/2021
