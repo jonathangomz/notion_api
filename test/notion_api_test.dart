@@ -159,22 +159,21 @@ void main() {
 
       NotionResponse res = await blocks.append(
         to: testBlockId as String,
-        children: Children(
-          heading: Heading(text: Text('Test')),
-          paragraph: Paragraph(
-            texts: [
-              Text('Lorem ipsum (A)'),
-              Text(
-                'Lorem ipsum (B)',
-                annotations: TextAnnotations(
-                  bold: true,
-                  underline: true,
-                  color: ColorsTypes.Orange,
-                ),
+        children: Children().add(Heading(text: Text('Test'))).add(
+              Paragraph(
+                texts: [
+                  Text('Lorem ipsum (A)'),
+                  Text(
+                    'Lorem ipsum (B)',
+                    annotations: TextAnnotations(
+                      bold: true,
+                      underline: true,
+                      color: ColorsTypes.Orange,
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
       );
 
       expect(res.status, 200);
@@ -186,8 +185,8 @@ void main() {
 
       NotionResponse res = await blocks.append(
         to: testBlockId as String,
-        children: Children(
-          toDo: [
+        children: Children().addAll(
+          [
             ToDo(text: Text('This is a todo item A')),
             ToDo(
               texts: [
