@@ -5,6 +5,19 @@ Notion API client for dart.
 
 See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
+- [Usage](#usage)
+  - [`NotionClient` class](#notionclient-class)
+  - [Individual classes](#individual-classes)
+  - [A few examples](#a-few-examples)
+    - [Append blocks children](#append-blocks-children)
+    - [Create a page](#create-a-page)
+- [Contributions](#contributions)
+  - [Rules](#rules)
+  - [Tests](#tests)
+    - [Example:](#example)
+- [Next release](#next-release)
+  - [v1.1.0:](#v110)
+
 # Usage
 **Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
 
@@ -28,7 +41,7 @@ NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
 databases.fetchAll();
 ```
 
-## Some examples
+## A few examples
 _To see more examples [go here](example/example.md)._
 
 ### Append blocks children
@@ -66,6 +79,35 @@ Page page = Page(
 notion.pages.create(page);
 ```
 
+# Contributions
+Please help, I don't even know if what I'm doing is right.
+
+## Rules
+Some rules to follow:
+1. Please follow the dart convention format:
+   1. [Effective dart](https://dart.dev/guides/language/effective-dart)
+   2. [`dart format`](https://dart.dev/tools/dart-format)
+2. If you are adding a new function, please also add the documentation.
+3. If you are adding a new parameters, please also add it to the current documentation.
+4. (**Optional**) Run the tests to know that everything is working just fine ([See how run the tests](#tests)).
+   * This is optional because sometimes the tests fail on GitHub actions so anyway I will check this on my computer.
+
+## Tests
+To be able to run the tests you will have to have a `.env` file on the root directory with the next variables:
+* TOKEN: The secret token.
+* TEST_DATABASE_ID: The database id where you will be working on.
+* TEST_PAGE_ID: Some page id inside the database specified above.
+* TEST_BLOCK_ID: Some block id inside the page specified above.
+
+### Example:
+_The values are not valid of course._
+```
+TOKEN=secret_Oa24V8FbJ49JluJankVOQihyLiMXwqSQeeHuSFobQDW
+TEST_DATABASE_ID=366da3d646bb458128071fdb2fbbf427
+TEST_PAGE_ID=c3b53019-4470-443b-a141-95a3a1a44g60
+TEST_BLOCK_ID=c8hac4bb32af48889228bf483d938e34
+```
+
 # Next release
 ## v1.1.0:
 > Release date: 10/Jul/2021
@@ -73,8 +115,5 @@ notion.pages.create(page);
   * `BulletedList` block
   * `NumberedList` block
   * `Toggle` block
-
-# Contributions
-Please help, I don't even know if what I'm doing is right.
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html
