@@ -10,6 +10,9 @@
   * `Toggle` block
 * Add `Children.with(List<Block> blocks)` constructor
 * Add singleton (_if possible_)
+* Add `final` for override types to not allow change the field:
+    * Objects
+    * Blocks
 
 ## v1.0.2: ✅
 > Release date: 05/Jul/2021

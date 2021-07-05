@@ -117,5 +117,8 @@ TEST_BLOCK_ID=c8hac4bb32af48889228bf483d938e34
   * `Toggle` block
 * Add `Children.with(List<Block> blocks)` constructor
 * Add singleton (_if possible_)
+* Add `final` for override types to not allow change the field:
+  * Objects
+  * Blocks
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html
