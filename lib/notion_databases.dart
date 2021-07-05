@@ -20,8 +20,11 @@ class NotionDatabasesClient {
   /// Main Notion database client constructor.
   ///
   /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
-  NotionDatabasesClient({required String token, String version: latestVersion, String dateVersion: latestDateVersion})
-      : this._token = token,
+  NotionDatabasesClient({
+    required String token,
+    String version: latestVersion,
+    String dateVersion: latestDateVersion,
+  })  : this._token = token,
         this._v = version,
         this._dateVersion = dateVersion;
 
