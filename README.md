@@ -42,7 +42,7 @@ databases.fetchAll();
 ```
 
 ## A few examples
-_To see more examples [go here](example/example.md)._
+_To see more examples [go here](https://github.com/jonathangomz/notion_api/blob/main/example/example.md)._
 
 ### Append blocks children
 ```dart
