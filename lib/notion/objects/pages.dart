@@ -10,7 +10,7 @@ import 'package:notion_api/utils/utils.dart';
 class Page extends BaseFields {
   /// The type of this object. Always Page for this.
   @override
-  ObjectTypes object = ObjectTypes.Page;
+  final ObjectTypes object = ObjectTypes.Page;
 
   /// The information of the page parent.
   Parent parent;

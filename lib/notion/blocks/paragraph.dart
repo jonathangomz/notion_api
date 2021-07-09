@@ -6,7 +6,7 @@ import 'package:notion_api/notion/general/rich_text.dart';
 class Paragraph extends Block {
   /// The block type. Always Paragraph for this.
   @override
-  BlockTypes type = BlockTypes.Paragraph;
+  final BlockTypes type = BlockTypes.Paragraph;
 
   List<Text> _content = [];
 

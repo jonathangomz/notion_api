@@ -6,7 +6,7 @@ import 'package:notion_api/notion/general/rich_text.dart';
 class ToDo extends Block {
   /// The block type. Always ToDo for this.
   @override
-  BlockTypes type = BlockTypes.ToDo;
+  final BlockTypes type = BlockTypes.ToDo;
 
   List<Text> _content = [];
 

@@ -5,7 +5,8 @@ import 'package:notion_api/utils/utils.dart';
 /// A base representation of any Notion block object.
 class Block extends BaseFields {
   /// The type of object. Always Block for this.
-  ObjectTypes object = ObjectTypes.Block;
+  @override
+  final ObjectTypes object = ObjectTypes.Block;
 
   /// The block id.
   String id = '';

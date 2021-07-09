@@ -9,7 +9,7 @@ import 'package:notion_api/utils/utils.dart';
 class Database extends BaseFields {
   /// The type of this object. Always Database for this.
   @override
-  ObjectTypes object = ObjectTypes.Database;
+  final ObjectTypes object = ObjectTypes.Database;
 
   /// The title of this database.
   List<Text> title = <Text>[];

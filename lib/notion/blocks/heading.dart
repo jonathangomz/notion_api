@@ -6,7 +6,7 @@ import 'package:notion_api/notion/general/rich_text.dart';
 class Heading extends Block {
   /// The block type. Always H1, H2 or H3 for this.
   @override
-  BlockTypes type = BlockTypes.H1;
+  final BlockTypes type = BlockTypes.H1;
 
   List<Text> _content = [];
 
