@@ -1,26 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:notion_api/base_client.dart';
 
 import 'notion/general/lists/children.dart';
 import 'responses/notion_response.dart';
 import 'statics.dart';
 
 /// A client for Notion API block children requests.
-class NotionBlockClient {
-  /// The API integration secret token.
-  String _token;
-
-  /// The API version.
-  String _v;
-
-  /// The API date version.
-  ///
-  /// It's not the same as the API version.
-  String _dateVersion;
-
+class NotionBlockClient extends BaseClient {
   /// The path of the requests group.
-  String _path = 'blocks';
+  @override
+  final String path = 'blocks';
 
   /// Main Notion block client constructor.
   ///
@@ -29,9 +20,7 @@ class NotionBlockClient {
     required String token,
     String version: latestVersion,
     String dateVersion: latestDateVersion,
-  })  : this._token = token,
-        this._v = version,
-        this._dateVersion = dateVersion;
+  }) : super(token: token, version: version, dateVersion: dateVersion);
 
   /// Retrieve the block children from block with [id].
   ///
@@ -51,9 +40,9 @@ class NotionBlockClient {
     }
 
     http.Response response = await http
-        .get(Uri.https(host, '/$_v/$_path/$id/children', query), headers: {
-      'Authorization': 'Bearer $_token',
-      'Notion-Version': _dateVersion,
+        .get(Uri.https(host, '/$v/$path/$id/children', query), headers: {
+      'Authorization': 'Bearer $token',
+      'Notion-Version': dateVersion,
     });
 
     return NotionResponse.fromResponse(response);
@@ -65,12 +54,12 @@ class NotionBlockClient {
     required Children children,
   }) async {
     http.Response res = await http.patch(
-        Uri.https(host, '/$_v/$_path/$to/children'),
+        Uri.https(host, '/$v/$path/$to/children'),
         body: jsonEncode(children.toJson()),
         headers: {
-          'Authorization': 'Bearer $_token',
+          'Authorization': 'Bearer $token',
           'Content-Type': 'application/json; charset=UTF-8',
-          'Notion-Version': _dateVersion,
+          'Notion-Version': dateVersion,
         });
 
     return NotionResponse.fromResponse(res);
