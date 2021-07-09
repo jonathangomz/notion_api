@@ -6,6 +6,7 @@ import 'package:notion_api/notion/blocks/heading.dart';
 import 'package:notion_api/notion/blocks/numbered_list_item.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
+import 'package:notion_api/notion/blocks/toggle.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:notion_api/notion/objects/pages.dart';
@@ -233,6 +234,30 @@ void main() {
           [
             NumberedItem(text: Text('This is a numbered list item A')),
             NumberedItem(text: Text('This is a numbered list item B')),
+          ],
+        ),
+      );
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
+    test('Append toggle block', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      NotionResponse res = await blocks.append(
+        to: testBlockId as String,
+        children: Children.withBlocks(
+          [
+            Toggle(text: Text('This is a toggle block'), children: [
+              Paragraph(texts: [
+                Text(
+                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis dolor sed ex egestas, et vehicula tellus faucibus. Sed pellentesque tellus eget imperdiet vulputate.')
+              ]),
+              BulletedItem(text: Text('A')),
+              BulletedItem(text: Text('B')),
+              BulletedItem(text: Text('B')),
+            ]),
           ],
         ),
       );
