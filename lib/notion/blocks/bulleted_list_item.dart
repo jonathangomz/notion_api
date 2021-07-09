@@ -57,6 +57,7 @@ class BulletedItem extends Block {
         'type': strType,
         strType: {
           'text': _content.map((e) => e.toJson()).toList(),
+          'children': _children.map((e) => e.toJson()).toList(),
         },
       };
 }

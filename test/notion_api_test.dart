@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:dotenv/dotenv.dart' show load, env, clean;
@@ -162,21 +163,22 @@ void main() {
 
       NotionResponse res = await blocks.append(
         to: testBlockId as String,
-        children: Children().add(Heading(text: Text('Test'))).add(
-              Paragraph(
-                texts: [
-                  Text('Lorem ipsum (A)'),
-                  Text(
-                    'Lorem ipsum (B)',
-                    annotations: TextAnnotations(
-                      bold: true,
-                      underline: true,
-                      color: ColorsTypes.Orange,
-                    ),
-                  ),
-                ],
+        children: Children.withBlocks([
+          Heading(text: Text('Test')),
+          Paragraph(texts: [
+            Text('Lorem ipsum (A)'),
+            Text(
+              'Lorem ipsum (B)',
+              annotations: TextAnnotations(
+                bold: true,
+                underline: true,
+                color: ColorsTypes.Orange,
               ),
             ),
+          ], children: [
+            Heading(text: Text('Subtitle'), type: 3),
+          ]),
+        ]),
       );
 
       expect(res.status, 200);
@@ -188,20 +190,22 @@ void main() {
 
       NotionResponse res = await blocks.append(
         to: testBlockId as String,
-        children: Children().addAll(
-          [
-            ToDo(text: Text('This is a todo item A')),
-            ToDo(
-              texts: [
-                Text('This is a todo item'),
-                Text(
-                  'B',
-                  annotations: TextAnnotations(bold: true),
-                ),
-              ],
-            ),
-          ],
-        ),
+        children: Children.withBlocks([
+          ToDo(text: Text('This is a todo item A')),
+          ToDo(
+            texts: [
+              Text('This is a todo item'),
+              Text(
+                'B',
+                annotations: TextAnnotations(bold: true),
+              ),
+            ],
+          ),
+          ToDo(text: Text('Todo item with children'), children: [
+            BulletedItem(text: Text('A')),
+            BulletedItem(text: Text('B')),
+          ])
+        ]),
       );
 
       expect(res.status, 200);
@@ -217,6 +221,16 @@ void main() {
           [
             BulletedItem(text: Text('This is a bulleted list item A')),
             BulletedItem(text: Text('This is a bulleted list item B')),
+            BulletedItem(
+              text: Text('This is a bulleted list item with children'),
+              children: [
+                Paragraph(texts: [
+                  Text('A'),
+                  Text('B'),
+                  Text('C'),
+                ])
+              ],
+            ),
           ],
         ),
       );
@@ -234,6 +248,16 @@ void main() {
           [
             NumberedItem(text: Text('This is a numbered list item A')),
             NumberedItem(text: Text('This is a numbered list item B')),
+            NumberedItem(
+              text: Text('This is a bulleted list item with children'),
+              children: [
+                Paragraph(texts: [
+                  Text('A'),
+                  Text('B'),
+                  Text('C'),
+                ])
+              ],
+            ),
           ],
         ),
       );
@@ -249,15 +273,20 @@ void main() {
         to: testBlockId as String,
         children: Children.withBlocks(
           [
-            Toggle(text: Text('This is a toggle block'), children: [
-              Paragraph(texts: [
-                Text(
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis dolor sed ex egestas, et vehicula tellus faucibus. Sed pellentesque tellus eget imperdiet vulputate.')
-              ]),
-              BulletedItem(text: Text('A')),
-              BulletedItem(text: Text('B')),
-              BulletedItem(text: Text('B')),
-            ]),
+            Toggle(
+              text: Text('This is a toggle block'),
+              children: [
+                Paragraph(
+                  texts: [
+                    Text(
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis dolor sed ex egestas, et vehicula tellus faucibus. Sed pellentesque tellus eget imperdiet vulputate.')
+                  ],
+                ),
+                BulletedItem(text: Text('A')),
+                BulletedItem(text: Text('B')),
+                BulletedItem(text: Text('B')),
+              ],
+            ),
           ],
         ),
       );
