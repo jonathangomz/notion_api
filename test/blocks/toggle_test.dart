@@ -22,7 +22,7 @@ void main() {
 
     test('Create an instance with information', () {
       Toggle block = Toggle(text: Text('A'))
-          .addText(Text('B'))
+          .addText('B')
           .addChild(
               Paragraph(text: Text('This is a child of the toggle item.')))
           .addChildren([
@@ -44,7 +44,7 @@ void main() {
           Text('bar'),
         ],
       )
-          .addText(Text('last'))
+          .addText('last')
           .addChild(
               Paragraph(text: Text('This is a child of the toggle item.')))
           .addChildren([

@@ -11,32 +11,43 @@ void main() {
 
       expect(paragraph, isNotNull);
       expect(paragraph.strType, blockTypeToString(BlockTypes.Paragraph));
-      expect(paragraph.texts, allOf([isList, isEmpty]));
+      expect(paragraph.content, allOf([isList, isEmpty]));
       expect(paragraph.isParagraph, true);
       expect(paragraph.type, BlockTypes.Paragraph);
     });
 
     test('Create an instance with information', () {
-      Paragraph paragraph = Paragraph().add(Text('A')).add(Text('B'));
+      Paragraph paragraph = Paragraph().addText('A').addText('B');
 
-      expect(paragraph.texts.length, 2);
-      expect(paragraph.texts.first.text, 'A');
-      expect(paragraph.texts.last.text, 'B');
+      expect(paragraph.content.length, 2);
+      expect(paragraph.content.first.text, 'A');
+      expect(paragraph.content.last.text, 'B');
     });
 
     test('Create an instance with mixed information', () {
       Paragraph paragraph =
           Paragraph(text: Text('first'), texts: [Text('foo'), Text('bar')])
-              .add(Text('last'));
+              .addText('last')
+              .addChild(Paragraph(texts: [
+                Text('A'),
+                Text('B'),
+              ]));
 
-      expect(paragraph.texts.length, 4);
-      expect(paragraph.texts.first.text, 'first');
-      expect(paragraph.texts.last.text, 'last');
+      expect(paragraph.content.length, 4);
+      expect(paragraph.content.first.text, 'first');
+      expect(paragraph.content.last.text, 'last');
+      expect(paragraph.children.length, 4);
     });
 
     test('Create json from instance', () {
-      Map<String, dynamic> json =
-          Paragraph().add(Text('A')).add(Text('B')).toJson();
+      Map<String, dynamic> json = Paragraph()
+          .addText('A')
+          .addText('B')
+          .addChild(Paragraph(texts: [
+            Text('A'),
+            Text('B'),
+          ]))
+          .toJson();
 
       expect(
           json['type'],
@@ -47,6 +58,8 @@ void main() {
           ]));
       expect(json, contains(blockTypeToString(BlockTypes.Paragraph)));
       expect(json[blockTypeToString(BlockTypes.Paragraph)]['text'],
+          allOf([isList, isNotEmpty]));
+      expect(json[blockTypeToString(BlockTypes.Paragraph)]['children'],
           allOf([isList, isNotEmpty]));
     });
 
@@ -63,6 +76,8 @@ void main() {
       expect(json, contains(blockTypeToString(BlockTypes.Paragraph)));
       expect(json[blockTypeToString(BlockTypes.Paragraph)]['text'],
           allOf([isList, isEmpty]));
+      expect(json[blockTypeToString(BlockTypes.Paragraph)]['children'],
+          allOf([isList, isEmpty]));
     });
 
     test('Create json with separator', () {
@@ -70,7 +85,7 @@ void main() {
       String separator = '-';
 
       Map<String, dynamic> json =
-          Paragraph(textSeparator: separator).add(Text(char)).toJson();
+          Paragraph(textSeparator: separator).addText(char).toJson();
 
       List jsonTexts = json[blockTypeToString(BlockTypes.Paragraph)]['text'];
 

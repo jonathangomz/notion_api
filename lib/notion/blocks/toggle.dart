@@ -19,36 +19,32 @@ class Toggle extends Block {
 
   /// Main toggle constructor.
   ///
-  /// Can receive a single [text] or a list of [texts]. If both are included also both fields are added to the heading content adding first the [text] field. Also can receive the content of the toggle item.
+  /// Can receive a single [text] or a list of [texts]. If both are included also both fields are added to the heading content adding first the [text] field. Also can receive the [children] of the block.
   Toggle({
     Text? text,
-    List<Text>? texts,
-    List<Block>? children,
+    List<Text> texts: const [],
+    List<Block> children: const [],
   }) {
     if (text != null) {
       _content.add(text);
     }
-    if (texts != null) {
-      _content.addAll(texts);
-    }
-    if (children != null) {
-      _children.addAll(children);
-    }
+    _content.addAll(texts);
+    _children.addAll(children);
   }
 
-  /// Add a new [text] to the rich text array and returns this instance.
-  Toggle addText(Text text) {
-    this._content.add(text);
+  /// Add a [text] to the rich text array and returns this instance. Also can receive the [annotations] of the text.
+  Toggle addText(String text, {TextAnnotations? annotations}) {
+    this._content.add(Text(text, annotations: annotations));
     return this;
   }
 
-  /// Add a new [block] to the children block and returns this instance.
+  /// Add a new [block] to the children and returns this instance.
   Toggle addChild(Block block) {
     this._children.add(block);
     return this;
   }
 
-  /// Add a list of [blocks] to the children block and returns this instance.
+  /// Add a list of [blocks] to the children and returns this instance.
   Toggle addChildren(List<Block> blocks) {
     this._children.addAll(blocks);
     return this;
