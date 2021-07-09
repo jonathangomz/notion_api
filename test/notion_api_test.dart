@@ -3,6 +3,7 @@ import 'dart:io' show Platform;
 import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'package:notion_api/notion/blocks/bulleted_list_item.dart';
 import 'package:notion_api/notion/blocks/heading.dart';
+import 'package:notion_api/notion/blocks/numbered_list_item.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
@@ -215,6 +216,23 @@ void main() {
           [
             BulletedItem(text: Text('This is a bulleted list item A')),
             BulletedItem(text: Text('This is a bulleted list item B')),
+          ],
+        ),
+      );
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
+    test('Append numbered list item block', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      NotionResponse res = await blocks.append(
+        to: testBlockId as String,
+        children: Children.withBlocks(
+          [
+            NumberedItem(text: Text('This is a numbered list item A')),
+            NumberedItem(text: Text('This is a numbered list item B')),
           ],
         ),
       );
