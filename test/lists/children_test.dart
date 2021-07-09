@@ -86,7 +86,7 @@ void main() {
     });
 
     test('Add blocks in distinct ways', () {
-      Children children1 = Children(
+      Children deprecated = Children(
         heading: Heading(text: Text('Test')),
         paragraph: Paragraph(
           texts: [
@@ -102,6 +102,23 @@ void main() {
           ],
         ),
       );
+
+      Children children1 = Children.withBlocks([
+        Heading(text: Text('Test')),
+        Paragraph(
+          texts: [
+            Text('Lorem ipsum (A)'),
+            Text(
+              'Lorem ipsum (B)',
+              annotations: TextAnnotations(
+                bold: true,
+                underline: true,
+                color: ColorsTypes.Orange,
+              ),
+            ),
+          ],
+        ),
+      ]);
 
       Children children2 =
           Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
@@ -127,10 +144,12 @@ void main() {
         ])
       ]);
 
+      var json0 = deprecated.toJson();
       var json1 = children1.toJson();
       var json2 = children2.toJson();
       var json3 = children3.toJson();
 
+      expect(json0, json1);
       expect(json1, json2);
       expect(json2, json3);
     });
