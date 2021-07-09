@@ -44,7 +44,7 @@ void main() {
       expect(todo.content.length, 4);
       expect(todo.content.first.text, 'first');
       expect(todo.content.last.text, 'last');
-      expect(todo.children.length, 4);
+      expect(todo.children.length, 1);
     });
 
     test('Create json from instance', () {

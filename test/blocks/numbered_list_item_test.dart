@@ -40,7 +40,7 @@ void main() {
       expect(block.content.length, 4);
       expect(block.content.first.text, 'first');
       expect(block.content.last.text, 'last');
-      expect(block.content.length, 1);
+      expect(block.children.length, 1);
     });
 
     test('Create json from instance', () {

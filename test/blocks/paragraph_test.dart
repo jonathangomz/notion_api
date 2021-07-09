@@ -36,7 +36,7 @@ void main() {
       expect(paragraph.content.length, 4);
       expect(paragraph.content.first.text, 'first');
       expect(paragraph.content.last.text, 'last');
-      expect(paragraph.children.length, 4);
+      expect(paragraph.children.length, 1);
     });
 
     test('Create json from instance', () {
