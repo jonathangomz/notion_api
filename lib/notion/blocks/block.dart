@@ -39,10 +39,10 @@ class Block extends BaseFields {
   bool get isToogle => this.type == BlockTypes.Toggle;
 
   /// Returns true if is a Bulleted block.
-  bool get isBulleted => this.type == BlockTypes.BulletedList;
+  bool get isBulletedItem => this.type == BlockTypes.BulletedListItem;
 
   /// Returns true if is a Numbered block.
-  bool get isNumbered => this.type == BlockTypes.NumberedList;
+  bool get isNumberedItem => this.type == BlockTypes.NumberedListItem;
 
   /// Returns true if is a Child block.
   bool get isChild => this.type == BlockTypes.Child;
