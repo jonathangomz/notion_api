@@ -72,3 +72,9 @@
 ## v1.0.1:
 > Release date: 04/Jul/2021
 * Fix Notion-Version header missing
+
+## v1.0.2:
+> Release date: 05/Jul/2021
+* Fix warnings for documentation
+* Improve documentation
+* Add contribution rules

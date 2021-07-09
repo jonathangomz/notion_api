@@ -28,11 +28,11 @@ class NotionClient {
   /// Require the [token] to authenticate the requests. Also can receive the API [version] where to make the calls, which is the latests by default (v1); and the [dateVersion] which is by default "2021-05-13" (the latest at 04/07/2021).
   ///
   /// This class is used as the main entry point for all clients. From the instances of this class any other client can be used.
-  NotionClient(
-      {required String token,
-      String version: latestVersion,
-      String dateVersion: latestDateVersion})
-      : this.pages = NotionPagesClient(
+  NotionClient({
+    required String token,
+    String version: latestVersion,
+    String dateVersion: latestDateVersion,
+  })  : this.pages = NotionPagesClient(
             token: token, version: version, dateVersion: dateVersion),
         this.databases = NotionDatabasesClient(
             token: token, version: version, dateVersion: dateVersion),

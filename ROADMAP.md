@@ -8,9 +8,19 @@
   * `BulletedList` block
   * `NumberedList` block
   * `Toggle` block
-* Add singleton
+* Add `Children.with(List<Block> blocks)` constructor
+* Add singleton (_if possible_)
+* Add `final` for override types to not allow change the field:
+    * Objects
+    * Blocks
 
-## v1.0.1:
+## v1.0.2: ✅
+> Release date: 05/Jul/2021
+* Fix warnings for documentation
+* Improve documentation
+* Add contribution rules
+
+## v1.0.1: ✅
 > Release date: 04/Jul/2021
 * Fix Notion-Version header missing
 

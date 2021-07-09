@@ -14,7 +14,9 @@ class NotionPagesClient {
   /// The API version.
   String _v;
 
-  /// Notion versioning. For reference, see: [Notion versioning](https://developers.notion.com/reference/versioning)
+  /// The API date version.
+  ///
+  /// It's not the same as the API version.
   String _dateVersion;
 
   /// The path of the requests group.
@@ -23,11 +25,11 @@ class NotionPagesClient {
   /// Main Notion page client constructor.
   ///
   /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
-  NotionPagesClient(
-      {required String token,
-      String version: latestVersion,
-      String dateVersion: latestDateVersion})
-      : this._token = token,
+  NotionPagesClient({
+    required String token,
+    String version: latestVersion,
+    String dateVersion: latestDateVersion,
+  })  : this._token = token,
         this._v = version,
         this._dateVersion = latestDateVersion;
 

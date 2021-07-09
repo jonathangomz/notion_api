@@ -14,20 +14,22 @@ class NotionBlockClient {
   /// The API version.
   String _v;
 
+  /// The API date version.
+  ///
+  /// It's not the same as the API version.
+  String _dateVersion;
+
   /// The path of the requests group.
   String _path = 'blocks';
-
-  /// Notion versioning. For reference, see: [Notion versioning](https://developers.notion.com/reference/versioning)
-  String _dateVersion;
 
   /// Main Notion block client constructor.
   ///
   /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
-  NotionBlockClient(
-      {required String token,
-      String version: latestVersion,
-      String dateVersion: latestDateVersion})
-      : this._token = token,
+  NotionBlockClient({
+    required String token,
+    String version: latestVersion,
+    String dateVersion: latestDateVersion,
+  })  : this._token = token,
         this._v = version,
         this._dateVersion = dateVersion;
 

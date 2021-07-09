@@ -161,21 +161,39 @@ notion.blocks.append(
 #### To do
 ##### Code
 ```dart
-Children children = 
-  Children(
-    toDo: [
-      ToDo(text: Text('This is a todo item A')),
-      ToDo(
-        texts: [
-          Text('This is a todo item'),
-          Text(
-            'B',
-            annotations: TextAnnotations(bold: true),
-          ),
-        ],
-      ),
-    ],
-  );
+// Create children instance:
+// * Old way
+// Children children = 
+//   Children(
+//     toDo: [
+//       ToDo(text: Text('This is a todo item A')),
+//       ToDo(
+//         texts: [
+//           Text('This is a todo item'),
+//           Text(
+//             'B',
+//             annotations: TextAnnotations(bold: true),
+//           ),
+//         ],
+//       ),
+//     ],
+//   );
+//
+// * New way
+Children children =
+  Children().addAll([
+    ToDo(text: Text('This is a todo item A')),
+    ToDo(
+      texts: [
+        Text('This is a todo item'),
+        Text(
+          'B',
+          annotations: TextAnnotations(bold: true),
+        ),
+      ],
+    ),
+  ],
+);
 
 // Send the instance to Notion
 notion.blocks.append(
