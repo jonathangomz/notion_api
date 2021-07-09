@@ -1,18 +1,35 @@
 # Roadmap
 
 ## More coming soon...
+I don't know yet. If you have suggestions feel free to create an Issue or to create a PR with the feature.
 
-## v1.1.0:
+## v1.1.0: ✅
 > Release date: 10/Jul/2021
-* Add more blocks for `(PATCH): block children` endpoint
-  * `BulletedList` block
-  * `NumberedList` block
+* Add more blocks support for `(PATCH): block children` endpoint
+  * `BulletedListItem` block
+  * `NumberedListItem` block
   * `Toggle` block
-* Add `Children.with(List<Block> blocks)` constructor
-* Add singleton (_if possible_)
-* Add `final` for override types to not allow change the field:
-    * Objects
-    * Blocks
+* Add `children` field for blocks:
+  * `BulletedListItem`
+  * `NumberedListItem`
+  * `ToDo`
+  * `Toggle`
+  * `Paragraph`
+* Add methods to manipulate `content` and `children` for blocks:
+  * `addText(String text, {TextAnnotations? annotations})`
+  * `addChild(Block block)`
+  * `addChildren(List<Block> blocks)`
+* Add `Children.withBlocks(List<Block> blocks)` constructor
+* Add `final` for `type` fields to not allow overwrite:
+  * Objects
+  * Blocks
+* Add `BaseClient` class to avoid duplicated code for clients
+* Add `deprecated` annotations for future changes:
+  * Remove `textSeparation` parameter/field
+  * Remove `add(Text text)` function
+  * Remove `texts` getter for `Paragraph`
+  * Remove named parameters for `Children` class
+* Update documentation
 
 ## v1.0.2: ✅
 > Release date: 05/Jul/2021
