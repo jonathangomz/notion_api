@@ -11,13 +11,11 @@
 - [Block children](#block-children)
   - [Retrieve block children](#retrieve-block-children)
   - [Append block children](#append-block-children)
-    - [Example](#example)
-      - [Heading & Paragraph](#heading--paragraph)
-        - [Code](#code)
-        - [Result](#result)
-      - [To do](#to-do)
-        - [Code](#code-1)
-        - [Result](#result-1)
+    - [Heading & Paragraph](#heading--paragraph)
+    - [To do](#to-do)
+    - [Toggle](#toggle)
+    - [Bulleted List Item](#bulleted-list-item)
+    - [Numbered List Item](#numbered-list-item)
 
 # Initialization
 ## Full instance
@@ -99,12 +97,11 @@ _Parameters:_
   - The `Paragraph` object can contain only `Text` objects.
   - `Text` can receive a `TextAnnotations` class with the style of the text.
 
-### Example
-#### Heading & Paragraph
-##### Code
+### Heading & Paragraph
+**Code**
 ```dart
 // Create children instance:
-// * Old way
+// * Deprecated way
 // Children oldWay = Children(
 //  heading: Heading('Test'),
 //  paragraph: Paragraph(
@@ -127,13 +124,17 @@ Children childrenA = Children().addAll([
   Heading(text: Text('Test')),
   Paragraph(texts: [
     Text('Lorem ipsum (A)'),
-    Text('Lorem ipsum (B)',
-        annotations: TextAnnotations(
-          bold: true,
-          underline: true,
-          color: ColorsTypes.Orange,
-        ))
-  ])
+    Text(
+      'Lorem ipsum (B)',
+      annotations: TextAnnotations(
+        bold: true,
+        underline: true,
+        color: ColorsTypes.Orange,
+      ),
+    ),
+  ], children: [
+    Heading(text: Text('Subtitle'), type: 3),
+  ]),
 ]);
 
 // * New way using single `add()`
@@ -141,28 +142,51 @@ Children childrenB =
   Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
     Text('Lorem ipsum (A)'),
     Text('Lorem ipsum (B)',
-        annotations: TextAnnotations(
-          bold: true,
-          underline: true,
-          color: ColorsTypes.Orange,
-        ))
-  ]));
+      annotations: TextAnnotations(
+        bold: true,
+        underline: true,
+        color: ColorsTypes.Orange,
+      ),
+    ),
+  ], children: [
+    Heading(text: Text('Subtitle'), type: 3),
+  ],
+));
+
+// * New way using `withBlocks()` constructor
+Children childrenC = Children.withBlocks([
+  Heading(text: Text('Test')),
+  Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text(
+      'Lorem ipsum (B)',
+      annotations: TextAnnotations(
+        bold: true,
+        underline: true,
+        color: ColorsTypes.Orange,
+      ),
+    ),
+  ], children: [
+    Heading(text: Text('Subtitle'), type: 3),
+  ]),
+]);
 
 // Send the instance to Notion
 notion.blocks.append(
   to: 'YOUR_BLOCK_ID',
-  children: childrenB, // or `childrenA`, both are the same.
+  children: childrenA, // or `childrenB` or `childrenC`, any of these will produce the same result.
 );
 ```
 
-##### Result
-![heading&paragraph](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/heading_paragraph.png)
+**Result**
 
-#### To do
-##### Code
+![heading&paragraph](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/headingAndParagraph.png)
+
+### To do
+**Code**
 ```dart
 // Create children instance:
-// * Old way
+// * Deprecated way
 // Children children = 
 //   Children(
 //     toDo: [
@@ -181,7 +205,7 @@ notion.blocks.append(
 //
 // * New way
 Children children =
-  Children().addAll([
+  Children.withBlocks([
     ToDo(text: Text('This is a todo item A')),
     ToDo(
       texts: [
@@ -190,6 +214,42 @@ Children children =
           'B',
           annotations: TextAnnotations(bold: true),
         ),
+      ],
+    ),
+    ToDo(text: Text('Todo item with children'), children: [
+      BulletedListItem(text: Text('A')),
+      BulletedListItem(text: Text('B')),
+    ]),
+  ],
+);
+
+// Send the instance to Notion
+notion.blocks.append(
+  to: 'YOUR_BLOCK_ID',
+  children: children,
+);
+```
+
+**Result**
+![todo](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/todo.png)
+
+### Toggle
+**Code**
+```dart
+Children children =
+  Children.withBlocks([
+    Toggle(
+      text: Text('This is a toggle block'),
+      children: [
+        Paragraph(
+          texts: [
+            Text(
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis dolor sed ex egestas, et vehicula tellus faucibus. Sed pellentesque tellus eget imperdiet vulputate.')
+          ],
+        ),
+        BulletedListItem(text: Text('A')),
+        BulletedListItem(text: Text('B')),
+        BulletedListItem(text: Text('B')),
       ],
     ),
   ],
@@ -201,8 +261,65 @@ notion.blocks.append(
   children: children,
 );
 ```
+**Result**
+![toggle](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/toggle.png)
 
-##### Result
-![todo](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/todo.png)
+### Bulleted List Item
+**Code**
+```dart
+Children children =
+  Children.withBlocks([
+    BulletedListItem(text: Text('This is a bulleted list item A')),
+    BulletedListItem(text: Text('This is a bulleted list item B')),
+    BulletedListItem(
+      text: Text('This is a bulleted list item with children'),
+      children: [
+        Paragraph(texts: [
+          Text('A'),
+          Text('B'),
+          Text('C'),
+        ])
+      ],
+    ),
+  ],
+);
+
+// Send the instance to Notion
+notion.blocks.append(
+  to: 'YOUR_BLOCK_ID',
+  children: children,
+);
+```
+**Result**
+![bulletedListItem](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/bulletedListItem.png)
+
+### Numbered List Item
+**Code**
+```dart
+Children children =
+  Children.withBlocks([
+    NumberedListItem(text: Text('This is a numbered list item A')),
+    NumberedListItem(text: Text('This is a numbered list item B')),
+    NumberedListItem(
+      text: Text('This is a bulleted list item with children'),
+      children: [
+        Paragraph(texts: [
+          Text('A'),
+          Text('B'),
+          Text('C'),
+        ])
+      ],
+    ),
+  ],
+);
+
+// Send the instance to Notion
+notion.blocks.append(
+  to: 'YOUR_BLOCK_ID',
+  children: children,
+);
+```
+**Result**
+![numberedListItem](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/numberedListItem.png)
 
 [1]: https://developers.notion.com/reference/get-databases
