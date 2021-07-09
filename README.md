@@ -97,6 +97,7 @@ To be able to run the tests you will have to have a `.env` file on the root dire
 * TEST_DATABASE_ID: The database id where you will be working on.
 * TEST_PAGE_ID: Some page id inside the database specified above.
 * TEST_BLOCK_ID: Some block id inside the page specified above.
+* TEST_BLOCK_HEADING_ID: Some heading block id inside the page specified above.
 
 ### Example:
 _The values are not valid of course._
@@ -105,6 +106,7 @@ TOKEN=secret_Oa24V8FbJ49JluJankVOQihyLiMXwqSQeeHuSFobQDW
 TEST_DATABASE_ID=366da3d646bb458128071fdb2fbbf427
 TEST_PAGE_ID=c3b53019-4470-443b-a141-95a3a1a44g60
 TEST_BLOCK_ID=c8hac4bb32af48889228bf483d938e34
+TEST_BLOCK_HEADING_ID=c8hac4bb32af48889228bf483d938e34
 ```
 
 # Next release
