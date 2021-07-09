@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 void main() {
   group('NumberedListItem tests =>', () {
     test('Create an empty instance', () {
-      NumberedItem block = NumberedItem();
+      NumberedListItem block = NumberedListItem();
 
       expect(block, isNotNull);
       expect(block.strType, blockTypeToString(BlockTypes.NumberedListItem));
@@ -18,7 +18,7 @@ void main() {
     });
 
     test('Create an instance with information', () {
-      NumberedItem block = NumberedItem(text: Text('A')).addText('B');
+      NumberedListItem block = NumberedListItem(text: Text('A')).addText('B');
 
       expect(block.content.length, 2);
       expect(block.content.first.text, 'A');
@@ -26,7 +26,7 @@ void main() {
     });
 
     test('Create an instance with mixed information', () {
-      NumberedItem block = NumberedItem(
+      NumberedListItem block = NumberedListItem(
         text: Text('first'),
         texts: [
           Text('foo'),
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('Create json from instance', () {
-      Map<String, dynamic> json = NumberedItem(text: Text('A'))
+      Map<String, dynamic> json = NumberedListItem(text: Text('A'))
           .addChild(Paragraph(texts: [
             Text('A'),
             Text('B'),
@@ -66,7 +66,7 @@ void main() {
     });
 
     test('Create json from empty instance', () {
-      Map<String, dynamic> json = NumberedItem().toJson();
+      Map<String, dynamic> json = NumberedListItem().toJson();
 
       expect(
           json['type'],

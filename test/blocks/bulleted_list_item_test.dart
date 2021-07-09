@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 void main() {
   group('BulletedListItem tests =>', () {
     test('Create an empty instance', () {
-      BulletedItem block = BulletedItem();
+      BulletedListItem block = BulletedListItem();
 
       expect(block, isNotNull);
       expect(block.strType, blockTypeToString(BlockTypes.BulletedListItem));
@@ -19,7 +19,7 @@ void main() {
     });
 
     test('Create an instance with information', () {
-      BulletedItem block = BulletedItem(text: Text('A')).addText('B');
+      BulletedListItem block = BulletedListItem(text: Text('A')).addText('B');
 
       expect(block.content.length, 2);
       expect(block.content.first.text, 'A');
@@ -27,7 +27,7 @@ void main() {
     });
 
     test('Create an instance with mixed information', () {
-      BulletedItem block = BulletedItem(
+      BulletedListItem block = BulletedListItem(
         text: Text('first'),
         texts: [
           Text('foo'),
@@ -45,7 +45,7 @@ void main() {
     });
 
     test('Create json from instance', () {
-      Map<String, dynamic> json = BulletedItem(text: Text('A'))
+      Map<String, dynamic> json = BulletedListItem(text: Text('A'))
           .addChild(Paragraph(texts: [
             Text('A'),
             Text('B'),
@@ -67,7 +67,7 @@ void main() {
     });
 
     test('Create json from empty instance', () {
-      Map<String, dynamic> json = BulletedItem().toJson();
+      Map<String, dynamic> json = BulletedListItem().toJson();
 
       expect(
           json['type'],

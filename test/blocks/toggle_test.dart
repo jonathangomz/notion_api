@@ -26,8 +26,8 @@ void main() {
           .addChild(
               Paragraph(text: Text('This is a child of the toggle item.')))
           .addChildren([
-        BulletedItem(text: Text('First bulleted item')),
-        NumberedItem(text: Text('First numbered item')),
+        BulletedListItem(text: Text('First bulleted item')),
+        NumberedListItem(text: Text('First numbered item')),
       ]);
 
       expect(block.content.length, 2);
@@ -48,8 +48,8 @@ void main() {
           .addChild(
               Paragraph(text: Text('This is a child of the toggle item.')))
           .addChildren([
-        BulletedItem(text: Text('First bulleted item')),
-        NumberedItem(text: Text('First numbered item')),
+        BulletedListItem(text: Text('First bulleted item')),
+        NumberedListItem(text: Text('First numbered item')),
       ]);
 
       expect(block.content.length, 4);
@@ -60,8 +60,8 @@ void main() {
 
     test('Create json from instance', () {
       Map<String, dynamic> json = Toggle(text: Text('A'), children: [
-        BulletedItem(text: Text('First bulleted item')),
-        NumberedItem(text: Text('First numbered item')),
+        BulletedListItem(text: Text('First bulleted item')),
+        NumberedListItem(text: Text('First numbered item')),
       ]).toJson();
 
       expect(json['type'],

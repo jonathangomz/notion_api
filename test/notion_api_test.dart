@@ -202,8 +202,8 @@ void main() {
             ],
           ),
           ToDo(text: Text('Todo item with children'), children: [
-            BulletedItem(text: Text('A')),
-            BulletedItem(text: Text('B')),
+            BulletedListItem(text: Text('A')),
+            BulletedListItem(text: Text('B')),
           ])
         ]),
       );
@@ -219,9 +219,9 @@ void main() {
         to: testBlockId as String,
         children: Children.withBlocks(
           [
-            BulletedItem(text: Text('This is a bulleted list item A')),
-            BulletedItem(text: Text('This is a bulleted list item B')),
-            BulletedItem(
+            BulletedListItem(text: Text('This is a bulleted list item A')),
+            BulletedListItem(text: Text('This is a bulleted list item B')),
+            BulletedListItem(
               text: Text('This is a bulleted list item with children'),
               children: [
                 Paragraph(texts: [
@@ -246,9 +246,9 @@ void main() {
         to: testBlockId as String,
         children: Children.withBlocks(
           [
-            NumberedItem(text: Text('This is a numbered list item A')),
-            NumberedItem(text: Text('This is a numbered list item B')),
-            NumberedItem(
+            NumberedListItem(text: Text('This is a numbered list item A')),
+            NumberedListItem(text: Text('This is a numbered list item B')),
+            NumberedListItem(
               text: Text('This is a bulleted list item with children'),
               children: [
                 Paragraph(texts: [
@@ -282,9 +282,9 @@ void main() {
                         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis dolor sed ex egestas, et vehicula tellus faucibus. Sed pellentesque tellus eget imperdiet vulputate.')
                   ],
                 ),
-                BulletedItem(text: Text('A')),
-                BulletedItem(text: Text('B')),
-                BulletedItem(text: Text('B')),
+                BulletedListItem(text: Text('A')),
+                BulletedListItem(text: Text('B')),
+                BulletedListItem(text: Text('B')),
               ],
             ),
           ],

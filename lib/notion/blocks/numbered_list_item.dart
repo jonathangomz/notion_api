@@ -3,7 +3,7 @@ import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 
 /// A representation of the Bulleted List Item Notion block object;
-class NumberedItem extends Block {
+class NumberedListItem extends Block {
   /// The block type. Always NumberedListItem.
   @override
   final BlockTypes type = BlockTypes.NumberedListItem;
@@ -20,7 +20,7 @@ class NumberedItem extends Block {
   /// Main numbered list item constructor.
   ///
   /// Can receive a single [text] or a list of [texts]. If both are included also both fields are added to the heading content adding first the [text] field. Also can receive the [children] of the block.
-  NumberedItem({
+  NumberedListItem({
     Text? text,
     List<Text> texts: const [],
     List<Block> children: const [],
@@ -33,19 +33,19 @@ class NumberedItem extends Block {
   }
 
   /// Add a [text] to the rich text array and returns this instance. Also can receive the [annotations] of the text.
-  NumberedItem addText(String text, {TextAnnotations? annotations}) {
+  NumberedListItem addText(String text, {TextAnnotations? annotations}) {
     this._content.add(Text(text, annotations: annotations));
     return this;
   }
 
   /// Add a new [block] to the children and returns this instance.
-  NumberedItem addChild(Block block) {
+  NumberedListItem addChild(Block block) {
     this._children.add(block);
     return this;
   }
 
   /// Add a list of [blocks] to the children and returns this instance.
-  NumberedItem addChildren(List<Block> blocks) {
+  NumberedListItem addChildren(List<Block> blocks) {
     this._children.addAll(blocks);
     return this;
   }
