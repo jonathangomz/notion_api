@@ -147,7 +147,9 @@ void main() {
 
       Page pageWithChildren = Page(
           parent: parent,
-          children: Children(heading: Heading(text: Text('A'))));
+          children: Children.withBlocks([
+            Heading(text: Text('A')),
+          ]));
       Page pageWithoutChildren = Page(parent: parent);
 
       Map<String, dynamic> jsonWithChildren = pageWithChildren.toJson();

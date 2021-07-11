@@ -2,6 +2,8 @@ import 'dart:io' show Platform;
 
 import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'package:notion_api/notion.dart';
+import 'package:notion_api/notion/blocks/paragraph.dart';
+import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
@@ -17,6 +19,7 @@ void main() {
   String? testDatabaseId = Platform.environment['TEST_DATABASE_ID'];
   String? testPageId = Platform.environment['TEST_PAGE_ID'];
   String? testBlockId = Platform.environment['TEST_BLOCK_ID'];
+  String? testBlockHeadingId = Platform.environment['TEST_BLOCK_HEADING_ID'];
 
   String execEnv = env['EXEC_ENV'] ?? Platform.environment['EXEC_ENV'] ?? '';
   if (execEnv != 'github_actions') {
@@ -27,6 +30,8 @@ void main() {
       testDatabaseId = env['TEST_DATABASE_ID'] ?? testDatabaseId ?? '';
       testPageId = env['TEST_PAGE_ID'] ?? testPageId ?? '';
       testBlockId = env['TEST_BLOCK_ID'] ?? testBlockId ?? '';
+      testBlockHeadingId =
+          env['TEST_BLOCK_HEADING_ID'] ?? testBlockHeadingId ?? '';
     });
 
     tearDownAll(() {
@@ -53,6 +58,29 @@ void main() {
       expect(res.isError, true);
       expect(res.status, 401);
       expect(res.code, 'unauthorized');
+    });
+
+    test('Invalid field (children) for block', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      // Heading block do not support children
+      var res = await blocks.append(
+        to: testBlockHeadingId ?? '',
+        children: Children.withBlocks(
+          [
+            Paragraph(
+              texts: [
+                Text('A'),
+                Text('B'),
+              ],
+            )
+          ],
+        ),
+      );
+
+      expect(res.status, 400);
+      expect(res.isError, true);
+      expect(res.code, 'validation_error');
     });
 
     test('Invalid property', () async {

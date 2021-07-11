@@ -28,9 +28,9 @@ String blockTypeToString(BlockTypes type) {
       return 'heading_3';
     case BlockTypes.Paragraph:
       return 'paragraph';
-    case BlockTypes.BulletedList:
+    case BlockTypes.BulletedListItem:
       return 'bulleted_list_item';
-    case BlockTypes.NumberedList:
+    case BlockTypes.NumberedListItem:
       return 'numbered_list_item';
     case BlockTypes.Toggle:
       return 'toggle';
@@ -53,9 +53,9 @@ BlockTypes stringToBlockType(String type) {
     case 'paragraph':
       return BlockTypes.Paragraph;
     case 'bulleted_list_item':
-      return BlockTypes.BulletedList;
+      return BlockTypes.BulletedListItem;
     case 'numbered_list_item':
-      return BlockTypes.NumberedList;
+      return BlockTypes.NumberedListItem;
     case 'toogle':
       return BlockTypes.Toggle;
     case 'to_do':

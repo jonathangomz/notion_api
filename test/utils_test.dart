@@ -151,8 +151,8 @@ void main() {
   group('(Types to String) || (String to Type tests) =>', () {
     test('Block types', () {
       String strParagraph = blockTypeToString(BlockTypes.Paragraph);
-      String strBulleted = blockTypeToString(BlockTypes.BulletedList);
-      String strNumbered = blockTypeToString(BlockTypes.NumberedList);
+      String strBulleted = blockTypeToString(BlockTypes.BulletedListItem);
+      String strNumbered = blockTypeToString(BlockTypes.NumberedListItem);
       String strToogle = blockTypeToString(BlockTypes.Toggle);
       String strChild = blockTypeToString(BlockTypes.Child);
 

@@ -19,11 +19,13 @@ class Children {
 
   /// Main children constructor.
   ///
+  /// _Parameters deprecated:_ Do not use the parameters, soon will be removed.
+  ///
   /// Can receive a single [heading], a single [paragraph], and a list of [toDo] blocks. If all three are included then the three fields are added to the blocks list adding first the [heading] field, then the [paragraph], and the list of [toDo] at the end.
   Children({
-    Heading? heading,
-    Paragraph? paragraph,
-    List<ToDo>? toDo,
+    @deprecated Heading? heading,
+    @deprecated Paragraph? paragraph,
+    @deprecated List<ToDo>? toDo,
   }) {
     if (heading != null) {
       _blocks.add(heading);
@@ -36,14 +38,20 @@ class Children {
     }
   }
 
+  /// Constructor that initialize a Children instance with a list of blocks.
+  ///
+  /// Receive a list of blocks and avoid create first the Children instance and then add the blocks.
+  Children.withBlocks(List<Block> blocks) {
+    this._blocks.addAll(blocks);
+  }
+
   /// Map a new children instance from a [json] blocks list.
   ///
   /// The blocks with the block type None are excluded because that type represent blocks than can't be mapped as a knowing Notion block type.
   factory Children.fromJson(List<dynamic> json) {
-    Children children = Children();
-    children._blocks = Block.fromListJson(json);
-    children._blocks = children.filterBlocks(exclude: [BlockTypes.None]);
-    return children;
+    List<Block> blocks = Block.fromListJson(json);
+    blocks.removeWhere((block) => block.type == BlockTypes.None);
+    return Children.withBlocks(blocks);
   }
 
   /// Add a new [block] to the list of blocks and returns this instance.

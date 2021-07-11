@@ -1,26 +1,17 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:notion_api/base_client.dart';
 
 import 'notion/objects/pages.dart';
 import 'responses/notion_response.dart';
 import 'statics.dart';
 
 /// A client for Notion API pages requests.
-class NotionPagesClient {
-  /// The API integration secret token.
-  String _token;
-
-  /// The API version.
-  String _v;
-
-  /// The API date version.
-  ///
-  /// It's not the same as the API version.
-  String _dateVersion;
-
+class NotionPagesClient extends BaseClient {
   /// The path of the requests group.
-  String _path = 'pages';
+  @override
+  final String path = 'pages';
 
   /// Main Notion page client constructor.
   ///
@@ -29,16 +20,14 @@ class NotionPagesClient {
     required String token,
     String version: latestVersion,
     String dateVersion: latestDateVersion,
-  })  : this._token = token,
-        this._v = version,
-        this._dateVersion = latestDateVersion;
+  }) : super(token: token, version: version, dateVersion: dateVersion);
 
   /// Retrieve the page with [id].
   Future<NotionResponse> fetch(String id) async {
     http.Response res =
-        await http.get(Uri.https(host, '/$_v/$_path/$id'), headers: {
-      'Authorization': 'Bearer $_token',
-      'Notion-Version': _dateVersion,
+        await http.get(Uri.https(host, '/$v/$path/$id'), headers: {
+      'Authorization': 'Bearer $token',
+      'Notion-Version': dateVersion,
     });
 
     return NotionResponse.fromResponse(res);
@@ -46,12 +35,12 @@ class NotionPagesClient {
 
   /// Create a new [page].
   Future<NotionResponse> create(Page page) async {
-    http.Response res = await http.post(Uri.https(host, '/$_v/$_path'),
+    http.Response res = await http.post(Uri.https(host, '/$v/$path'),
         body: jsonEncode(page.toJson()),
         headers: {
-          'Authorization': 'Bearer $_token',
+          'Authorization': 'Bearer $token',
           'Content-Type': 'application/json; charset=UTF-8',
-          'Notion-Version': _dateVersion,
+          'Notion-Version': dateVersion,
         });
 
     return NotionResponse.fromResponse(res);

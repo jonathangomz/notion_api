@@ -29,6 +29,8 @@ class Text {
 
   /// Convert this to a json representation valid for the Notion API.
   ///
+  ///_Deprecated:_ [textSeparator] will be removed and the separation will be by your own. This because that's the same way that `Text` & `RichText` works on Flutter. In this way you can add annotations for a part of a word instead of only full words or phrases.
+  ///
   /// If a [textSeparator] is given, then it's value (by default a space) is append
   /// at the end of the string to allow be at the same level of other Text objects without
   /// being all together. For example:
@@ -55,7 +57,8 @@ class Text {
   ///     textSeparator: '-')));
   /// // append => "A-B-"
   /// ```
-  Map<String, dynamic> toJson({String textSeparator: ''}) {
+  Map<String, dynamic> toJson(
+      {@Deprecated('Will not have replacement') String textSeparator: ''}) {
     Map<String, dynamic> json = {
       'type': _type,
       'text': {

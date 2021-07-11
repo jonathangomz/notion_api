@@ -33,7 +33,7 @@ void main() {
     });
 
     test('Create an instance with information', () {
-      Heading heading = Heading(text: Text('A')).add(Text('B'));
+      Heading heading = Heading(text: Text('A')).addText('B');
 
       expect(heading.content.length, 2);
       expect(heading.content.first.text, 'A');
@@ -43,7 +43,7 @@ void main() {
     test('Create an instance with mixed information', () {
       Heading heading =
           Heading(text: Text('first'), texts: [Text('foo'), Text('bar')])
-              .add(Text('last'));
+              .addText('last');
 
       expect(heading.content.length, 4);
       expect(heading.content.first.text, 'first');

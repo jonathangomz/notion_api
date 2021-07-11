@@ -1,9 +1,13 @@
+import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:dotenv/dotenv.dart' show load, env, clean;
+import 'package:notion_api/notion/blocks/bulleted_list_item.dart';
 import 'package:notion_api/notion/blocks/heading.dart';
+import 'package:notion_api/notion/blocks/numbered_list_item.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
+import 'package:notion_api/notion/blocks/toggle.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:notion_api/notion/objects/pages.dart';
@@ -159,21 +163,22 @@ void main() {
 
       NotionResponse res = await blocks.append(
         to: testBlockId as String,
-        children: Children().add(Heading(text: Text('Test'))).add(
-              Paragraph(
-                texts: [
-                  Text('Lorem ipsum (A)'),
-                  Text(
-                    'Lorem ipsum (B)',
-                    annotations: TextAnnotations(
-                      bold: true,
-                      underline: true,
-                      color: ColorsTypes.Orange,
-                    ),
-                  ),
-                ],
+        children: Children.withBlocks([
+          Heading(text: Text('Test')),
+          Paragraph(texts: [
+            Text('Lorem ipsum (A)'),
+            Text(
+              'Lorem ipsum (B)',
+              annotations: TextAnnotations(
+                bold: true,
+                underline: true,
+                color: ColorsTypes.Orange,
               ),
             ),
+          ], children: [
+            Heading(text: Text('Subtitle'), type: 3),
+          ]),
+        ]),
       );
 
       expect(res.status, 200);
@@ -185,16 +190,101 @@ void main() {
 
       NotionResponse res = await blocks.append(
         to: testBlockId as String,
-        children: Children().addAll(
+        children: Children.withBlocks([
+          ToDo(text: Text('This is a todo item A')),
+          ToDo(
+            texts: [
+              Text('This is a todo item'),
+              Text(
+                'B',
+                annotations: TextAnnotations(bold: true),
+              ),
+            ],
+          ),
+          ToDo(text: Text('Todo item with children'), children: [
+            BulletedListItem(text: Text('A')),
+            BulletedListItem(text: Text('B')),
+          ])
+        ]),
+      );
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
+    test('Append bulleted list item block', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      NotionResponse res = await blocks.append(
+        to: testBlockId as String,
+        children: Children.withBlocks(
           [
-            ToDo(text: Text('This is a todo item A')),
-            ToDo(
-              texts: [
-                Text('This is a todo item'),
-                Text(
-                  'B',
-                  annotations: TextAnnotations(bold: true),
+            BulletedListItem(text: Text('This is a bulleted list item A')),
+            BulletedListItem(text: Text('This is a bulleted list item B')),
+            BulletedListItem(
+              text: Text('This is a bulleted list item with children'),
+              children: [
+                Paragraph(texts: [
+                  Text('A'),
+                  Text('B'),
+                  Text('C'),
+                ])
+              ],
+            ),
+          ],
+        ),
+      );
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
+    test('Append numbered list item block', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      NotionResponse res = await blocks.append(
+        to: testBlockId as String,
+        children: Children.withBlocks(
+          [
+            NumberedListItem(text: Text('This is a numbered list item A')),
+            NumberedListItem(text: Text('This is a numbered list item B')),
+            NumberedListItem(
+              text: Text('This is a bulleted list item with children'),
+              children: [
+                Paragraph(texts: [
+                  Text('A'),
+                  Text('B'),
+                  Text('C'),
+                ])
+              ],
+            ),
+          ],
+        ),
+      );
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
+    test('Append toggle block', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+
+      NotionResponse res = await blocks.append(
+        to: testBlockId as String,
+        children: Children.withBlocks(
+          [
+            Toggle(
+              text: Text('This is a toggle block'),
+              children: [
+                Paragraph(
+                  texts: [
+                    Text(
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas venenatis dolor sed ex egestas, et vehicula tellus faucibus. Sed pellentesque tellus eget imperdiet vulputate.')
+                  ],
                 ),
+                BulletedListItem(text: Text('A')),
+                BulletedListItem(text: Text('B')),
+                BulletedListItem(text: Text('B')),
               ],
             ),
           ],
