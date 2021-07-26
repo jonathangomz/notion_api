@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:notion_api/base_client.dart';
+import 'package:notion_api/notion/general/lists/properties.dart';
 
 import 'notion/objects/pages.dart';
 import 'responses/notion_response.dart';
@@ -40,6 +41,31 @@ class NotionPagesClient extends BaseClient {
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json; charset=UTF-8',
+          'Notion-Version': dateVersion,
+        });
+
+    return NotionResponse.fromResponse(res);
+  }
+
+  /// Archive a page with an specified [id].
+  Future<NotionResponse> update(
+    String id, {
+    Properties? properties,
+    bool? archived,
+  }) async {
+    Properties _properties = properties ?? Properties.empty();
+    print(jsonEncode({
+      'properties': _properties.toJson(),
+      if (archived != null) 'archived': archived,
+    }));
+    http.Response res = await http.patch(Uri.https(host, '/$v/$path/$id'),
+        body: jsonEncode({
+          'properties': _properties.toJson(),
+          'archived': archived,
+        }),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
           'Notion-Version': dateVersion,
         });
 

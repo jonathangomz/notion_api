@@ -77,6 +77,15 @@ void main() {
 
       expect(res.status, 200);
     });
+
+    test('Update a page (archived)', () async {
+      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+
+      var res = await pages.update('15db928d5d2a43ada59e3136663d41f6',
+          archived: true);
+
+      expect(res.status, 200);
+    });
   });
 
   group('Notion Databases Client', () {
