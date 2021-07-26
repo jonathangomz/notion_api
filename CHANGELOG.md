@@ -1,7 +1,6 @@
 # Changelog
 ## v0.0.1-prealpha1
 > Release date: 20/May/2021
-
 * First version
 * Add `page` requests parameters models
 * Add notion api endpoints: `pages`
@@ -106,3 +105,13 @@
   * Remove `texts` getter for `Paragraph`
   * Remove named parameters for `Children` class
 * Update documentation
+
+## v1.2.0:
+> Release date: 30/Jul/2021
+* Add more colors for Text
+* Improve coverage
+* Add list of endpoints implemented on package
+* Add archive page
+  * https://developers.notion.com/reference/patch-page#archive-delete-a-page
+* Add create database endpoint
+  * https://developers.notion.com/reference/create-a-database

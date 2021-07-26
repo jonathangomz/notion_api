@@ -3,6 +3,16 @@
 ## More coming soon...
 I don't know yet. If you have suggestions feel free to create an Issue or to create a PR with the feature.
 
+## v1.2.0: ✅
+> Release date: 30/Jul/2021
+* Add more colors for Text
+* Improve coverage
+* Add list of endpoints implemented on package
+* Add archive page
+  * https://developers.notion.com/reference/patch-page#archive-delete-a-page
+* Add create database endpoint
+  * https://developers.notion.com/reference/create-a-database
+
 ## v1.1.0: ✅
 > Release date: 10/Jul/2021
 * Add more blocks support for `(PATCH): block children` endpoint
