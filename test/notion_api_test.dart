@@ -268,6 +268,64 @@ void main() {
       expect(res.isOk, true);
     });
 
+    test('Colors', () async {
+      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      NotionResponse res = await blocks.append(
+        to: testBlockId as String,
+        children: Children.withBlocks(
+          [
+            Paragraph(
+              texts: [
+                Text(
+                  'gray',
+                  annotations: TextAnnotations(color: ColorsTypes.Gray),
+                ),
+                Text(
+                  'brown',
+                  annotations: TextAnnotations(color: ColorsTypes.Brown),
+                ),
+                Text(
+                  'orange',
+                  annotations: TextAnnotations(color: ColorsTypes.Orange),
+                ),
+                Text(
+                  'yellow',
+                  annotations: TextAnnotations(color: ColorsTypes.Yellow),
+                ),
+                Text(
+                  'green',
+                  annotations: TextAnnotations(color: ColorsTypes.Green),
+                ),
+                Text(
+                  'blue',
+                  annotations: TextAnnotations(color: ColorsTypes.Blue),
+                ),
+                Text(
+                  'purple',
+                  annotations: TextAnnotations(color: ColorsTypes.Purple),
+                ),
+                Text(
+                  'pink',
+                  annotations: TextAnnotations(color: ColorsTypes.Pink),
+                ),
+                Text(
+                  'red',
+                  annotations: TextAnnotations(color: ColorsTypes.Red),
+                ),
+                Text(
+                  'default',
+                  annotations: TextAnnotations(color: ColorsTypes.Default),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
     test('Append numbered list item block', () async {
       final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
 
@@ -281,9 +339,14 @@ void main() {
               text: Text('This is a bulleted list item with children'),
               children: [
                 Paragraph(texts: [
-                  Text('A'),
-                  Text('B'),
-                  Text('C'),
+                  Text(
+                    'This paragraph start with color gray ',
+                    annotations: TextAnnotations(color: ColorsTypes.Gray),
+                  ),
+                  Text(
+                    'and end with brown',
+                    annotations: TextAnnotations(color: ColorsTypes.Brown),
+                  ),
                 ])
               ],
             ),

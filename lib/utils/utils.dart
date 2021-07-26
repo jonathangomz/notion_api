@@ -81,6 +81,16 @@ String colorTypeToString(ColorsTypes color) {
       return 'orange';
     case ColorsTypes.Yellow:
       return 'yellow';
+    case ColorsTypes.Green:
+      return 'green';
+    case ColorsTypes.Blue:
+      return 'blue';
+    case ColorsTypes.Purple:
+      return 'purple';
+    case ColorsTypes.Pink:
+      return 'pink';
+    case ColorsTypes.Red:
+      return 'red';
     case ColorsTypes.Default:
       return 'default';
   }
@@ -97,7 +107,16 @@ ColorsTypes stringToColorType(String color) {
       return ColorsTypes.Orange;
     case 'yellow':
       return ColorsTypes.Yellow;
-    case 'default':
+    case 'green':
+      return ColorsTypes.Green;
+    case 'blue':
+      return ColorsTypes.Blue;
+    case 'purple':
+      return ColorsTypes.Purple;
+    case 'pink':
+      return ColorsTypes.Pink;
+    case 'red':
+      return ColorsTypes.Red;
     default:
       return ColorsTypes.Default;
   }
