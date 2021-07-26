@@ -95,19 +95,23 @@ class TitleProp extends Property {
   /// The property type. Always Title for this.
   final PropertiesTypes type = PropertiesTypes.Title;
 
+  /// The property name.
+  String name;
+
   /// The property content.
   List<Text> content;
 
   /// Main title property constructor.
   ///
   /// Can receive a list ot texts as the title [content].
-  TitleProp({this.content: const <Text>[]});
+  TitleProp({this.name: '', this.content: const <Text>[]});
 
   /// Create a new property instance from json.
   ///
   /// Receive a [json] from where the information is extracted.
   TitleProp.fromJson(Map<String, dynamic> json, {String? subfield})
-      : this.content = Text.fromListJson(((subfield != null
+      : this.name = json['name'] ?? '',
+        this.content = Text.fromListJson(((subfield != null
                     ? json[propertyTypeToString(PropertiesTypes.Title)]
                         [subfield]
                     : json[propertyTypeToString(PropertiesTypes.Title)]) ??
@@ -129,6 +133,7 @@ class TitleProp extends Property {
     }
 
     json[strType] = content.map((e) => e.toJson()).toList();
+    json['name'] = this.name;
 
     return json;
   }

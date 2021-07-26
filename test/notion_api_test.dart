@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io' show Platform;
 
 import 'package:dotenv/dotenv.dart' show load, env, clean;
@@ -10,8 +9,10 @@ import 'package:notion_api/notion/blocks/todo.dart';
 import 'package:notion_api/notion/blocks/toggle.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/lists/children.dart';
+import 'package:notion_api/notion/objects/database.dart';
 import 'package:notion_api/notion/objects/pages.dart';
 import 'package:notion_api/notion.dart';
+import 'package:notion_api/notion/objects/parent.dart';
 import 'package:notion_api/notion_blocks.dart';
 import 'package:notion_api/notion_databases.dart';
 import 'package:notion_api/notion_pages.dart';
@@ -121,6 +122,34 @@ void main() {
       expect(res.isOk, true);
       expect(res.isList, true);
       expect(res.content.length, lessThanOrEqualTo(limit));
+    });
+
+    test('Create a database', () async {
+      final NotionDatabasesClient databases =
+          NotionDatabasesClient(token: token ?? '');
+
+      NotionResponse res = await databases.create(Database.newDatabase(
+        parent: Parent.page(id: testPageId ?? ''),
+        title: [
+          Text('Database from test'),
+        ],
+        pagesColumnName: 'Custom pages column',
+      ));
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
+    test('Create a database with default', () async {
+      final NotionDatabasesClient databases =
+          NotionDatabasesClient(token: token ?? '');
+
+      NotionResponse res = await databases.create(Database.newDatabase(
+        parent: Parent.page(id: testPageId ?? ''),
+      ));
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
     });
   });
 

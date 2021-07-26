@@ -5,11 +5,16 @@ import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/utils/utils.dart';
 
+import 'parent.dart';
+
 /// A representation of the Databse Notion object.
 class Database extends BaseFields {
   /// The type of this object. Always Database for this.
   @override
   final ObjectTypes object = ObjectTypes.Database;
+
+  /// The information of the page parent.
+  Parent parent = Parent.none();
 
   /// The title of this database.
   List<Text> title = <Text>[];
@@ -33,12 +38,47 @@ class Database extends BaseFields {
     );
   }
 
+  /// Database constructor with defaults parameters.
+  ///
+  /// Can receive the [parent] (none parent), [title] (empty), the [createdTime] (""), the [lastEditedTime] ("") and the database [id] ("") but every parameter is optional.
+  Database.withDefaults({
+    this.parent: const Parent.none(),
+    this.title: const <Text>[],
+    String createdTime: '',
+    String lastEditedTime: '',
+    String id: '',
+  }) {
+    this.id = id;
+    this.setBaseProperties(
+      createdTime: createdTime,
+      lastEditedTime: lastEditedTime,
+    );
+  }
+
+  /// Database constructor with properties for new Database.
+  ///
+  /// Can receive the [parent] (required), the [title] (empty) and the [pagesColumnName] ("Name").
+  ///
+  /// The [pagesColumnName] is the value of the page column header.
+  Database.newDatabase({
+    required this.parent,
+    this.title: const <Text>[],
+    String pagesColumnName: 'Name',
+  }) : this.properties = Properties(map: {pagesColumnName: TitleProp()}) {
+    this.id = id;
+    this.setBaseProperties(
+      createdTime: createdTime,
+      lastEditedTime: lastEditedTime,
+    );
+  }
+
   /// Map a new database instance from a [json] map.
-  factory Database.fromJson(Map<String, dynamic> json) => Database(
+  factory Database.fromJson(Map<String, dynamic> json) => Database.withDefaults(
         id: json['id'] ?? '',
+        parent: Parent.fromJson(json['parent'] ?? {}),
         title: Text.fromListJson(json['title'] ?? []),
-        createdTime: json['created_time'] ?? '',
-        lastEditedTime: json['last_edited_time'] ?? '',
+        createdTime: json['created_time'],
+        lastEditedTime: json['last_edited_time'],
       ).addPropertiesFromJson(json['properties'] ?? {});
 
   /// Add a new database [property] with an specific [name].
@@ -68,6 +108,7 @@ class Database extends BaseFields {
   Map<String, dynamic> toJson() => {
         'object': objectTypeToString(this.object),
         'title': title.map((e) => e.toJson()).toList(),
+        'parent': parent.toJson(),
         'properties': properties.toJson(),
       };
 }

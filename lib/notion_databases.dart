@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:notion_api/base_client.dart';
+import 'package:notion_api/notion/objects/database.dart';
 
 import 'responses/notion_response.dart';
 import 'statics.dart';
@@ -48,6 +51,21 @@ class NotionDatabasesClient extends BaseClient {
       'Authorization': 'Bearer $token',
       'Notion-Version': dateVersion,
     });
+
+    return NotionResponse.fromResponse(res);
+  }
+
+  /// Create a database.
+  Future<NotionResponse> create(Database database) async {
+    http.Response res = await http.post(
+      Uri.https(host, '/$v/$path'),
+      body: jsonEncode(database.toJson()),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Notion-Version': dateVersion,
+        'Content-Type': 'application/json',
+      },
+    );
 
     return NotionResponse.fromResponse(res);
   }
