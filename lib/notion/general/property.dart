@@ -25,6 +25,9 @@ class Property {
   /// Returns true if property is MultiSelect type.
   bool get isMultiSelect => type == PropertiesTypes.MultiSelect;
 
+  /// Returns true if property don't have a known type.
+  bool get isNone => type == PropertiesTypes.None;
+
   /// Main property constructor.
   ///
   /// Can receive the property [id].
@@ -93,6 +96,7 @@ class Property {
 /// A representation of a title property for any Notion object.
 class TitleProp extends Property {
   /// The property type. Always Title for this.
+  @override
   final PropertiesTypes type = PropertiesTypes.Title;
 
   /// The property name.
@@ -100,6 +104,10 @@ class TitleProp extends Property {
 
   /// The property content.
   List<Text> content;
+
+  /// The value of the content.
+  @override
+  List<Text> get value => this.content;
 
   /// Main title property constructor.
   ///
@@ -118,10 +126,6 @@ class TitleProp extends Property {
                 []) as List)
             .toList(),
         super(id: json['id']);
-
-  /// The value of the content.
-  @override
-  List<Text> get value => this.content;
 
   /// Convert this to a valid json representation for the Notion API.
   @override
@@ -144,11 +148,13 @@ class TitleProp extends Property {
 /// A representation of a rich text property for any Notion object.
 class RichTextProp extends Property {
   /// The property type. Always RichText for this.
+  @override
   final PropertiesTypes type = PropertiesTypes.RichText;
 
   /// The list of rich text.
   List<Text> content;
 
+  /// The value of the content.
   @override
   List<Text> get value => this.content;
 
@@ -185,13 +191,14 @@ class RichTextProp extends Property {
 /// A representation of the multi select Notion object.
 class MultiSelectProp extends Property {
   /// The property type. Always MultiSelect for this.
+  @override
   final PropertiesTypes type = PropertiesTypes.MultiSelect;
+
+  List<MultiSelectOption> options;
 
   /// The options of the multi select.
   @override
   List<MultiSelectOption> get value => this.options;
-
-  List<MultiSelectOption> options;
 
   /// Main multi select constructor.
   ///

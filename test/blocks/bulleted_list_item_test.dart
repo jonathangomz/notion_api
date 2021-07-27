@@ -1,4 +1,5 @@
 import 'package:notion_api/notion/blocks/bulleted_list_item.dart';
+import 'package:notion_api/notion/blocks/heading.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
@@ -42,6 +43,28 @@ void main() {
       expect(block.content.first.text, 'first');
       expect(block.content.last.text, 'last');
       expect(block.children.length, 1);
+    });
+
+    test('Create an instance with children', () {
+      BulletedListItem block = BulletedListItem(
+        text: Text('bulleted'),
+      ).addChildren([
+        Heading(
+          text: Text(
+            'Subtitle',
+            annotations: TextAnnotations(color: ColorsTypes.Green),
+          ),
+        ),
+        Paragraph(
+          texts: [
+            Text('A'),
+            Text('B'),
+          ],
+        ),
+      ]);
+
+      expect(block.content.length, 1);
+      expect(block.children.length, 2);
     });
 
     test('Create json from instance', () {

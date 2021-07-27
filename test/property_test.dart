@@ -47,6 +47,9 @@ void main() {
               "text": {"content": "foo bar"}
             }
           ]
+        },
+        "Quantity": {
+          "number": 1234,
         }
       });
 
@@ -57,6 +60,8 @@ void main() {
       expect(json['Name']!.isTitle, true);
       expect(json, contains('Details'));
       expect(json['Details']!.isRichText, true);
+      expect(json, contains('Quantity'));
+      expect(json['Quantity']!.isNone, true);
     });
 
     test('Create json from Property inherited class', () {

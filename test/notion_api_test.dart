@@ -50,6 +50,9 @@ void main() {
       NotionResponse res = await notion.pages.fetch(testPageId ?? '');
 
       expect(res.status, 200);
+      expect(res.isPage, true);
+      expect(res.content, isNotNull);
+      expect(res.content, isA<Page>());
       expect(res.isOk, true);
     });
   });
@@ -80,13 +83,21 @@ void main() {
       expect(res.status, 200);
     });
 
-    test('Update a page (archived)', () async {
+    test('Update a page (properties)', () async {
       final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
 
       var res = await pages.update('15db928d5d2a43ada59e3136663d41f6',
           properties: Properties(map: {
-            'Property': RichTextProp(content: [Text('TEST')])
-          }),
+            'Property': RichTextProp(content: [Text('A')])
+          }));
+
+      expect(res.status, 200);
+    });
+
+    test('Update a page (archived)', () async {
+      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+
+      var res = await pages.update('15db928d5d2a43ada59e3136663d41f6',
           archived: false);
 
       expect(res.status, 200);

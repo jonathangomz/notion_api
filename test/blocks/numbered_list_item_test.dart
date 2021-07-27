@@ -1,3 +1,4 @@
+import 'package:notion_api/notion/blocks/heading.dart';
 import 'package:notion_api/notion/blocks/numbered_list_item.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
@@ -41,6 +42,28 @@ void main() {
       expect(block.content.first.text, 'first');
       expect(block.content.last.text, 'last');
       expect(block.children.length, 1);
+    });
+
+    test('Create an instance with children', () {
+      NumberedListItem block = NumberedListItem(
+        text: Text('numbered'),
+      ).addChildren([
+        Heading(
+          text: Text(
+            'Subtitle',
+            annotations: TextAnnotations(color: ColorsTypes.Green),
+          ),
+        ),
+        Paragraph(
+          texts: [
+            Text('A'),
+            Text('B'),
+          ],
+        ),
+      ]);
+
+      expect(block.content.length, 1);
+      expect(block.children.length, 2);
     });
 
     test('Create json from instance', () {

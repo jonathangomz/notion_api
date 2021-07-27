@@ -1,3 +1,4 @@
+import 'package:notion_api/notion/blocks/heading.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
@@ -37,6 +38,26 @@ void main() {
       expect(paragraph.content.first.text, 'first');
       expect(paragraph.content.last.text, 'last');
       expect(paragraph.children.length, 1);
+    });
+
+    test('Create an instance with children', () {
+      Paragraph paragraph = Paragraph(text: Text('paragraph')).addChildren([
+        Heading(
+          text: Text(
+            'Subtitle',
+            annotations: TextAnnotations(color: ColorsTypes.Green),
+          ),
+        ),
+        Paragraph(
+          texts: [
+            Text('A'),
+            Text('B'),
+          ],
+        ),
+      ]);
+
+      expect(paragraph.content.length, 1);
+      expect(paragraph.children.length, 2);
     });
 
     test('Create json from instance', () {
