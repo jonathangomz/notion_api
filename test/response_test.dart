@@ -49,6 +49,7 @@ void main() {
       expect(response.code, isNull);
       expect(response.message, isNull);
       expect(response.isNone, true);
+      expect(response.content, isNull);
     });
 
     test('Create an instance from auth error response', () async {

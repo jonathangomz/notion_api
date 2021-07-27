@@ -44,7 +44,7 @@ class NotionResponse {
     } else if (this.isPage) {
       return this.page;
     } else {
-      return this.pagination;
+      return null;
     }
   }
 
