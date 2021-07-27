@@ -19,6 +19,7 @@
     - [Toggle](#toggle)
     - [Bulleted List Item](#bulleted-list-item)
     - [Numbered List Item](#numbered-list-item)
+- [Full example](#full-example)
 
 # Initialization
 ## Full instance
@@ -396,3 +397,118 @@ notion.blocks.append(
 _See more at https://developers.notion.com/reference/patch-block-children_
 
 [1]: https://developers.notion.com/reference/get-databases
+
+# Full example
+Go to see the result https://jonathangomz.notion.site/notion_api-example-0893dd2cb38a413d90165cb810b3c019
+
+```dart
+// Initialize the main Notion client
+final NotionClient notion = NotionClient(token: 'YOUR_SECRET');
+
+// Create the instance of the page
+final Page page = Page(
+  parent: Parent.database(id: 'YOUR_DATABASE_ID'),
+  title: Text('notion_api example'),
+);
+
+// Send the instance to Notion API
+var newPage = await notion.pages.create(page);
+
+// Get the new id generated for the created page
+String newPageId = newPage.page!.id;
+
+// Create the instance of the content of the page
+Children fullContent = Children.withBlocks([
+  Heading(text: Text('This the title')),
+  Paragraph(texts: [
+    Text(
+      'Here you can write all the content of the paragraph but if you want to have another style for a single word you will have to do ',
+    ),
+    Text(
+      'this. ',
+      annotations: TextAnnotations(
+        color: ColorsTypes.Green,
+        bold: true,
+        italic: true,
+      ),
+    ),
+    Text(
+      'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces because the ',
+    ),
+    Text('textSeparator', annotations: TextAnnotations(code: true)),
+    Text(
+        ' will be deprecated. Maybe you will see this with extra spaces because the separator but soon will be remove.')
+  ], children: [
+    Heading(
+      text: Text('This is a subtitle for the paragraph'),
+      type: 2,
+    ),
+    Paragraph(texts: [
+      Text(
+        'You can also have children for some blocks like ',
+      ),
+      Text(
+        'Paragraph',
+        annotations: TextAnnotations(code: true),
+      ),
+      Text(', '),
+      Text(
+        'ToDo',
+        annotations: TextAnnotations(code: true),
+      ),
+      Text(', '),
+      Text(
+        'BulletedListItems',
+        annotations: TextAnnotations(code: true),
+      ),
+      Text(' or '),
+      Text(
+        'NumberedListItems',
+        annotations: TextAnnotations(code: true),
+      ),
+      Text('.'),
+    ]),
+    Paragraph(
+      text: Text(
+        'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list.',
+      ),
+    ),
+  ]),
+  Heading(text: Text('Blocks'), type: 2),
+  Heading(text: Text('ToDo'), type: 3),
+  ToDo(text: Text('Daily meeting'), checked: true),
+  ToDo(text: Text('Clean the house')),
+  ToDo(text: Text('Do the laundry')),
+  ToDo(text: Text('Call mom'), children: [
+    Paragraph(texts: [
+      Text('Note: ', annotations: TextAnnotations(bold: true)),
+      Text('Remember to call her before 20:00'),
+    ]),
+  ]),
+  Heading(text: Text('Lists'), type: 3),
+  BulletedListItem(text: Text('Milk')),
+  BulletedListItem(text: Text('Cereal')),
+  BulletedListItem(text: Text('Eggs')),
+  BulletedListItem(text: Text('Tortillas of course')),
+  Paragraph(
+    text: Text('The numbered list are ordered by default by notion.'),
+  ),
+  NumberedListItem(text: Text('Notion')),
+  NumberedListItem(text: Text('Keep by Google')),
+  NumberedListItem(text: Text('Evernote')),
+  Heading(text: Text('Toggle'), type: 3),
+  Toggle(text: Text('Toogle items'), children: [
+    Paragraph(
+      text: Text(
+        'Toogle items are blocks that can show or hide their children, and their children can be any other block.',
+      ),
+    ),
+  ])
+]);
+
+// Append the content to the page
+var res = await notion.blocks.append(
+  to: newPageId,
+  children: fullContent,
+);
+```

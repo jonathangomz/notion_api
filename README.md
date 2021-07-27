@@ -12,6 +12,8 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
   - [A few examples](#a-few-examples)
     - [Append blocks children](#append-blocks-children)
     - [Create a page](#create-a-page)
+- [Errors](#errors)
+  - [Create page with chidren](#create-page-with-chidren)
 - [Contributions](#contributions)
   - [Rules](#rules)
   - [Tests](#tests)
@@ -60,7 +62,9 @@ databases.fetchAll();
 ```
 
 ## A few examples
-_To see more examples [go here](https://github.com/jonathangomz/notion_api/blob/main/example/example.md)._
+> A page created and filled using only this package: https://jonathangomz.notion.site/notion_api-example-0893dd2cb38a413d90165cb810b3c019
+
+_To see code to create the page above or see more examples [go here](https://github.com/jonathangomz/notion_api/blob/main/example/example.md)._
 
 ### Append blocks children
 ```dart
@@ -96,6 +100,19 @@ Page page = Page(
 // Send the instance to Notion.
 notion.pages.create(page);
 ```
+
+# Errors
+Some errors that I have encounter and still don't know how to solve because are errors that also occur on Postman are:
+## Create page with chidren
+When the parent is a page the error is:
+```json
+"body failed validation: body.properties.title.type should be an array, instead was `\"array\"`."
+```
+But when the parent is a database then the error is:
+```json
+"body failed validation: body.parent.page_id should be defined, instead was `undefined`."
+```
+You can create the page first and then add the children as shown in the examples.
 
 # Contributions
 Please help, I don't even know if what I'm doing is right.
