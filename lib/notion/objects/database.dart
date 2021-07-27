@@ -24,12 +24,15 @@ class Database extends BaseFields {
 
   /// Main database constructor.
   ///
+  /// **Important:** This main constructor will become like the `newDatabase`. If you need to create an instance with this parameters then use `withDefaults` constructor.
+  ///
   /// Can receive the [title], the [createdTime], the [lastEditedTime] and the database [id].
+  ///
   Database({
     this.title: const <Text>[],
-    String createdTime: '',
-    String lastEditedTime: '',
-    String id: '',
+    @deprecated String createdTime: '',
+    @deprecated String lastEditedTime: '',
+    @deprecated String id: '',
   }) {
     this.id = id;
     this.setBaseProperties(
@@ -57,9 +60,12 @@ class Database extends BaseFields {
 
   /// Database constructor with properties for new Database.
   ///
+  /// **Important:** This is a temporary solution. In a future this constructor will be remove and the main constructor will be update to work like this one.
+  ///
   /// Can receive the [parent] (required), the [title] (empty) and the [pagesColumnName] ("Name").
   ///
   /// The [pagesColumnName] is the value of the page column header.
+  ///
   Database.newDatabase({
     required this.parent,
     this.title: const <Text>[],

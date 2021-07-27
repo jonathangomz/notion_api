@@ -4,8 +4,11 @@
   - [Individual classes](#individual-classes)
 - [Pages](#pages)
   - [Create a page](#create-a-page)
+  - [Update a page](#update-a-page)
+    - [Archive (delete) a page](#archive-delete-a-page)
   - [Retrieve a page](#retrieve-a-page)
 - [Databases](#databases)
+  - [Create a database](#create-a-database)
   - [Retrieve a database](#retrieve-a-database)
   - [List databases](#list-databases)
 - [Block children](#block-children)
@@ -61,17 +64,76 @@ Page page = Page(
 
 notion.pages.create(page);
 ```
+_See more at https://developers.notion.com/reference/post-page_
+
+## Update a page
+Update the properties of the page.
+
+If you want to update the content of the page itself the use the block children section.
+
+**Note:** If the parent is a database, the new property values in the properties parameter must conform to the parent database's property schema.
+```dart
+notion.pages.update('YOUR_PAGE_ID',
+  properties: Properties(map: {
+    'Description': RichTextProp(content: [
+      Text('New value for Description property'),
+    ]),
+  }),
+);
+```
+_See more at https://developers.notion.com/reference/patch-page_
+
+### Archive (delete) a page
+Archive or delete a page is a subaction of update it according to the API reference.
+
+You can archive or un-archive the page just by toggling the boolean value of the `archived` parameter.
+```dart
+notion.pages.update('YOUR_PAGE_ID',
+  archived: true,
+);
+```
+_See more at https://developers.notion.com/reference/patch-page#archive-delete-a-page_
 
 ## Retrieve a page
 ```dart
 notion.pages.fetch('YOUR_PAGE_ID');
 ```
+_See more at https://developers.notion.com/reference/get-page_
 
 # Databases
+## Create a database
+You have to define the parent of the page. It can be:
+- `page`
+- `workspace`
+
+There is a constructor for each one (_see example below_) but the main constructor can be used as well but the `ParentType` will be required.
+
+**Note:** The `newDatabase` constructor is a temporary solution while the main constructor is deprecating their fields until it became the sustitute for this constructor.
+```dart
+// With page parent
+Page page = Database.newDatabase(
+  parent: Parent.page(id: 'YOUR_PAGE_ID'),
+  title: [
+    Text('Database from examples'),
+  ],
+  pagesColumnName: 'Custom pages column name',
+  properties: Properties(map: {
+    'Description': MultiSelectProp(options: [
+      MultiSelectOption(name: 'Read', color: ColorsTypes.Blue),
+      MultiSelectOption(name: 'Sleep', color: ColorsTypes.Green),
+    ]),
+  }),
+);
+
+notion.databases.create(page);
+```
+_See more at https://developers.notion.com/reference/create-a-database_
+
 ## Retrieve a database
 ```dart
 notion.databases.fetch('YOUR_DATABASE_ID');
 ```
+_See more at https://developers.notion.com/reference/get-database_
 
 ## List databases
 > **Warning**: [This endpoint is not recommended][1] by the Notion team.
@@ -82,12 +144,14 @@ _Parameters:_
 ```dart
 notion.databases.fetchAll();
 ```
+_See more at https://developers.notion.com/reference/get-databases_
 
 # Block children
 ## Retrieve block children
 ```dart
 notion.blocks.fetch('YOUR_BLOCK_ID');
 ```
+_See more at https://developers.notion.com/reference/get-block-children_
 
 ## Append block children
 _Parameters:_
@@ -231,6 +295,7 @@ notion.blocks.append(
 ```
 
 **Result**
+
 ![todo](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/todo.png)
 
 ### Toggle
@@ -261,7 +326,9 @@ notion.blocks.append(
   children: children,
 );
 ```
+
 **Result**
+
 ![toggle](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/toggle.png)
 
 ### Bulleted List Item
@@ -290,7 +357,9 @@ notion.blocks.append(
   children: children,
 );
 ```
+
 **Result**
+
 ![bulletedListItem](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/bulletedListItem.png)
 
 ### Numbered List Item
@@ -319,7 +388,11 @@ notion.blocks.append(
   children: children,
 );
 ```
+
 **Result**
+
 ![numberedListItem](https://raw.githubusercontent.com/jonathangomz/notion_api/main/example/images/numberedListItem.png)
+
+_See more at https://developers.notion.com/reference/patch-block-children_
 
 [1]: https://developers.notion.com/reference/get-databases
