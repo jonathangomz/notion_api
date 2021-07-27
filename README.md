@@ -5,6 +5,7 @@ Notion API client for dart.
 
 See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
+- [API implemented](#api-implemented)
 - [Usage](#usage)
   - [`NotionClient` class](#notionclient-class)
   - [Individual classes](#individual-classes)
@@ -16,6 +17,23 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
   - [Tests](#tests)
     - [Example:](#example)
 - [Next release](#next-release)
+
+# API implemented
+| Endpoint                | Avaliable  | Notes           
+|:------------------------|:----------:|:-
+| Retrieve a database     |     ✅     |                 
+| Query a database        |     🏗     | Working on it   
+| List databases          |     ✅     | 
+| Create a database       |     ✅     | Workin on more properties
+| Retrieve a page         |     ✅     | 
+| Create a page           |     ✅     | Workin on more properties
+| Update a page           |     ✅     | Workin on more properties
+| Retrieve block children |     ✅     |
+| Append block children   |     ✅     |
+| Retrieve a user         |            |
+| List all users          |            |
+| Search                  |            |
+
 
 # Usage
 **Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
