@@ -4,6 +4,7 @@ import 'package:http/http.dart' show Response;
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/objects/database.dart';
 import 'package:notion_api/notion/general/lists/pagination.dart';
+import 'package:notion_api/notion/objects/pages.dart';
 import 'package:notion_api/utils/utils.dart';
 
 /// A representation of the Response from the Notion API.
@@ -16,6 +17,9 @@ class NotionResponse {
 
   /// The database information if the result is a database.
   Database? database;
+
+  /// The page information if the result is a page.
+  Page? page;
 
   /// The response status.
   int status;
@@ -37,8 +41,10 @@ class NotionResponse {
       return this.pagination;
     } else if (this.isDatabase) {
       return this.database;
+    } else if (this.isPage) {
+      return this.page;
     } else {
-      return this.pagination;
+      return null;
     }
   }
 
@@ -92,6 +98,8 @@ class NotionResponse {
       _result.isOk = false;
     } else if (_result.object == ObjectTypes.Database) {
       _result.database = Database.fromJson(json);
+    } else if (_result.object == ObjectTypes.Page) {
+      _result.page = Page.fromJson(json);
     }
 
     return _result;

@@ -8,6 +8,7 @@ import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/objects/pages.dart';
+import 'package:notion_api/notion/objects/parent.dart';
 import 'package:notion_api/notion_blocks.dart';
 import 'package:notion_api/notion_databases.dart';
 import 'package:notion_api/notion_pages.dart';
@@ -48,6 +49,7 @@ void main() {
       expect(response.code, isNull);
       expect(response.message, isNull);
       expect(response.isNone, true);
+      expect(response.content, isNull);
     });
 
     test('Create an instance from auth error response', () async {
@@ -162,7 +164,7 @@ void main() {
       expect(response.content.title, allOf([isList, isNotEmpty, hasLength(1)]));
       expect(response.content.title.first.text, 'test');
       expect(response.content.properties.entries,
-          allOf([isMap, isNotEmpty, hasLength(2)]));
+          allOf([isMap, isNotEmpty, hasLength(3)]));
     });
   });
 }

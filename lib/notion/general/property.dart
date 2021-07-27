@@ -25,6 +25,9 @@ class Property {
   /// Returns true if property is MultiSelect type.
   bool get isMultiSelect => type == PropertiesTypes.MultiSelect;
 
+  /// Returns true if property don't have a known type.
+  bool get isNone => type == PropertiesTypes.None;
+
   /// Main property constructor.
   ///
   /// Can receive the property [id].
@@ -93,21 +96,30 @@ class Property {
 /// A representation of a title property for any Notion object.
 class TitleProp extends Property {
   /// The property type. Always Title for this.
+  @override
   final PropertiesTypes type = PropertiesTypes.Title;
+
+  /// The property name.
+  String? name;
 
   /// The property content.
   List<Text> content;
 
+  /// The value of the content.
+  @override
+  List<Text> get value => this.content;
+
   /// Main title property constructor.
   ///
   /// Can receive a list ot texts as the title [content].
-  TitleProp({this.content: const <Text>[]});
+  TitleProp({this.content: const <Text>[], this.name});
 
   /// Create a new property instance from json.
   ///
   /// Receive a [json] from where the information is extracted.
   TitleProp.fromJson(Map<String, dynamic> json, {String? subfield})
-      : this.content = Text.fromListJson(((subfield != null
+      : this.name = json['name'] ?? '',
+        this.content = Text.fromListJson(((subfield != null
                     ? json[propertyTypeToString(PropertiesTypes.Title)]
                         [subfield]
                     : json[propertyTypeToString(PropertiesTypes.Title)]) ??
@@ -115,20 +127,19 @@ class TitleProp extends Property {
             .toList(),
         super(id: json['id']);
 
-  /// The value of the content.
-  @override
-  List<Text> get value => this.content;
-
   /// Convert this to a valid json representation for the Notion API.
   @override
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {'type': strType};
+    Map<String, dynamic> json = {'type': this.strType};
 
-    if (id != null) {
-      json['id'] = id;
+    if (this.id != null) {
+      json['id'] = this.id;
+    }
+    if (this.name != null) {
+      json['name'] = this.name;
     }
 
-    json[strType] = content.map((e) => e.toJson()).toList();
+    json[this.strType] = this.content.map((e) => e.toJson()).toList();
 
     return json;
   }
@@ -137,11 +148,13 @@ class TitleProp extends Property {
 /// A representation of a rich text property for any Notion object.
 class RichTextProp extends Property {
   /// The property type. Always RichText for this.
+  @override
   final PropertiesTypes type = PropertiesTypes.RichText;
 
   /// The list of rich text.
   List<Text> content;
 
+  /// The value of the content.
   @override
   List<Text> get value => this.content;
 
@@ -155,7 +168,9 @@ class RichTextProp extends Property {
   /// Receive a [json] from where the information is extracted.
   RichTextProp.fromJson(Map<String, dynamic> json)
       : this.content = Text.fromListJson(
-            json[propertyTypeToString(PropertiesTypes.RichText)] as List),
+            json[propertyTypeToString(PropertiesTypes.RichText)] is List
+                ? json[propertyTypeToString(PropertiesTypes.RichText)] as List
+                : []),
         super(id: json['id']);
 
   /// Convert this to a valid json representation for the Notion API.
@@ -176,13 +191,14 @@ class RichTextProp extends Property {
 /// A representation of the multi select Notion object.
 class MultiSelectProp extends Property {
   /// The property type. Always MultiSelect for this.
+  @override
   final PropertiesTypes type = PropertiesTypes.MultiSelect;
+
+  List<MultiSelectOption> options;
 
   /// The options of the multi select.
   @override
   List<MultiSelectOption> get value => this.options;
-
-  List<MultiSelectOption> options;
 
   /// Main multi select constructor.
   ///

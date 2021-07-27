@@ -5,17 +5,38 @@ Notion API client for dart.
 
 See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
+- [API implemented](#api-implemented)
 - [Usage](#usage)
   - [`NotionClient` class](#notionclient-class)
   - [Individual classes](#individual-classes)
   - [A few examples](#a-few-examples)
     - [Append blocks children](#append-blocks-children)
     - [Create a page](#create-a-page)
+- [Errors](#errors)
+  - [Create page with chidren](#create-page-with-chidren)
 - [Contributions](#contributions)
   - [Rules](#rules)
   - [Tests](#tests)
     - [Example:](#example)
 - [Next release](#next-release)
+  - [v1.2.1:](#v121)
+
+# API implemented
+| Endpoint                | Avaliable  | Notes           
+|:------------------------|:----------:|:-
+| Retrieve a database     |     ✅     |                 
+| Query a database        |     🏗     | Working on it   
+| List databases          |     ✅     | 
+| Create a database       |     ✅     | Workin on more properties
+| Retrieve a page         |     ✅     | 
+| Create a page           |     ✅     | Workin on more properties
+| Update a page           |     ✅     | Workin on more properties
+| Retrieve block children |     ✅     |
+| Append block children   |     ✅     |
+| Retrieve a user         |            |
+| List all users          |            |
+| Search                  |            |
+
 
 # Usage
 **Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
@@ -41,7 +62,10 @@ databases.fetchAll();
 ```
 
 ## A few examples
-_To see more examples [go here](https://github.com/jonathangomz/notion_api/blob/main/example/example.md)._
+A page created and filled using only this package: \
+https://jonathangomz.notion.site/notion_api-example-0893dd2cb38a413d90165cb810b3c019
+
+_To see code to create the page above or see more examples [go here](https://github.com/jonathangomz/notion_api/blob/main/example/example.md)._
 
 ### Append blocks children
 ```dart
@@ -78,6 +102,19 @@ Page page = Page(
 notion.pages.create(page);
 ```
 
+# Errors
+Some errors that I have encounter and still don't know how to solve because are errors that also occur on Postman are:
+## Create page with chidren
+When the parent is a page the error is:
+```json
+"body failed validation: body.properties.title.type should be an array, instead was `\"array\"`."
+```
+But when the parent is a database then the error is:
+```json
+"body failed validation: body.parent.page_id should be defined, instead was `undefined`."
+```
+You can create the page first and then add the children as shown in the examples.
+
 # Contributions
 Please help, I don't even know if what I'm doing is right.
 
@@ -110,6 +147,26 @@ TEST_BLOCK_HEADING_ID=c8hac4bb32af48889228bf483d938e34
 ```
 
 # Next release
-I don't know yet. If you have suggestions feel free to create an Issue or to create a PR with the feature.
+## v1.2.1:
+> Release date: 02/Aug/2021
+* Add constructors with only single text content with default style for:
+  * `Paragraph.text('some text here...')`
+  * `ToDo.text('some text here...', checked: true)`
+  * `Heading.text('some text here...', type: 2)`
+  * `BulletedListItem.text('some text here...')`
+  * `NumberedListItem.text('some text here...')`
+  * `Toggle.text('some text here...', children: [])`
+* Add more constructors for `Heading` class:
+  * `one`: Heading with type 1 by default.
+  * `two`: Heading with type 2 by default.
+  * `three`: Heading with type 3 by default.
+* Add more constructors for `Text` class:
+  * `code`: Text with code style by default.
+  * `italic`: Text with italic style by default.
+  * `bold`: Text with bold style by default.
+  * [**Opt**] `list`: List of words separated by comma (by default).
+    * Example: `Text.list()` will receive a list of Text and will be concatenated separated with comma by default. **It may be unnecessary**. Can help to make the code more readable.
+  * [**Opt**] `sep`: Text separator.
+    * Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html

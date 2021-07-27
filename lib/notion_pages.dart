@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:notion_api/base_client.dart';
+import 'package:notion_api/notion/general/lists/properties.dart';
 
 import 'notion/objects/pages.dart';
 import 'responses/notion_response.dart';
@@ -23,6 +24,8 @@ class NotionPagesClient extends BaseClient {
   }) : super(token: token, version: version, dateVersion: dateVersion);
 
   /// Retrieve the page with [id].
+  ///
+  /// _See more at https://developers.notion.com/reference/get-page_
   Future<NotionResponse> fetch(String id) async {
     http.Response res =
         await http.get(Uri.https(host, '/$v/$path/$id'), headers: {
@@ -34,12 +37,41 @@ class NotionPagesClient extends BaseClient {
   }
 
   /// Create a new [page].
+  ///
+  /// _See more at https://developers.notion.com/reference/post-page_
   Future<NotionResponse> create(Page page) async {
     http.Response res = await http.post(Uri.https(host, '/$v/$path'),
         body: jsonEncode(page.toJson()),
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json; charset=UTF-8',
+          'Notion-Version': dateVersion,
+        });
+
+    return NotionResponse.fromResponse(res);
+  }
+
+  /// Update the [properties] of the page with an specified [id]. Can also mark the page as [archived].
+  ///
+  /// The page should contain the property to update.
+  ///
+  /// Archive a page is the equivalent to delete it according to API reference.
+  ///
+  /// _See more at https://developers.notion.com/reference/patch-page_
+  Future<NotionResponse> update(
+    String id, {
+    Properties? properties,
+    bool? archived,
+  }) async {
+    Properties _properties = properties ?? Properties.empty();
+    http.Response res = await http.patch(Uri.https(host, '/$v/$path/$id'),
+        body: jsonEncode({
+          'properties': _properties.toJson(),
+          if (archived != null) 'archived': archived,
+        }),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
           'Notion-Version': dateVersion,
         });
 

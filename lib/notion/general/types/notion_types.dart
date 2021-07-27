@@ -54,6 +54,11 @@ enum ColorsTypes {
   Brown,
   Orange,
   Yellow,
+  Green,
+  Blue,
+  Purple,
+  Pink,
+  Red,
   Default,
 }
 

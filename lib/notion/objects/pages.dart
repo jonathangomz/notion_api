@@ -4,7 +4,8 @@ import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/lists/children.dart';
-import 'package:notion_api/utils/utils.dart';
+
+import 'parent.dart';
 
 /// A representation of the Page Notion object.
 class Page extends BaseFields {
@@ -107,64 +108,6 @@ class Page extends BaseFields {
     // Only add children to json if have items.
     if (this.children != null && this.children!.isNotEmpty) {
       json['children'] = this.children!.toJson();
-    }
-
-    return json;
-  }
-}
-
-/// A representation of the parent json field for the Notion API.
-class Parent {
-  /// The type of parent.
-  ParentType type;
-
-  /// The id of the parent.
-  String id;
-
-  /// Main constructor for the page parent.
-  ///
-  /// This constructor require the parent [id] and the [type] of parent.
-  /// Possible types are defined by ParentType enum.
-  Parent({required this.type, required this.id});
-
-  /// Constructor for empty parent.
-  Parent.none()
-      : this.type = ParentType.None,
-        this.id = '';
-
-  /// Constructor for workspace parent.
-  Parent.workspace()
-      : this.type = ParentType.Workspace,
-        this.id = '';
-
-  /// Constructor for database parent.
-  ///
-  /// This constructor require the database [id].
-  Parent.database({required this.id}) : this.type = ParentType.Database;
-
-  /// Constructor for page parent.
-  ///
-  /// This constructor require the page [id].
-  Parent.page({required this.id}) : this.type = ParentType.Page;
-
-  /// Constructor parent from json.
-  ///
-  /// This constructor receive a [json] from where the information
-  /// is extracted.
-  Parent.fromJson(Map<String, dynamic> json)
-      : this.id = json[json['type']] ?? '',
-        this.type = stringToParentType(json['type'] ?? '');
-
-  /// The string value of this type.
-  String get strType => parentTypeToString(this.type);
-
-  /// Convert this to a json representation valid for the Notion API.
-  Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {'type': this.strType};
-
-    // Only database and page types contain an id.
-    if (this.type == ParentType.Database || this.type == ParentType.Page) {
-      json[strType] = this.id;
     }
 
     return json;

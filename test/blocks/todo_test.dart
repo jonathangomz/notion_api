@@ -1,3 +1,4 @@
+import 'package:notion_api/notion/blocks/heading.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
@@ -45,6 +46,30 @@ void main() {
       expect(todo.content.first.text, 'first');
       expect(todo.content.last.text, 'last');
       expect(todo.children.length, 1);
+    });
+
+    test('Create an instance with children', () {
+      ToDo todo = ToDo(
+        text: Text('todo'),
+        checked: true,
+      ).addChildren([
+        Heading(
+          text: Text(
+            'Subtitle',
+            annotations: TextAnnotations(color: ColorsTypes.Green),
+          ),
+        ),
+        Paragraph(
+          texts: [
+            Text('A'),
+            Text('B'),
+          ],
+        ),
+      ]);
+
+      expect(todo.checked, true);
+      expect(todo.content.length, 1);
+      expect(todo.children.length, 2);
     });
 
     test('Create json from instance', () {
