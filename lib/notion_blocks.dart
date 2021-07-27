@@ -26,6 +26,8 @@ class NotionBlockClient extends BaseClient {
   ///
   /// A [startCursor] can be defined to specify the page where to start.
   /// Also a [pageSize] can be defined to limit the result. The max value is 100.
+  ///
+  /// _See more at https://developers.notion.com/reference/get-block-children_
   Future<NotionResponse> fetch(
     String id, {
     String? startCursor,
@@ -49,6 +51,8 @@ class NotionBlockClient extends BaseClient {
   }
 
   /// Append a block [children] [to] a specific block.
+  ///
+  /// _See more at https://developers.notion.com/reference/patch-block-children_
   Future<NotionResponse> append({
     required String to,
     required Children children,

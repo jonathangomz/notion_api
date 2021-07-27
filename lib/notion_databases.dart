@@ -23,6 +23,8 @@ class NotionDatabasesClient extends BaseClient {
   }) : super(token: token, version: version, dateVersion: dateVersion);
 
   /// Retrieve the database with [id].
+  ///
+  /// _See more at https://developers.notion.com/reference/get-database_
   Future<NotionResponse> fetch(String id) async {
     http.Response res =
         await http.get(Uri.https(host, '/$v/$path/$id'), headers: {
@@ -37,6 +39,8 @@ class NotionDatabasesClient extends BaseClient {
   ///
   /// A [startCursor] can be defined to specify the page where to start.
   /// Also a [pageSize] can be defined to limit the result. The max value is 100.
+  ///
+  /// _See more at https://developers.notion.com/reference/get-databases_
   Future<NotionResponse> fetchAll({String? startCursor, int? pageSize}) async {
     Map<String, dynamic> query = {};
     if (startCursor != null) {
@@ -56,6 +60,8 @@ class NotionDatabasesClient extends BaseClient {
   }
 
   /// Create a database.
+  ///
+  /// _See more at https://developers.notion.com/reference/create-a-database_
   Future<NotionResponse> create(Database database) async {
     http.Response res = await http.post(
       Uri.https(host, '/$v/$path'),

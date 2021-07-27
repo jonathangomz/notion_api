@@ -24,6 +24,8 @@ class NotionPagesClient extends BaseClient {
   }) : super(token: token, version: version, dateVersion: dateVersion);
 
   /// Retrieve the page with [id].
+  ///
+  /// _See more at https://developers.notion.com/reference/get-page_
   Future<NotionResponse> fetch(String id) async {
     http.Response res =
         await http.get(Uri.https(host, '/$v/$path/$id'), headers: {
@@ -35,6 +37,8 @@ class NotionPagesClient extends BaseClient {
   }
 
   /// Create a new [page].
+  ///
+  /// _See more at https://developers.notion.com/reference/post-page_
   Future<NotionResponse> create(Page page) async {
     http.Response res = await http.post(Uri.https(host, '/$v/$path'),
         body: jsonEncode(page.toJson()),
