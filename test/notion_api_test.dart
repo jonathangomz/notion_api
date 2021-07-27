@@ -84,7 +84,10 @@ void main() {
       final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
 
       var res = await pages.update('15db928d5d2a43ada59e3136663d41f6',
-          archived: true);
+          properties: Properties(map: {
+            'Property': RichTextProp(content: [Text('TEST')])
+          }),
+          archived: false);
 
       expect(res.status, 200);
     });

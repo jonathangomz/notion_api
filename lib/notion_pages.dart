@@ -47,17 +47,19 @@ class NotionPagesClient extends BaseClient {
     return NotionResponse.fromResponse(res);
   }
 
-  /// Archive a page with an specified [id].
+  /// Update the [properties] of the page with an specified [id]. Can also mark the page as [archived].
+  ///
+  /// The page should contain the property to update.
+  ///
+  /// Archive a page is the equivalent to delete it according to API reference.
+  ///
+  /// _See more at https://developers.notion.com/reference/patch-page_
   Future<NotionResponse> update(
     String id, {
     Properties? properties,
     bool? archived,
   }) async {
     Properties _properties = properties ?? Properties.empty();
-    print(jsonEncode({
-      'properties': _properties.toJson(),
-      if (archived != null) 'archived': archived,
-    }));
     http.Response res = await http.patch(Uri.https(host, '/$v/$path/$id'),
         body: jsonEncode({
           'properties': _properties.toJson(),
