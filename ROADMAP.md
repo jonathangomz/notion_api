@@ -19,6 +19,7 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
 * Implement new endpoints
   * Update page: https://developers.notion.com/reference/patch-page#archive-delete-a-page
   * Create database: https://developers.notion.com/reference/create-a-database
+* Add `Page` support for responses
 * Add more colors for Text
 * Add list of endpoints implemented on package
 * Improve coverage
