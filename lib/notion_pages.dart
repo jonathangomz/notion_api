@@ -67,7 +67,7 @@ class NotionPagesClient extends BaseClient {
     http.Response res = await http.patch(Uri.https(host, '/$v/$path/$id'),
         body: jsonEncode({
           'properties': _properties.toJson(),
-          'archived': archived,
+          if (archived != null) 'archived': archived,
         }),
         headers: {
           'Authorization': 'Bearer $token',
