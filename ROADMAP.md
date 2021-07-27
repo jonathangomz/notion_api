@@ -5,17 +5,37 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
 
 ## v1.3.0
 > Release date: 06/Aug/2021
+* Maybe fix errors creating page with children. I don't know if is an error with Notion API.
 * Add query a database endpoint:
   * https://developers.notion.com/reference/post-database-query
-
-## v1.2.1:
-> Release date: 02/Aug/2021
 * Add more properties for pages and databases:
   * Page properties: https://developers.notion.com/reference/page#page-property-value
   * Database properties: https://developers.notion.com/reference/database#database-property
 
+## v1.2.1:
+> Release date: 02/Aug/2021
+* Add constructors with only single text content with default style for:
+  * `Paragraph.text('some text here...')`
+  * `ToDo.text('some text here...', checked: true)`
+  * `Heading.text('some text here...', type: 2)`
+  * `BulletedListItem.text('some text here...')`
+  * `NumberedListItem.text('some text here...')`
+  * `Toggle.text('some text here...', children: [])`
+* Add more constructors for `Heading` class:
+  * `one`: Heading with type 1 by default.
+  * `two`: Heading with type 2 by default.
+  * `three`: Heading with type 3 by default.
+* Add more constructors for `Text` class:
+  * `code`: Text with code style by default.
+  * `italic`: Text with italic style by default.
+  * `bold`: Text with bold style by default.
+  * [**Opt**] `list`: List of words separated by comma (by default).
+    * Example: `Text.list()` will receive a list of Text and will be concatenated separated with comma by default. **It may be unnecessary**. Can help to make the code more readable.
+  * [**Opt**] `sep`: Text separator.
+    * Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.
+
 ## v1.2.0: ✅
-> Release date: 28/Jul/2021
+> Release date: 27/Jul/2021
 * Implement new endpoints
   * Update page: https://developers.notion.com/reference/patch-page#archive-delete-a-page
   * Create database: https://developers.notion.com/reference/create-a-database

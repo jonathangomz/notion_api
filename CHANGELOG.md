@@ -107,7 +107,7 @@
 * Update documentation
 
 ## v1.2.0:
-> Release date: 28/Jul/2021
+> Release date: 27/Jul/2021
 * Implement new endpoints
   * Update page: https://developers.notion.com/reference/patch-page#archive-delete-a-page
   * Create database: https://developers.notion.com/reference/create-a-database

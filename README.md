@@ -62,7 +62,8 @@ databases.fetchAll();
 ```
 
 ## A few examples
-> A page created and filled using only this package: https://jonathangomz.notion.site/notion_api-example-0893dd2cb38a413d90165cb810b3c019
+A page created and filled using only this package: \
+https://jonathangomz.notion.site/notion_api-example-0893dd2cb38a413d90165cb810b3c019
 
 _To see code to create the page above or see more examples [go here](https://github.com/jonathangomz/notion_api/blob/main/example/example.md)._
 
@@ -148,8 +149,24 @@ TEST_BLOCK_HEADING_ID=c8hac4bb32af48889228bf483d938e34
 # Next release
 ## v1.2.1:
 > Release date: 02/Aug/2021
-* Add more properties for pages and databases:
-  * Page properties: https://developers.notion.com/reference/page#page-property-value
-  * Database properties: https://developers.notion.com/reference/database#database-property
+* Add constructors with only single text content with default style for:
+  * `Paragraph.text('some text here...')`
+  * `ToDo.text('some text here...', checked: true)`
+  * `Heading.text('some text here...', type: 2)`
+  * `BulletedListItem.text('some text here...')`
+  * `NumberedListItem.text('some text here...')`
+  * `Toggle.text('some text here...', children: [])`
+* Add more constructors for `Heading` class:
+  * `one`: Heading with type 1 by default.
+  * `two`: Heading with type 2 by default.
+  * `three`: Heading with type 3 by default.
+* Add more constructors for `Text` class:
+  * `code`: Text with code style by default.
+  * `italic`: Text with italic style by default.
+  * `bold`: Text with bold style by default.
+  * [**Opt**] `list`: List of words separated by comma (by default).
+    * Example: `Text.list()` will receive a list of Text and will be concatenated separated with comma by default. **It may be unnecessary**. Can help to make the code more readable.
+  * [**Opt**] `sep`: Text separator.
+    * Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html
