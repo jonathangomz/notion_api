@@ -93,7 +93,7 @@ void main() {
     });
   });
 
-  group('Notion Databases Client', () {
+  group('Notion Databases Client =>', () {
     test('Retrieve a database', () async {
       final NotionDatabasesClient databases =
           NotionDatabasesClient(token: token ?? '');

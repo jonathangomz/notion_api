@@ -96,7 +96,7 @@ class TitleProp extends Property {
   final PropertiesTypes type = PropertiesTypes.Title;
 
   /// The property name.
-  String name;
+  String? name;
 
   /// The property content.
   List<Text> content;
@@ -104,7 +104,7 @@ class TitleProp extends Property {
   /// Main title property constructor.
   ///
   /// Can receive a list ot texts as the title [content].
-  TitleProp({this.name: '', this.content: const <Text>[]});
+  TitleProp({this.content: const <Text>[], this.name});
 
   /// Create a new property instance from json.
   ///
@@ -126,14 +126,16 @@ class TitleProp extends Property {
   /// Convert this to a valid json representation for the Notion API.
   @override
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {'type': strType};
+    Map<String, dynamic> json = {'type': this.strType};
 
-    if (id != null) {
-      json['id'] = id;
+    if (this.id != null) {
+      json['id'] = this.id;
+    }
+    if (this.name != null) {
+      json['name'] = this.name;
     }
 
-    json[strType] = content.map((e) => e.toJson()).toList();
-    json['name'] = this.name;
+    json[this.strType] = this.content.map((e) => e.toJson()).toList();
 
     return json;
   }
@@ -160,7 +162,9 @@ class RichTextProp extends Property {
   /// Receive a [json] from where the information is extracted.
   RichTextProp.fromJson(Map<String, dynamic> json)
       : this.content = Text.fromListJson(
-            json[propertyTypeToString(PropertiesTypes.RichText)] as List),
+            json[propertyTypeToString(PropertiesTypes.RichText)] is List
+                ? json[propertyTypeToString(PropertiesTypes.RichText)] as List
+                : []),
         super(id: json['id']);
 
   /// Convert this to a valid json representation for the Notion API.

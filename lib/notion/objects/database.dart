@@ -81,8 +81,8 @@ class Database extends BaseFields {
         id: json['id'] ?? '',
         parent: Parent.fromJson(json['parent'] ?? {}),
         title: Text.fromListJson(json['title'] ?? []),
-        createdTime: json['created_time'],
-        lastEditedTime: json['last_edited_time'],
+        createdTime: json['created_time'] ?? '',
+        lastEditedTime: json['last_edited_time'] ?? '',
       ).addPropertiesFromJson(json['properties'] ?? {});
 
   /// Add a new database [property] with an specific [name].
