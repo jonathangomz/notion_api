@@ -13,7 +13,7 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
     - [Append blocks children](#append-blocks-children)
     - [Create a page](#create-a-page)
 - [Errors](#errors)
-  - [Create page with chidren](#create-page-with-chidren)
+  - [Create page with children](#create-page-with-children)
 - [Contributions](#contributions)
   - [Rules](#rules)
   - [Tests](#tests)
@@ -104,7 +104,7 @@ notion.pages.create(page);
 
 # Errors
 Some errors that I have encounter and still don't know how to solve because are errors that also occur on Postman are:
-## Create page with chidren
+## Create page with children
 When the parent is a page the error is:
 ```json
 "body failed validation: body.properties.title.type should be an array, instead was `\"array\"`."
