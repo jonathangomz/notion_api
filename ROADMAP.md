@@ -1,17 +1,27 @@
 # Roadmap
 
 ## More coming soon...
-I don't know yet. If you have suggestions feel free to create an Issue or to create a PR with the feature.
+If you have suggestions feel free to create an Issue or to create a PR with the feature.
+
+## v1.3.0
+> Release date: 06/Aug/2021
+* Add query a database endpoint:
+  * https://developers.notion.com/reference/post-database-query
+
+## v1.2.1:
+> Release date: 02/Aug/2021
+* Add more properties for pages and databases:
+  * Page properties: https://developers.notion.com/reference/page#page-property-value
+  * Database properties: https://developers.notion.com/reference/database#database-property
 
 ## v1.2.0: ✅
-> Release date: 30/Jul/2021
+> Release date: 28/Jul/2021
+* Implement new endpoints
+  * Update page: https://developers.notion.com/reference/patch-page#archive-delete-a-page
+  * Create database: https://developers.notion.com/reference/create-a-database
 * Add more colors for Text
-* Improve coverage
 * Add list of endpoints implemented on package
-* Add archive page
-  * https://developers.notion.com/reference/patch-page#archive-delete-a-page
-* Add create database endpoint
-  * https://developers.notion.com/reference/create-a-database
+* Improve coverage
 
 ## v1.1.0: ✅
 > Release date: 10/Jul/2021

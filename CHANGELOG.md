@@ -107,11 +107,10 @@
 * Update documentation
 
 ## v1.2.0:
-> Release date: 30/Jul/2021
+> Release date: 28/Jul/2021
+* Implement new endpoints
+  * Update page: https://developers.notion.com/reference/patch-page#archive-delete-a-page
+  * Create database: https://developers.notion.com/reference/create-a-database
 * Add more colors for Text
-* Improve coverage
 * Add list of endpoints implemented on package
-* Add archive page
-  * https://developers.notion.com/reference/patch-page#archive-delete-a-page
-* Add create database endpoint
-  * https://developers.notion.com/reference/create-a-database
+* Improve coverage
