@@ -7,6 +7,8 @@ import 'package:notion_api/notion/blocks/numbered_list_item.dart';
 import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/blocks/todo.dart';
 import 'package:notion_api/notion/blocks/toggle.dart';
+import 'package:notion_api/notion/general/lists/properties.dart';
+import 'package:notion_api/notion/general/property.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/notion/general/lists/children.dart';
 import 'package:notion_api/notion/objects/database.dart';
@@ -143,6 +145,12 @@ void main() {
           Text('Database from test'),
         ],
         pagesColumnName: 'Custom pages column',
+        properties: Properties(map: {
+          'Description': MultiSelectProp(options: [
+            MultiSelectOption(name: 'Read', color: ColorsTypes.Blue),
+            MultiSelectOption(name: 'Sleep', color: ColorsTypes.Green),
+          ])
+        }),
       ));
 
       expect(res.status, 200);

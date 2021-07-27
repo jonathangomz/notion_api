@@ -64,7 +64,11 @@ class Database extends BaseFields {
     required this.parent,
     this.title: const <Text>[],
     String pagesColumnName: 'Name',
-  }) : this.properties = Properties(map: {pagesColumnName: TitleProp()}) {
+    Properties? properties,
+  }) : this.properties = Properties(map: {
+          pagesColumnName: TitleProp(),
+          if (properties != null) ...properties.entries,
+        }) {
     this.id = id;
     this.setBaseProperties(
       createdTime: createdTime,
