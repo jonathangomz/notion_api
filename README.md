@@ -19,7 +19,7 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
   - [Tests](#tests)
     - [Example:](#example)
 - [Next release](#next-release)
-  - [v1.2.1:](#v121)
+  - [v1.3.0](#v130)
 
 # API implemented
 | Endpoint                | Avaliable  | Notes           
@@ -147,26 +147,13 @@ TEST_BLOCK_HEADING_ID=c8hac4bb32af48889228bf483d938e34
 ```
 
 # Next release
-## v1.2.1:
-> Release date: 02/Aug/2021
-* Add constructors with only single text content with default style for:
-  * `Paragraph.text('some text here...')`
-  * `ToDo.text('some text here...', checked: true)`
-  * `Heading.text('some text here...', type: 2)`
-  * `BulletedListItem.text('some text here...')`
-  * `NumberedListItem.text('some text here...')`
-  * `Toggle.text('some text here...', children: [])`
-* Add more constructors for `Heading` class:
-  * `one`: Heading with type 1 by default.
-  * `two`: Heading with type 2 by default.
-  * `three`: Heading with type 3 by default.
-* Add more constructors for `Text` class:
-  * `code`: Text with code style by default.
-  * `italic`: Text with italic style by default.
-  * `bold`: Text with bold style by default.
-  * [**Opt**] `list`: List of words separated by comma (by default).
-    * Example: `Text.list()` will receive a list of Text and will be concatenated separated with comma by default. **It may be unnecessary**. Can help to make the code more readable.
-  * [**Opt**] `sep`: Text separator.
-    * Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.
+## v1.3.0
+> Release date: 06/Aug/2021
+* Maybe fix errors creating page with children. I don't know if is an error with Notion API.
+* Add `Query a database` endpoint:
+  * https://developers.notion.com/reference/post-database-query
+* Add more properties for pages and databases:
+  * Page properties: https://developers.notion.com/reference/page#page-property-value
+  * Database properties: https://developers.notion.com/reference/database#database-property
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html

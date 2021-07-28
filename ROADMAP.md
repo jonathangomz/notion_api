@@ -6,14 +6,17 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
 ## v1.3.0
 > Release date: 06/Aug/2021
 * Maybe fix errors creating page with children. I don't know if is an error with Notion API.
-* Add query a database endpoint:
+* Add `Query a database` endpoint:
   * https://developers.notion.com/reference/post-database-query
 * Add more properties for pages and databases:
   * Page properties: https://developers.notion.com/reference/page#page-property-value
   * Database properties: https://developers.notion.com/reference/database#database-property
 
-## v1.2.1:
+## v1.2.1: ✅
 > Release date: 02/Aug/2021
+* Add sugestion on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Update exports to improve usage
+  * Add private folder (`src/`)
 * Add constructors with only single text content with default style for:
   * `Paragraph.text('some text here...')`
   * `ToDo.text('some text here...', checked: true)`
@@ -29,10 +32,13 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
   * `code`: Text with code style by default.
   * `italic`: Text with italic style by default.
   * `bold`: Text with bold style by default.
-  * [**Opt**] `list`: List of words separated by comma (by default).
-    * Example: `Text.list()` will receive a list of Text and will be concatenated separated with comma by default. **It may be unnecessary**. Can help to make the code more readable.
-  * [**Opt**] `sep`: Text separator.
-    * Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.
+  * `underline`: Text with underline style by default.
+  * `color`: Text with different color of default.
+  * [**CANCELED**] ~~`sep`: Text separator.~~
+    * ~~Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.~~
+* Add `list(List<Text> texts, String separator, String lastSeparator)`:
+  *  **A static method**
+  *  Generate a textual list of texts separated by comma (by default).
 
 ## v1.2.0: ✅
 > Release date: 27/Jul/2021

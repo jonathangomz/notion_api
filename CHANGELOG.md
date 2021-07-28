@@ -115,3 +115,29 @@
 * Add more colors for Text
 * Add list of endpoints implemented on package
 * Improve coverage
+
+## v1.2.1:
+> Release date: 02/Aug/2021
+* Add sugestion on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Update exports to improve usage
+  * Add private folder (`src/`)
+* Add constructors with only single text content with default style for:
+  * `Paragraph.text('some text here...')`
+  * `ToDo.text('some text here...', checked: true)`
+  * `Heading.text('some text here...', type: 2)`
+  * `BulletedListItem.text('some text here...')`
+  * `NumberedListItem.text('some text here...')`
+  * `Toggle.text('some text here...', children: [])`
+* Add more constructors for `Heading` class:
+  * `one`: Heading with type 1 by default.
+  * `two`: Heading with type 2 by default.
+  * `three`: Heading with type 3 by default.
+* Add more constructors for `Text` class:
+  * `code`: Text with code style by default.
+  * `italic`: Text with italic style by default.
+  * `bold`: Text with bold style by default.
+  * `underline`: Text with underline style by default.
+  * `color`: Text with different color of default.
+* Add `list(List<Text> texts, String separator, String lastSeparator)`:
+  *  **A static method**
+  *  Generate a textual list of texts separated by comma (by default).
