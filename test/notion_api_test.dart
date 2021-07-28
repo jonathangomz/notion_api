@@ -113,25 +113,12 @@ void main() {
             Text(
               'You can also have children for some blocks like ',
             ),
-            Text(
-              'Paragraph',
-              annotations: TextAnnotations(code: true),
-            ),
-            Text(', '),
-            Text(
-              'ToDo',
-              annotations: TextAnnotations(code: true),
-            ),
-            Text(', '),
-            Text(
-              'BulletedListItems',
-              annotations: TextAnnotations(code: true),
-            ),
-            Text(' or '),
-            Text(
-              'NumberedListItems',
-              annotations: TextAnnotations(code: true),
-            ),
+            ...Text.list(texts: [
+              Text.code('Paragraph'),
+              Text.code('ToDo'),
+              Text.code('BulletedListItems'),
+              Text.code('NumberedListItems'),
+            ], lastSeparator: ' or '),
             Text('.'),
           ]),
           Paragraph.text(

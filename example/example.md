@@ -447,31 +447,28 @@ Children fullContent = Children.withBlocks([
       Text(
         'You can also have children for some blocks like ',
       ),
-      Text(
-        'Paragraph',
-        annotations: TextAnnotations(code: true),
-      ),
-      Text(', '),
-      Text(
-        'ToDo',
-        annotations: TextAnnotations(code: true),
-      ),
-      Text(', '),
-      Text(
-        'BulletedListItems',
-        annotations: TextAnnotations(code: true),
-      ),
-      Text(' or '),
-      Text(
-        'NumberedListItems',
-        annotations: TextAnnotations(code: true),
-      ),
+      ...Text.list(texts: [
+        Text.code('Paragraph'),
+        Text.code('ToDo'),
+        Text.code('BulletedListItems'),
+        Text.code('NumberedListItems'),
+      ], lastSeparator: ' or '),
       Text('.'),
     ]),
+    Paragraph.text(
+      'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list. This constructor can be found for every block.',
+    ),
     Paragraph(
-      text: Text(
-        'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list.',
-      ),
+      texts: [
+        Text('There are a few shortcuts for basic styles like: '),
+        ...Text.list(texts: [
+          Text.bold('all text bold and green', color: ColorsTypes.Green),
+          Text.code('all text code'),
+          Text.italic('all text italic'),
+          Text.underline('all text underline'),
+        ]),
+        Text('.'),
+      ],
     ),
   ]),
   Heading(text: Text('Blocks'), type: 2),
