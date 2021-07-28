@@ -19,6 +19,108 @@ class Text {
   /// Required the [text] itself. Also can receive the [annotations] and/or the [url] of the text.
   Text(this.text, {this.annotations, this.url});
 
+  /// Text constructor with **bold** content by default.
+  ///
+  /// Only can receive the [text] itself and the [color].
+  Text.bold(
+    this.text, {
+    ColorsTypes color: ColorsTypes.Default,
+  }) : this.annotations = TextAnnotations(bold: true, color: color);
+
+  /// Text constructor with _italic_ content by default.
+  ///
+  /// Only can receive the [text] itself and the [color].
+  Text.italic(
+    this.text, {
+    ColorsTypes color: ColorsTypes.Default,
+  }) : this.annotations = TextAnnotations(italic: true, color: color);
+
+  /// Text constructor with `code` content by default.
+  ///
+  /// Only can receive the [text] itself and the [color].
+  Text.code(
+    this.text, {
+    ColorsTypes color: ColorsTypes.Default,
+  }) : this.annotations = TextAnnotations(code: true, color: color);
+
+  /// Text constructor with underline content by default.
+  ///
+  /// Only can receive the [text] itself and the [color].
+  Text.underline(
+    this.text, {
+    ColorsTypes color: ColorsTypes.Default,
+  }) : this.annotations = TextAnnotations(underline: true, color: color);
+
+  /// Text constructor to change the default color of a text.
+  ///
+  /// Only can receive the [text] itself and the [color].
+  Text.color(
+    this.text, {
+    ColorsTypes color: ColorsTypes.Default,
+  }) : this.annotations = TextAnnotations(color: color);
+
+  /// Text mapper for lists.
+  ///
+  /// Can receive the list of [texts] the [separator] (by default ", ") and the [lastSeparator] (by default " and ").
+  ///
+  /// This static method generates a list of "Text" instances in the style of a textual list.
+  ///
+  /// Example:
+  /// ```dart
+  /// Paragraph(
+  ///   texts: [
+  ///     Text('Some programming languages are '),
+  ///     ...Text.list(texts: [
+  ///       Text.color('Java', color: ColorsTypes.Green),
+  ///       Text.color('Javascript', color: ColorsTypes.Blue),
+  ///       Text.color('PHP', color: ColorsTypes.Purple),
+  ///       Text.color('Dart', color: ColorsTypes.Orange),
+  ///     ]),
+  ///     Text('.'),
+  ///   ],
+  /// );
+  /// ```
+  /// Should print: _"Java, Javascript, PHP and Dart"_ but each element with his own style.
+  ///
+  /// Otherwise the code should be:
+  /// ```dart
+  /// Paragraph(
+  ///  texts: [
+  ///    Text('Some programming languages are '),
+  ///    Text.color('Java', color: ColorsTypes.Green),
+  ///    Text(', '),
+  ///    Text.color('Javascript', color: ColorsTypes.Blue),
+  ///    Text(', '),
+  ///    Text.color('PHP', color: ColorsTypes.Purple),
+  ///    Text(' and '),
+  ///    Text.color('Dart', color: ColorsTypes.Orange),
+  ///    Text('.'),
+  ///  ],
+  /// );
+  /// ```
+  static List<Text> list({
+    required List<Text> texts,
+    String separator: ', ',
+    String lastSeparator: ' and ',
+  }) {
+    List<Text> list = [];
+    texts.asMap().forEach((index, element) {
+      if (index == texts.length - 1) {
+        // last element
+        list.add(element);
+      } else {
+        if (index == texts.length - 2) {
+          // penultimate element
+          list.addAll([element, Text(lastSeparator)]);
+        } else {
+          // any other element
+          list.addAll([element, Text(separator)]);
+        }
+      }
+    });
+    return list;
+  }
+
   /// Create a new Text instance from json.
   ///
   /// Receive a [json] from where the information is extracted.

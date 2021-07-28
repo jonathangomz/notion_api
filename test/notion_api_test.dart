@@ -134,10 +134,20 @@ void main() {
             ),
             Text('.'),
           ]),
+          Paragraph.text(
+            'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list. This constructor can be found for every block.',
+          ),
           Paragraph(
-            text: Text(
-              'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list.',
-            ),
+            texts: [
+              Text('There are a few shortcuts for basic styles like: '),
+              ...Text.list(texts: [
+                Text.bold('all text bold and green', color: ColorsTypes.Green),
+                Text.code('all text code'),
+                Text.italic('all text italic'),
+                Text.underline('all text underline'),
+              ]),
+              Text('.'),
+            ],
           ),
         ]),
         Heading(text: Text('Blocks'), type: 2),
