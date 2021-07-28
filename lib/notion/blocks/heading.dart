@@ -20,28 +20,25 @@ class Heading extends Block {
   /// Also can receive the [type] of the heading as an integer between 1 and 3. Set to 1 by default when no specified or when is out of the range declared before.
   Heading({
     Text? text,
-    List<Text>? texts,
+    List<Text> texts: const [],
     int type: 1,
-  }) {
-    if (text != null) {
-      _content.add(text);
-    }
-    if (texts != null) {
-      _content.addAll(texts);
-    }
+  })  : this._content = [
+          if (text != null) text,
+          ...texts,
+        ],
+        this.type = headingTypeFromInt(type);
 
-    switch (type) {
-      case 3:
-        this.type = BlockTypes.H3;
-        break;
-      case 2:
-        this.type = BlockTypes.H2;
-        break;
-      case 1:
-      default:
-        this.type = BlockTypes.H1;
-    }
-  }
+  /// Heading constructor with a single `Text` instance as content.
+  ///
+  /// This constructor should receive the [content] as a single String.
+  ///
+  /// Can also receive the [annotations] of the single `Text` element and the [children] of this block.
+  Heading.text(
+    String content, {
+    TextAnnotations? annotations,
+    int type: 1,
+  })  : this._content = [Text(content, annotations: annotations)],
+        this.type = headingTypeFromInt(type);
 
   /// Add a new [text] to the paragraph content and returns this instance.
   @Deprecated('Use `addText(Block)` instead')
@@ -65,4 +62,16 @@ class Heading extends Block {
           'text': _content.map((e) => e.toJson()).toList(),
         },
       };
+
+  static BlockTypes headingTypeFromInt(int type) {
+    switch (type) {
+      case 3:
+        return BlockTypes.H3;
+      case 2:
+        return BlockTypes.H2;
+      case 1:
+      default:
+        return BlockTypes.H1;
+    }
+  }
 }

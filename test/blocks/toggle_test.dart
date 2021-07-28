@@ -20,6 +20,34 @@ void main() {
       expect(block.type, BlockTypes.Toggle);
     });
 
+    test('Create an instance with text constructor', () {
+      Toggle block = Toggle.text(
+        'This is a paragraph with a single text',
+        annotations: TextAnnotations(bold: true),
+        children: [
+          Paragraph.text('This is a children'),
+        ],
+      );
+
+      expect(
+          block.content,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(
+              1,
+            )
+          ]));
+      expect(block.content.first.annotations!.bold, isTrue);
+      expect(
+          block.children,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(1),
+          ]));
+    });
+
     test('Create an instance with information', () {
       Toggle block = Toggle(text: Text('A'))
           .addText('B')

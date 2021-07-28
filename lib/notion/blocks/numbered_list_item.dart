@@ -24,13 +24,23 @@ class NumberedListItem extends Block {
     Text? text,
     List<Text> texts: const [],
     List<Block> children: const [],
-  }) {
-    if (text != null) {
-      _content.add(text);
-    }
-    _content.addAll(texts);
-    _children.addAll(children);
-  }
+  })  : this._content = [
+          if (text != null) text,
+          ...texts,
+        ],
+        this._children = children;
+
+  /// NumberedListItem constructor with a single `Text` instance as content.
+  ///
+  /// This constructor should receive the [content] as a single String.
+  ///
+  /// Can also receive the [annotations] of the single `Text` element and the [children] of this block.
+  NumberedListItem.text(
+    String content, {
+    TextAnnotations? annotations,
+    List<Block> children: const [],
+  })  : this._content = [Text(content, annotations: annotations)],
+        this._children = children;
 
   /// Add a [text] to the rich text array and returns this instance. Also can receive the [annotations] of the text.
   NumberedListItem addText(String text, {TextAnnotations? annotations}) {

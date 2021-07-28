@@ -1,4 +1,5 @@
 import 'package:notion_api/notion/blocks/heading.dart';
+import 'package:notion_api/notion/blocks/paragraph.dart';
 import 'package:notion_api/notion/general/rich_text.dart';
 import 'package:notion_api/notion/general/types/notion_types.dart';
 import 'package:notion_api/utils/utils.dart';
@@ -14,6 +15,26 @@ void main() {
       expect(heading.content, allOf([isList, isEmpty]));
       expect(heading.isHeading, true);
       expect(heading.type, BlockTypes.H1);
+    });
+
+    test('Create an instance with text constructor', () {
+      Heading heading = Heading.text(
+        'This is a paragraph with a single text',
+        annotations: TextAnnotations(bold: true),
+        type: 2,
+      );
+
+      expect(
+          heading.content,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(
+              1,
+            )
+          ]));
+      expect(heading.content.first.annotations!.bold, isTrue);
+      expect(heading.type, BlockTypes.H2);
     });
 
     test('Create an instance of every heading type', () {

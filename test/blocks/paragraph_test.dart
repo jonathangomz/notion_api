@@ -17,6 +17,34 @@ void main() {
       expect(paragraph.type, BlockTypes.Paragraph);
     });
 
+    test('Create an instance with text constructor', () {
+      Paragraph paragraph = Paragraph.text(
+        'This is a paragraph with a single text',
+        annotations: TextAnnotations(bold: true),
+        children: [
+          Paragraph.text('This is a children'),
+        ],
+      );
+
+      expect(
+          paragraph.content,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(
+              1,
+            )
+          ]));
+      expect(paragraph.content.first.annotations!.bold, isTrue);
+      expect(
+          paragraph.children,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(1),
+          ]));
+    });
+
     test('Create an instance with information', () {
       Paragraph paragraph = Paragraph().addText('A').addText('B');
 

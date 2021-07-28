@@ -19,6 +19,36 @@ void main() {
       expect(todo.type, BlockTypes.ToDo);
     });
 
+    test('Create an instance with text constructor', () {
+      ToDo toDo = ToDo.text(
+        'This is a ToDo with a single text',
+        annotations: TextAnnotations(bold: true),
+        checked: true,
+        children: [
+          Paragraph.text('This is a children'),
+        ],
+      );
+
+      expect(
+          toDo.content,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(
+              1,
+            )
+          ]));
+      expect(toDo.content.first.annotations!.bold, isTrue);
+      expect(toDo.checked, isTrue);
+      expect(
+          toDo.children,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(1),
+          ]));
+    });
+
     test('Create an instance with information', () {
       ToDo todo = ToDo(text: Text('A'), checked: true).addText('B');
 

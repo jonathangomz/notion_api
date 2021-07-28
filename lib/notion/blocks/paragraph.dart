@@ -37,13 +37,24 @@ class Paragraph extends Block {
     List<Text> texts: const [],
     List<Block> children: const [],
     @deprecated this.textSeparator: ' ',
-  }) {
-    if (text != null) {
-      this._content.add(text);
-    }
-    this._content.addAll(texts);
-    this._children.addAll(children);
-  }
+  })  : this._content = [
+          if (text != null) text,
+          ...texts,
+        ],
+        this._children = children;
+
+  /// Paragraph constructor with a single `Text` instance as content.
+  ///
+  /// This constructor should receive the [content] as a single String.
+  ///
+  /// Can also receive the [annotations] of the single `Text` element and the [children] of this block.
+  Paragraph.text(
+    String content, {
+    TextAnnotations? annotations,
+    List<Block> children: const [],
+  })  : this.textSeparator = ' ',
+        this._content = [Text(content, annotations: annotations)],
+        this._children = children;
 
   /// Add a new [text] to the paragraph content and returns this instance.
   @Deprecated('Use `addText(Block)` instead')

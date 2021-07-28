@@ -39,13 +39,25 @@ class ToDo extends Block {
     List<Block> children: const [],
     this.checked: false,
     @deprecated this.textSeparator: ' ',
-  }) {
-    if (text != null) {
-      this._content.add(text);
-    }
-    this._content.addAll(texts);
-    this._children.addAll(children);
-  }
+  })  : this._content = [
+          if (text != null) text,
+          ...texts,
+        ],
+        this._children = children;
+
+  /// ToDo constructor with a single `Text` instance as content.
+  ///
+  /// This constructor should receive the [content] as a single String.
+  ///
+  /// Can also receive the [annotations] of the single `Text` element and the [children] of this block.
+  ToDo.text(
+    String content, {
+    TextAnnotations? annotations,
+    List<Block> children: const [],
+    this.checked: false,
+  })  : this.textSeparator = ' ',
+        this._content = [Text(content, annotations: annotations)],
+        this._children = children;
 
   // TODO: A function that create an instance of ToDo (or Paragraph or Heading) from a Block.
   //
