@@ -6,11 +6,21 @@
 /// API Reference here https://developers.notion.com/reference/intro.
 library notion_api;
 
-import 'package:notion_api/statics.dart';
+import 'package:notion_api/src/statics.dart';
 
-import 'notion_pages.dart';
-import 'notion_blocks.dart';
-import 'notion_databases.dart';
+import 'package:notion_api/src/notion_pages.dart';
+import 'package:notion_api/src/notion_blocks.dart';
+import 'package:notion_api/src/notion_databases.dart';
+
+// export clients
+export 'package:notion_api/src/notion_blocks.dart';
+export 'package:notion_api/src/notion_databases.dart';
+export 'package:notion_api/src/notion_pages.dart';
+
+// export all other components
+export 'package:notion_api/src/notion/exports.dart';
+export 'package:notion_api/src/responses/notion_response.dart';
+export 'package:notion_api/src/utils/utils.dart';
 
 /// A Notion API client.
 class NotionClient {

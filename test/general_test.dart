@@ -1,5 +1,5 @@
-import 'package:notion_api/notion/general/base_fields.dart';
-import 'package:notion_api/notion/general/types/notion_types.dart';
+import 'package:notion_api/notion.dart';
+import 'package:notion_api/src/notion/objects/base_fields.dart';
 import 'package:test/test.dart';
 
 void main() {
