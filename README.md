@@ -27,10 +27,10 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 | Retrieve a database     |     ✅     |                 
 | Query a database        |     🏗     | Working on it   
 | List databases          |     ✅     | 
-| Create a database       |     ✅     | Workin on more properties
+| Create a database       |     ✅     | Working on more properties
 | Retrieve a page         |     ✅     | 
-| Create a page           |     ✅     | Workin on more properties
-| Update a page           |     ✅     | Workin on more properties
+| Create a page           |     ✅     | Working on more properties
+| Update a page           |     ✅     | Working on more properties
 | Retrieve block children |     ✅     |
 | Append block children   |     ✅     |
 | Retrieve a user         |            |
