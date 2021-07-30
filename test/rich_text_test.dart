@@ -2,7 +2,24 @@ import 'package:notion_api/notion.dart';
 import 'package:test/test.dart';
 
 void main() {
-  group('Rich text tests', () {
+  group('Rich text tests =>', () {
+    test('Create a json from stylized instance', () {
+      Map<String, dynamic> json = Text(
+        '',
+        annotations: TextAnnotations(
+          bold: true,
+          strikethrough: true,
+        ),
+      ).toJson();
+
+      expect(json.containsKey('annotations'), true);
+      expect(json['annotations'].containsKey('italic'), false);
+      expect(json['annotations'].containsKey('strikethrough'), true);
+      expect(json['annotations'].containsKey('bold'), true);
+      expect(json['annotations']['strikethrough'], true);
+      expect(json['annotations']['bold'], true);
+    });
+
     test('Create instances of Text with default styles', () {
       Text bold =
           Text.bold('This text is bold and green', color: ColorsTypes.Green);
@@ -22,7 +39,9 @@ void main() {
       expect(green.annotations!.color, ColorsTypes.Green);
       expect(blue.annotations!.color, ColorsTypes.Blue);
     });
+  });
 
+  group('Rich text list test =>', () {
     test('Create a list of instances of Text', () {
       List<Text> list = Text.list(texts: [
         Text('A'),

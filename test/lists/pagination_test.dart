@@ -157,9 +157,17 @@ void main() {
     test('Blocks list with filter', () async {
       Pagination pag = Pagination.fromJson(longBlocksJsonList);
 
-      List<Block> filtered = pag.filterBlocks(onlyLeft: BlockTypes.H1);
+      List<Block> exclude = pag.filterBlocks(exclude: [BlockTypes.H1]);
+      List<Block> onlyLeft = pag.filterBlocks(onlyLeft: BlockTypes.H1);
+      List<Block> include = pag.filterBlocks(include: [BlockTypes.H1]);
+      List<Block> single =
+          pag.filterBlocks(id: '71fa679a-f072-4e70-bf52-6b1e770f5c3c');
 
-      expect(filtered.length, lessThan(pag.list.length));
+      expect(exclude.length, lessThan(pag.list.length));
+      expect(onlyLeft.length, lessThan(pag.list.length));
+      expect(onlyLeft, include);
+      expect(single.length, 1);
+      expect(single.first.type, BlockTypes.Paragraph);
     });
 
     test('Wrong json', () {
