@@ -165,26 +165,7 @@ _Parameters:_
 ### Heading & Paragraph
 **Code**
 ```dart
-// Create children instance:
-// * Deprecated way
-// Children oldWay = Children(
-//  heading: Heading('Test'),
-//  paragraph: Paragraph(
-//   content: [
-//      Text('Lorem ipsum (A)'),
-//      Text(
-//        'Lorem ipsum (B)',
-//        annotations: TextAnnotations(
-//          bold: true,
-//          underline: true,
-//          color: ColorsTypes.orange,
-//        ),
-//      ),
-//    ],
-//  ),
-//);
-//
-// * New way using `addAll()`
+// Option A: using `addAll(List<Block>)`
 Children childrenA = Children().addAll([
   Heading(text: Text('Test')),
   Paragraph(texts: [
@@ -202,7 +183,7 @@ Children childrenA = Children().addAll([
   ]),
 ]);
 
-// * New way using single `add()`
+// Option B: using `add(Block)`
 Children childrenB =
   Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
     Text('Lorem ipsum (A)'),
@@ -218,8 +199,26 @@ Children childrenB =
   ],
 ));
 
-// * New way using `withBlocks()` constructor
+// Option C: using `withBlocks(List<Block>)` constructor
 Children childrenC = Children.withBlocks([
+  Heading(text: Text('Test')),
+  Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text(
+      'Lorem ipsum (B)',
+      annotations: TextAnnotations(
+        bold: true,
+        underline: true,
+        color: ColorsTypes.Orange,
+      ),
+    ),
+  ], children: [
+    Heading(text: Text('Subtitle'), type: 3),
+  ]),
+]);
+
+// Option D (Recommended): using main constructor
+Children childrenD = Children(blocks: [
   Heading(text: Text('Test')),
   Paragraph(texts: [
     Text('Lorem ipsum (A)'),
@@ -239,7 +238,7 @@ Children childrenC = Children.withBlocks([
 // Send the instance to Notion
 notion.blocks.append(
   to: 'YOUR_BLOCK_ID',
-  children: childrenA, // or `childrenB` or `childrenC`, any of these will produce the same result.
+  children: childrenA, // or `childrenB`, `childrenC` or `childrenD`, any of these will produce the same result.
 );
 ```
 
@@ -250,27 +249,8 @@ notion.blocks.append(
 ### To do
 **Code**
 ```dart
-// Create children instance:
-// * Deprecated way
-// Children children = 
-//   Children(
-//     toDo: [
-//       ToDo(text: Text('This is a todo item A')),
-//       ToDo(
-//         texts: [
-//           Text('This is a todo item'),
-//           Text(
-//             'B',
-//             annotations: TextAnnotations(bold: true),
-//           ),
-//         ],
-//       ),
-//     ],
-//   );
-//
-// * New way
 Children children =
-  Children.withBlocks([
+  Children(blocks: [
     ToDo(text: Text('This is a todo item A')),
     ToDo(
       texts: [
@@ -433,11 +413,8 @@ Children fullContent = Children.withBlocks([
       ),
     ),
     Text(
-      'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces because the ',
+      'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces.',
     ),
-    Text('textSeparator', annotations: TextAnnotations(code: true)),
-    Text(
-        ' will be deprecated. Maybe you will see this with extra spaces because the separator but soon will be remove.')
   ], children: [
     Heading(
       text: Text('This is a subtitle for the paragraph'),

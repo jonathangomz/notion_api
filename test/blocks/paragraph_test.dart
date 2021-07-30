@@ -124,20 +124,5 @@ void main() {
       expect(json[blockTypeToString(BlockTypes.Paragraph)]['children'],
           allOf([isList, isEmpty]));
     });
-
-    test('Create json with separator', () {
-      String char = 'A';
-      String separator = '-';
-
-      Map<String, dynamic> json =
-          Paragraph(textSeparator: separator).addText(char).toJson();
-
-      List jsonTexts = json[blockTypeToString(BlockTypes.Paragraph)]['text'];
-
-      List<Text> texts = Text.fromListJson(jsonTexts);
-
-      expect(texts, isList);
-      expect(texts.first.text, char + separator);
-    });
   });
 }

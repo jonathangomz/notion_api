@@ -11,14 +11,6 @@ class Paragraph extends Block {
   List<Text> _content = [];
   List<Block> _children = [];
 
-  /// The separator for the Text objects.
-  @Deprecated('Text separation will be by your own')
-  String textSeparator;
-
-  /// The content of this block.
-  @Deprecated('Instead use `content`')
-  List<Text> get texts => _content.toList();
-
   /// The content of this block.
   List<Text> get content => _content.toList();
 
@@ -28,15 +20,10 @@ class Paragraph extends Block {
   /// Main paragraph constructor.
   ///
   /// Can receive a single [text] or a list of [texts]. If both are included also both fields are added to the heading content adding first the [text] field. Also can receive the [children] of the block.
-  ///
-  /// _Deprecated:_ [textSeparator] will be removed and the separation will be by your own. This because that's the same way that `Text` & `RichText` works on Flutter. In this way you can add annotations for a part of a word instead of only full words or phrases.
-  ///
-  /// Also a [textSeparator] can be anexed to separate the texts on the json generated using the `toJson()` function. The separator is used because when the text is displayed is all together without any kind of separation and adding the separator that behavior is avoided. By default the [textSeparator] is an space (" ").
   Paragraph({
     Text? text,
     List<Text> texts: const [],
     List<Block> children: const [],
-    @deprecated this.textSeparator: ' ',
   }) {
     this._content.addAll([
       if (text != null) text,
@@ -54,16 +41,8 @@ class Paragraph extends Block {
     String content, {
     TextAnnotations? annotations,
     List<Block> children: const [],
-  })  : this.textSeparator = ' ',
-        this._content = [Text(content, annotations: annotations)],
+  })  : this._content = [Text(content, annotations: annotations)],
         this._children = children;
-
-  /// Add a new [text] to the paragraph content and returns this instance.
-  @Deprecated('Use `addText(Block)` instead')
-  Paragraph add(Text text) {
-    this._content.add(text);
-    return this;
-  }
 
   /// Add a [text] to the rich text array and returns this instance. Also can receive the [annotations] of the text.
   Paragraph addText(String text, {TextAnnotations? annotations}) {
@@ -89,9 +68,7 @@ class Paragraph extends Block {
         'object': strObject,
         'type': strType,
         strType: {
-          'text': _content
-              .map((e) => e.toJson(textSeparator: textSeparator))
-              .toList(),
+          'text': _content.map((e) => e.toJson()).toList(),
           'children': _children.map((e) => e.toJson()).toList(),
         }
       };

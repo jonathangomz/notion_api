@@ -41,13 +41,6 @@ class Heading extends Block {
   })  : this._content = [Text(content, annotations: annotations)],
         this.type = headingTypeFromInt(type);
 
-  /// Add a new [text] to the paragraph content and returns this instance.
-  @Deprecated('Use `addText(Block)` instead')
-  Heading add(Text text) {
-    this._content.add(text);
-    return this;
-  }
-
   /// Add a [text] to the rich text array and returns this instance. Also can receive the [annotations] of the text.
   Heading addText(String text, {TextAnnotations? annotations}) {
     this._content.add(Text(text, annotations: annotations));

@@ -81,11 +81,8 @@ void main() {
             ),
           ),
           Text(
-            'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces because the ',
+            'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces.',
           ),
-          Text('textSeparator', annotations: TextAnnotations(code: true)),
-          Text(
-              ' will be deprecated. Maybe you will see this with extra spaces because the separator but soon will be remove.')
         ], children: [
           Heading(
             text: Text('This is a subtitle for the paragraph'),
@@ -240,7 +237,7 @@ void main() {
       final NotionDatabasesClient databases =
           NotionDatabasesClient(token: token ?? '');
 
-      NotionResponse res = await databases.create(Database.newDatabase(
+      NotionResponse res = await databases.create(Database(
         parent: Parent.page(id: testPageId ?? ''),
         title: [
           Text('Database from test'),
@@ -262,7 +259,7 @@ void main() {
       final NotionDatabasesClient databases =
           NotionDatabasesClient(token: token ?? '');
 
-      NotionResponse res = await databases.create(Database.newDatabase(
+      NotionResponse res = await databases.create(Database(
         parent: Parent.page(id: testPageId ?? ''),
       ));
 
@@ -325,11 +322,8 @@ void main() {
               ),
             ),
             Text(
-              'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces because the ',
+              'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces.',
             ),
-            Text('textSeparator', annotations: TextAnnotations(code: true)),
-            Text(
-                ' will be deprecated. Maybe you will see this with extra spaces because the separator but soon will be remove.')
           ], children: [
             Heading(
               text: Text('This is a subtitle for the paragraph'),

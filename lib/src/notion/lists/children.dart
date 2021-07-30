@@ -1,8 +1,5 @@
 import '../general/notion_types.dart';
 import '../objects/block.dart';
-import '../objects/blocks/heading.dart';
-import '../objects/blocks/paragraph.dart';
-import '../objects/blocks/todo.dart';
 
 /// A representation of the children Notion object. Also list of blocks.
 class Children {
@@ -19,23 +16,9 @@ class Children {
 
   /// Main children constructor.
   ///
-  /// _Parameters deprecated:_ Do not use the parameters, soon will be removed.
-  ///
-  /// Can receive a single [heading], a single [paragraph], and a list of [toDo] blocks. If all three are included then the three fields are added to the blocks list adding first the [heading] field, then the [paragraph], and the list of [toDo] at the end.
-  Children({
-    @deprecated Heading? heading,
-    @deprecated Paragraph? paragraph,
-    @deprecated List<ToDo>? toDo,
-  }) {
-    if (heading != null) {
-      _blocks.add(heading);
-    }
-    if (paragraph != null) {
-      _blocks.add(paragraph);
-    }
-    if (toDo != null) {
-      _blocks.addAll(toDo.toList());
-    }
+  /// Can receive a list of [blocks].
+  Children({List<Block> blocks: const []}) {
+    this._blocks.addAll(blocks);
   }
 
   /// Constructor that initialize a Children instance with a list of blocks.

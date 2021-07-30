@@ -22,22 +22,27 @@ class Database extends BaseFields {
 
   /// Main database constructor.
   ///
-  /// **Important:** This main constructor will become like the `newDatabase`. If you need to create an instance with this parameters then use `withDefaults` constructor.
+  /// Can receive the [parent] (required), the [title] (empty), the [pagesColumnName] ("Name") and the [properties] (null).
   ///
-  /// Can receive the [title], the [createdTime], the [lastEditedTime] and the database [id].
-  ///
+  /// The [pagesColumnName] is the value of the page column header.
   Database({
+    required this.parent,
     this.title: const <Text>[],
-    @deprecated String createdTime: '',
-    @deprecated String lastEditedTime: '',
-    @deprecated String id: '',
-  }) {
+    String pagesColumnName: 'Name',
+    Properties? properties,
+  }) : this.properties = Properties(map: {
+          pagesColumnName: TitleProp(),
+          if (properties != null) ...properties.entries,
+        }) {
     this.id = id;
     this.setBaseProperties(
       createdTime: createdTime,
       lastEditedTime: lastEditedTime,
     );
   }
+
+  /// Constructor for empty database.
+  Database.empty();
 
   /// Database constructor with defaults parameters.
   ///
@@ -49,30 +54,6 @@ class Database extends BaseFields {
     String lastEditedTime: '',
     String id: '',
   }) {
-    this.id = id;
-    this.setBaseProperties(
-      createdTime: createdTime,
-      lastEditedTime: lastEditedTime,
-    );
-  }
-
-  /// Database constructor with properties for new Database.
-  ///
-  /// **Important:** This is a temporary solution. In a future this constructor will be remove and the main constructor will be update to work like this one.
-  ///
-  /// Can receive the [parent] (required), the [title] (empty) and the [pagesColumnName] ("Name").
-  ///
-  /// The [pagesColumnName] is the value of the page column header.
-  ///
-  Database.newDatabase({
-    required this.parent,
-    this.title: const <Text>[],
-    String pagesColumnName: 'Name',
-    Properties? properties,
-  }) : this.properties = Properties(map: {
-          pagesColumnName: TitleProp(),
-          if (properties != null) ...properties.entries,
-        }) {
     this.id = id;
     this.setBaseProperties(
       createdTime: createdTime,

@@ -4,7 +4,7 @@ import 'package:test/test.dart';
 void main() {
   group('Database Instance =>', () {
     test('Create new empty instance', () {
-      Database database = Database();
+      Database database = Database.empty();
 
       expect(database, isNotNull);
       expect(database.title, isEmpty);
@@ -13,7 +13,7 @@ void main() {
     });
 
     test('Create new instance with data', () {
-      Database database = Database(title: [Text('Title')])
+      Database database = Database.withDefaults(title: [Text('Title')])
           .addProperty(
               name: 'Tags',
               property: MultiSelectProp(options: [
@@ -39,23 +39,24 @@ void main() {
     });
 
     test('Create json from instance', () {
-      Map<String, dynamic> database = Database(title: [Text('Title')])
-          .addProperty(
-              name: 'Tags',
-              property: MultiSelectProp(options: [
-                MultiSelectOption(name: 'Option A'),
-                MultiSelectOption(name: 'Option B'),
-              ]))
-          .addProperty(
-              name: 'Details',
-              property: RichTextProp(content: [
-                Text('Detail A'),
-                Text('Detail B'),
-              ]))
-          .addProperty(
-              name: 'Name',
-              property: TitleProp(content: [Text('Something here...')]))
-          .toJson();
+      Map<String, dynamic> database =
+          Database.withDefaults(title: [Text('Title')])
+              .addProperty(
+                  name: 'Tags',
+                  property: MultiSelectProp(options: [
+                    MultiSelectOption(name: 'Option A'),
+                    MultiSelectOption(name: 'Option B'),
+                  ]))
+              .addProperty(
+                  name: 'Details',
+                  property: RichTextProp(content: [
+                    Text('Detail A'),
+                    Text('Detail B'),
+                  ]))
+              .addProperty(
+                  name: 'Name',
+                  property: TitleProp(content: [Text('Something here...')]))
+              .toJson();
 
       expect(database, isNotNull);
       expect(database['object'], 'database');
@@ -117,7 +118,7 @@ void main() {
     });
 
     test('Add properties from json', () {
-      Database database = Database().addPropertiesFromJson({
+      Database database = Database.empty().addPropertiesFromJson({
         "Tags": {
           "id": ">cp;",
           "type": "multi_select",
