@@ -12,6 +12,22 @@ void main() {
       expect(database.object, ObjectTypes.Database);
     });
 
+    test('Create new database instance', () {
+      Database database = Database(
+        parent: Parent.page(id: 'some_id'),
+        title: [Text('Database title')],
+        pagesColumnName: 'CustomColumName',
+        properties: Properties(map: {
+          'Description': RichTextProp(),
+        }),
+      );
+
+      expect(database.parent.type, ParentType.Page);
+      expect(database.title.length, 1);
+      expect(database.properties.entries.length,
+          2); // pages column name and 'Description'
+    });
+
     test('Create new instance with data', () {
       Database database = Database.withDefaults(title: [Text('Title')])
           .addProperty(
