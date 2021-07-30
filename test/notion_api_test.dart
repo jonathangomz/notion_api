@@ -66,87 +66,99 @@ void main() {
     });
 
     test('Create a page with full example', () async {
-      Children fullContent = Children.withBlocks([
-        Heading(text: Text('This the title')),
-        Paragraph(texts: [
-          Text(
-            'Here you can write all the content of the paragraph but if you want to have another style for a single word you will have to do ',
-          ),
-          Text(
-            'this. ',
-            annotations: TextAnnotations(
-              color: ColorsTypes.Green,
-              bold: true,
-              italic: true,
-            ),
-          ),
-          Text(
-            'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces.',
-          ),
-        ], children: [
-          Heading(
-            text: Text('This is a subtitle for the paragraph'),
-            type: 2,
-          ),
+      Children fullContent = Children(
+        blocks: [
+          Heading(text: Text('Examples')),
           Paragraph(texts: [
             Text(
-              'You can also have children for some blocks like ',
+              'Here you can write all the content of the paragraph but if you want to have another style for a single word you will have to do ',
             ),
-            ...Text.list(texts: [
-              Text.code('Paragraph'),
-              Text.code('ToDo'),
-              Text.code('BulletedListItems'),
-              Text.code('NumberedListItems'),
-            ], lastSeparator: ' or '),
-            Text('.'),
-          ]),
-          Paragraph.text(
-            'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list. This constructor can be found for every block.',
-          ),
-          Paragraph(
-            texts: [
-              Text('There are a few shortcuts for basic styles like: '),
+            Text(
+              'this. ',
+              annotations: TextAnnotations(
+                color: ColorsTypes.Green,
+                bold: true,
+                italic: true,
+              ),
+            ),
+            Text(
+              'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces.',
+            ),
+          ], children: [
+            Heading.text('Children subtitle', type: 2),
+            Paragraph(texts: [
+              Text(
+                'You can also have children for some blocks like ',
+              ),
               ...Text.list(texts: [
-                Text.bold('all text bold and green', color: ColorsTypes.Green),
-                Text.code('all text code'),
-                Text.italic('all text italic'),
-                Text.underline('all text underline'),
-              ]),
+                Text.code('Paragraph'),
+                Text.code('ToDo'),
+                Text.code('BulletedListItems'),
+                Text.code('NumberedListItems'),
+              ], lastSeparator: ' or '),
               Text('.'),
+            ]),
+            Paragraph.text(
+              'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list.',
+            ),
+            Paragraph(
+              texts: [
+                Text('You can use styles for texts like: '),
+                ...Text.list(texts: [
+                  Text.color('green text', color: ColorsTypes.Green),
+                  Text.color('blue text', color: ColorsTypes.Blue),
+                  Text.color('red text', color: ColorsTypes.Red),
+                  Text.color('purple text', color: ColorsTypes.Purple),
+                  Text.underline('underline text'),
+                  Text.code('code format text'),
+                  Text.italic('italic text'),
+                  Text('strikethrough text',
+                      annotations: TextAnnotations(strikethrough: true)),
+                  Text(
+                    'mix styles',
+                    annotations: TextAnnotations(
+                      bold: true,
+                      italic: true,
+                      underline: true,
+                      color: ColorsTypes.Orange,
+                    ),
+                  ),
+                ], lastSeparator: ' or '),
+                Text('!')
+              ],
+            ),
+          ]),
+          Heading.text('Blocks', type: 2),
+          Heading.text('ToDo', type: 3),
+          ToDo.text('Daily meeting', checked: true),
+          ToDo.text('Clean the house'),
+          ToDo.text('Do the laundry'),
+          ToDo.text('Call mom', children: [
+            Paragraph(texts: [
+              Text.bold('Note: '),
+              Text('Remember to call her before 20:00'),
+            ]),
+          ]),
+          Heading.text('Lists', type: 3),
+          BulletedListItem.text('Milk'),
+          BulletedListItem.text('Cereal'),
+          BulletedListItem.text('Eggs'),
+          BulletedListItem.text('Tortillas of course'),
+          Paragraph.text('The numbered list are ordered by default by notion.'),
+          NumberedListItem.text('Notion'),
+          NumberedListItem.text('Keep by Google'),
+          NumberedListItem.text('Evernote'),
+          Heading.text('Toggle', type: 3),
+          Toggle.text(
+            'Toogle items',
+            children: [
+              Paragraph.text(
+                'Toogle items are blocks that can show or hide their children, and their children can be any other block.',
+              ),
             ],
           ),
-        ]),
-        Heading(text: Text('Blocks'), type: 2),
-        Heading(text: Text('ToDo'), type: 3),
-        ToDo(text: Text('Daily meeting'), checked: true),
-        ToDo(text: Text('Clean the house')),
-        ToDo(text: Text('Do the laundry')),
-        ToDo(text: Text('Call mom'), children: [
-          Paragraph(texts: [
-            Text('Note: ', annotations: TextAnnotations(bold: true)),
-            Text('Remember to call her before 20:00'),
-          ]),
-        ]),
-        Heading(text: Text('Lists'), type: 3),
-        BulletedListItem(text: Text('Milk')),
-        BulletedListItem(text: Text('Cereal')),
-        BulletedListItem(text: Text('Eggs')),
-        BulletedListItem(text: Text('Tortillas of course')),
-        Paragraph(
-          text: Text('The numbered list are ordered by default by notion.'),
-        ),
-        NumberedListItem(text: Text('Notion')),
-        NumberedListItem(text: Text('Keep by Google')),
-        NumberedListItem(text: Text('Evernote')),
-        Heading(text: Text('Toggle'), type: 3),
-        Toggle(text: Text('Toogle items'), children: [
-          Paragraph(
-            text: Text(
-              'Toogle items are blocks that can show or hide their children, and their children can be any other block.',
-            ),
-          ),
-        ])
-      ]);
+        ],
+      );
 
       final NotionClient notion = NotionClient(token: token ?? '');
 
@@ -300,101 +312,6 @@ void main() {
       expect(res.isOk, true);
       expect(res.isList, true);
       expect(res.content.length, lessThanOrEqualTo(limit));
-    });
-
-    test('Append complex stuff', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
-
-      NotionResponse res = await blocks.append(
-        to: testBlockId as String,
-        children: Children.withBlocks([
-          Heading(text: Text('This the title')),
-          Paragraph(texts: [
-            Text(
-              'Here you can write all the content of the paragraph but if you want to have another style for a single word you will have to do ',
-            ),
-            Text(
-              'this. ',
-              annotations: TextAnnotations(
-                color: ColorsTypes.Green,
-                bold: true,
-                italic: true,
-              ),
-            ),
-            Text(
-              'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces.',
-            ),
-          ], children: [
-            Heading(
-              text: Text('This is a subtitle for the paragraph'),
-              type: 2,
-            ),
-            Paragraph(texts: [
-              Text(
-                'You can also have children for some blocks like ',
-              ),
-              Text(
-                'Paragraph',
-                annotations: TextAnnotations(code: true),
-              ),
-              Text(', '),
-              Text(
-                'ToDo',
-                annotations: TextAnnotations(code: true),
-              ),
-              Text(', '),
-              Text(
-                'BulletedListItems',
-                annotations: TextAnnotations(code: true),
-              ),
-              Text(' or '),
-              Text(
-                'NumberedListItems',
-                annotations: TextAnnotations(code: true),
-              ),
-              Text('.'),
-            ]),
-            Paragraph(
-              text: Text(
-                'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list.',
-              ),
-            ),
-          ]),
-          Heading(text: Text('Blocks'), type: 2),
-          Heading(text: Text('ToDo'), type: 3),
-          ToDo(text: Text('Daily meeting'), checked: true),
-          ToDo(text: Text('Clean the house')),
-          ToDo(text: Text('Do the laundry')),
-          ToDo(text: Text('Call mom'), children: [
-            Paragraph(texts: [
-              Text('Note: ', annotations: TextAnnotations(bold: true)),
-              Text('Remember to call her before 20:00'),
-            ]),
-          ]),
-          Heading(text: Text('Lists'), type: 3),
-          BulletedListItem(text: Text('Milk')),
-          BulletedListItem(text: Text('Cereal')),
-          BulletedListItem(text: Text('Eggs')),
-          BulletedListItem(text: Text('Tortillas of course')),
-          Paragraph(
-            text: Text('The numbered list are ordered by default by notion.'),
-          ),
-          NumberedListItem(text: Text('Notion')),
-          NumberedListItem(text: Text('Keep by Google')),
-          NumberedListItem(text: Text('Evernote')),
-          Heading(text: Text('Toggle'), type: 3),
-          Toggle(text: Text('Toogle items'), children: [
-            Paragraph(
-              text: Text(
-                'Toogle items are blocks that can show or hide their children, and their children can be any other block.',
-              ),
-            ),
-          ])
-        ]),
-      );
-
-      expect(res.status, 200);
-      expect(res.isOk, true);
     });
 
     test('Append heading & text', () async {

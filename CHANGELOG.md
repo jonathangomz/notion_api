@@ -106,38 +106,36 @@
   * Remove named parameters for `Children` class
 * Update documentation
 
-## v1.2.0:
-> Release date: 27/Jul/2021
-* Implement new endpoints
-  * Update page: https://developers.notion.com/reference/patch-page#archive-delete-a-page
-  * Create database: https://developers.notion.com/reference/create-a-database
-* Add `Page` support for responses
-* Add more colors for Text
-* Add list of endpoints implemented on package
-* Improve coverage
-
-## v1.2.1:
-> Release date: 02/Aug/2021
-* Add sugestion on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+## v2.0.0-beta1
+> Release date: 30/Aug/2021
+* 🐣 Add constructor for empty `Database`.
+* 🐣 Add parameter `blocks` for `Children` constructor.
+* 🍗 Remove deprecated code:
+  * `textSeparation`
+  * Parameter constructors for `Children`:
+    * `heading`
+    * `paragraph`
+    * `toDo`
+* 🐣 Add suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
   * Update exports to improve usage
   * Add private folder (`src/`)
-* Add constructors with only single text content with default style for:
-  * `Paragraph.text('some text here...')`
-  * `ToDo.text('some text here...', checked: true)`
-  * `Heading.text('some text here...', type: 2)`
-  * `BulletedListItem.text('some text here...')`
-  * `NumberedListItem.text('some text here...')`
-  * `Toggle.text('some text here...', children: [])`
-* Add more constructors for `Heading` class:
+* 🐣 Add constructors with only single text content with default style for:
+  * `Paragraph`: `Paragraph.text('some text here...')`
+  * `ToDo`: `ToDo.text('some text here...', checked: true)`
+  * `Heading`: `Heading.text('some text here...', type: 2)`
+  * `BulletedListItem`: `BulletedListItem.text('some text here...')`
+  * `NumberedListItem`: `NumberedListItem.text('some text here...')`
+  * `Toggle`: `Toggle.text('some text here...', children: [])`
+* 🐣 Add more constructors for `Heading` class:
   * `one`: Heading with type 1 by default.
   * `two`: Heading with type 2 by default.
   * `three`: Heading with type 3 by default.
-* Add more constructors for `Text` class:
+* 🐣 Add more constructors for `Text` class:
   * `code`: Text with code style by default.
   * `italic`: Text with italic style by default.
   * `bold`: Text with bold style by default.
   * `underline`: Text with underline style by default.
   * `color`: Text with different color of default.
-* Add `list(List<Text> texts, String separator, String lastSeparator)`:
+* 🐣 Add `list(List<Text> texts, String separator, String lastSeparator)`:
   *  **A static method**
   *  Generate a textual list of texts separated by comma (by default).

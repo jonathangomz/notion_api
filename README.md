@@ -19,7 +19,7 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
   - [Tests](#tests)
     - [Example:](#example)
 - [Next release](#next-release)
-  - [v1.3.0](#v130)
+  - [v2.0.0](#v200)
 
 # API implemented
 | Endpoint                | Avaliable  | Notes           
@@ -70,7 +70,7 @@ _To see code to create the page above or see more examples [go here](https://git
 ### Append blocks children
 ```dart
 // Create children instance:
-Children children = Children.withBlocks([
+Children children = Children(blocks: [
   Heading(text: Text('Test')),
   Paragraph(texts: [
     Text('Lorem ipsum (A)'),
@@ -147,13 +147,8 @@ TEST_BLOCK_HEADING_ID=c8hac4bb32af48889228bf483d938e34
 ```
 
 # Next release
-## v1.3.0
-> Release date: 06/Aug/2021
-* Maybe fix errors creating page with children. I don't know if is an error with Notion API.
-* Add `Query a database` endpoint:
-  * https://developers.notion.com/reference/post-database-query
-* Add more properties for pages and databases:
-  * Page properties: https://developers.notion.com/reference/page#page-property-value
-  * Database properties: https://developers.notion.com/reference/database#database-property
+## v2.0.0
+> Release date: 04/Aug/2021
+* 🔧 Fix any error on beta
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html
