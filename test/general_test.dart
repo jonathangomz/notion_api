@@ -1,4 +1,4 @@
-import 'package:notion_api/notion.dart';
+import 'package:notion_api/notion_api.dart';
 import 'package:notion_api/src/notion/objects/base_fields.dart';
 import 'package:test/test.dart';
 
