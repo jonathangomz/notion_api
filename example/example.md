@@ -25,7 +25,7 @@
 ## Full instance
 You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class properties methods.
 ```dart
-NotionClient notion = NotionClient(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
+NotionClient notion = NotionClient(auth: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
 ```
 
 ## Individual classes
@@ -34,12 +34,12 @@ You can also use individual request group class like `NotionPagesClient` or `Not
 **Example**
 ```dart
 // With main class
-NotionClient notion = NotionClient(token: 'YOUR_TOKEN');
-notion.databases.fetchAll();
+NotionClient notion = NotionClient(auth: 'YOUR_TOKEN');
+notion.databases.list();
 
 // With individual class
-NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
-databases.fetchAll();
+NotionDatabasesClient databases = NotionDatabasesClient(auth: 'YOUR_TOKEN');
+databases.list();
 ```
 
 # Pages
@@ -74,7 +74,8 @@ If you want to update the content of the page itself the use the block children 
 
 **Note:** If the parent is a database, the new property values in the properties parameter must conform to the parent database's property schema.
 ```dart
-notion.pages.update('YOUR_PAGE_ID',
+notion.pages.update(
+  page_id: 'YOUR_PAGE_ID',
   properties: Properties(map: {
     'Description': RichTextProp(content: [
       Text('New value for Description property'),
@@ -89,7 +90,8 @@ Archive or delete a page is a subaction of update it according to the API refere
 
 You can archive or un-archive the page just by toggling the boolean value of the `archived` parameter.
 ```dart
-notion.pages.update('YOUR_PAGE_ID',
+notion.pages.update(
+  page_id: 'YOUR_PAGE_ID',
   archived: true,
 );
 ```
@@ -97,7 +99,7 @@ _See more at https://developers.notion.com/reference/patch-page#archive-delete-a
 
 ## Retrieve a page
 ```dart
-notion.pages.fetch('YOUR_PAGE_ID');
+notion.pages.retrieve(page_id: 'YOUR_PAGE_ID');
 ```
 _See more at https://developers.notion.com/reference/get-page_
 
@@ -108,7 +110,7 @@ You have to define the parent of the page. It can be:
 - `workspace`
 ```dart
 // With page parent
-Page page = Database(
+Database database = Database(
   parent: Parent.page(id: 'YOUR_PAGE_ID'),
   title: [
     Text('Database from examples'),
@@ -122,13 +124,13 @@ Page page = Database(
   }),
 );
 
-notion.databases.create(page);
+notion.databases.create(database);
 ```
 _See more at https://developers.notion.com/reference/create-a-database_
 
 ## Retrieve a database
 ```dart
-notion.databases.fetch('YOUR_DATABASE_ID');
+notion.databases.retrieve(database_id: 'YOUR_DATABASE_ID');
 ```
 _See more at https://developers.notion.com/reference/get-database_
 
@@ -139,14 +141,14 @@ _Parameters:_
 - _startCursor: If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results._
 - _pageSize: The number of items from the full list desired in the response. Maximum: 100, otherwise will be ignored._
 ```dart
-notion.databases.fetchAll();
+notion.databases.list();
 ```
 _See more at https://developers.notion.com/reference/get-databases_
 
 # Block children
 ## Retrieve block children
 ```dart
-notion.blocks.fetch('YOUR_BLOCK_ID');
+notion.blocks.list(block_id: 'YOUR_BLOCK_ID');
 ```
 _See more at https://developers.notion.com/reference/get-block-children_
 
@@ -233,7 +235,7 @@ Children childrenD = Children(blocks: [
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: childrenA, // or `childrenB`, `childrenC` or `childrenD`, any of these will produce the same result.
 );
 ```
@@ -266,7 +268,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -299,7 +301,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -330,7 +332,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -361,7 +363,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -379,7 +381,7 @@ Go to see the result https://jonathangomz.notion.site/notion_api-example-81cb020
 
 ```dart
 // Initialize the main Notion client
-final NotionClient notion = NotionClient(token: 'YOUR_SECRET');
+final NotionClient notion = NotionClient(auth: 'YOUR_SECRET');
 
 // Create the instance of the page
 final Page page = Page(
@@ -490,7 +492,7 @@ Children fullContent = Children(
 
 // Append the content to the page
 var res = await notion.blocks.append(
-  to: newPageId,
+  block_id: newPageId,
   children: fullContent,
 );
 ```
