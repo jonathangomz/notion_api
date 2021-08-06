@@ -23,7 +23,7 @@ export 'package:notion_api/src/responses/notion_response.dart';
 export 'package:notion_api/src/utils/utils.dart';
 
 /// A Notion API client.
-class NotionClient {
+class Client {
   /// The Notion API client for pages requests.
   NotionPagesClient pages;
 
@@ -35,17 +35,17 @@ class NotionClient {
 
   /// Main Notion client constructor.
   ///
-  /// Require the [token] to authenticate the requests. Also can receive the API [version] where to make the calls, which is the latests by default (v1); and the [dateVersion] which is by default "2021-05-13" (the latest at 04/07/2021).
+  /// Require the [auth] to authenticate the requests. Also can receive the API [version] where to make the calls, which is the latests by default (v1); and the [dateVersion] which is by default "2021-05-13" (the latest at 04/07/2021).
   ///
   /// This class is used as the main entry point for all clients. From the instances of this class any other client can be used.
-  NotionClient({
-    required String token,
+  Client({
+    required String auth,
     String version: latestVersion,
     String dateVersion: latestDateVersion,
   })  : this.pages = NotionPagesClient(
-            token: token, version: version, dateVersion: dateVersion),
+            auth: auth, version: version, dateVersion: dateVersion),
         this.databases = NotionDatabasesClient(
-            token: token, version: version, dateVersion: dateVersion),
+            auth: auth, version: version, dateVersion: dateVersion),
         this.blocks = NotionBlockClient(
-            token: token, version: version, dateVersion: dateVersion);
+            auth: auth, version: version, dateVersion: dateVersion);
 }

@@ -24,23 +24,23 @@ class NotionBlockClient {
 
   /// Main Notion block client constructor.
   ///
-  /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
+  /// Require the [auth] token to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1). Also can receive the [dateVersion], which is by default "2021-05-13".
   NotionBlockClient({
-    required String token,
+    required String auth,
     String version: latestVersion,
     String dateVersion: latestDateVersion,
-  })  : this._token = token,
+  })  : this._token = auth,
         this._v = version,
         this._dateVersion = dateVersion;
 
-  /// Retrieve the block children from block with [id].
+  /// Retrieve the block children from block specified by the [block_id].
   ///
   /// A [startCursor] can be defined to specify the page where to start.
   /// Also a [pageSize] can be defined to limit the result. The max value is 100.
   ///
   /// _See more at https://developers.notion.com/reference/get-block-children_
-  Future<NotionResponse> fetch(
-    String id, {
+  Future<NotionResponse> list({
+    required String block_id,
     String? startCursor,
     int? pageSize,
   }) async {
@@ -53,7 +53,7 @@ class NotionBlockClient {
     }
 
     http.Response response = await http
-        .get(Uri.https(host, '/$_v/$path/$id/children', query), headers: {
+        .get(Uri.https(host, '/$_v/$path/$block_id/children', query), headers: {
       'Authorization': 'Bearer $_token',
       'Notion-Version': _dateVersion,
     });
@@ -61,15 +61,15 @@ class NotionBlockClient {
     return NotionResponse.fromResponse(response);
   }
 
-  /// Append a block [children] [to] a specific block.
+  /// Append [children] to a block specified by the [block_id].
   ///
   /// _See more at https://developers.notion.com/reference/patch-block-children_
   Future<NotionResponse> append({
-    required String to,
+    required String block_id,
     required Children children,
   }) async {
     http.Response res = await http.patch(
-        Uri.https(host, '/$_v/$path/$to/children'),
+        Uri.https(host, '/$_v/$path/$block_id/children'),
         body: jsonEncode(children.toJson()),
         headers: {
           'Authorization': 'Bearer $_token',

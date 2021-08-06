@@ -42,8 +42,7 @@ void main() {
     });
 
     test('Create an instance from auth error response', () async {
-      final NotionResponse res =
-          await NotionClient(token: '').databases.fetchAll();
+      final NotionResponse res = await Client(auth: '').databases.list();
 
       expect(res.hasError, true);
       expect(res.isError, true);
@@ -52,11 +51,11 @@ void main() {
     });
 
     test('Invalid field (children) for block', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       // Heading block do not support children
       var res = await blocks.append(
-        to: testBlockHeadingId ?? '',
+        block_id: testBlockHeadingId ?? '',
         children: Children.withBlocks(
           [
             Paragraph(
@@ -75,7 +74,7 @@ void main() {
     });
 
     test('Invalid property', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+      final NotionPagesClient pages = NotionPagesClient(auth: token ?? '');
 
       final Page page = Page(
         parent: Parent.database(id: testDatabaseId ?? ''),
@@ -92,10 +91,11 @@ void main() {
     });
 
     test('Wrong uuid for block children', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
-      NotionResponse res = await blocks.fetch(
-          testBlockId != null ? testBlockId!.replaceFirst('d', 'b') : '');
+      NotionResponse res = await blocks.list(
+          block_id:
+              testBlockId != null ? testBlockId!.replaceFirst('d', 'b') : '');
 
       expect(res.status, 404);
       expect(res.isOk, false);
@@ -108,9 +108,9 @@ void main() {
   group('Response lists tests =>', () {
     test('Fetch a list', () async {
       NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res = await databases.fetchAll();
+      NotionResponse res = await databases.list();
 
       expect(res.status, 200);
       expect(res.hasError, false);
@@ -122,18 +122,18 @@ void main() {
 
     test('Fetch databases list', () async {
       NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res = await databases.fetchAll();
+      NotionResponse res = await databases.list();
 
       expect(res.content.isEmpty, true);
       expect(res.content.list, isEmpty);
     });
 
     test('Fetch blocks children', () async {
-      NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
-      NotionResponse res = await blocks.fetch(testBlockId ?? '');
+      NotionResponse res = await blocks.list(block_id: testBlockId ?? '');
 
       expect(res.content.isEmpty, false);
       expect(res.content.isBlocksList, true);
@@ -145,9 +145,10 @@ void main() {
 
   group('Database response test =>', () {
     test('Instance from response', () async {
-      NotionDatabasesClient db = NotionDatabasesClient(token: token ?? '');
+      NotionDatabasesClient db = NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse response = await db.fetch(testDatabaseId ?? '');
+      NotionResponse response =
+          await db.retrieve(database_id: testDatabaseId ?? '');
 
       expect(response.isDatabase, true);
       expect(response.content.title, allOf([isList, isNotEmpty, hasLength(1)]));

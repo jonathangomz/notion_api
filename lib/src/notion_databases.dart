@@ -24,21 +24,21 @@ class NotionDatabasesClient {
 
   /// Main Notion database client constructor.
   ///
-  /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
+  /// Require the [auth] token to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1). Also can receive the [dateVersion], which is by default "2021-05-13".
   NotionDatabasesClient({
-    required String token,
+    required String auth,
     String version: latestVersion,
     String dateVersion: latestDateVersion,
-  })  : this._token = token,
+  })  : this._token = auth,
         this._v = version,
         this._dateVersion = dateVersion;
 
-  /// Retrieve the database with [id].
+  /// Retrieve the database specified by the [database_id].
   ///
   /// _See more at https://developers.notion.com/reference/get-database_
-  Future<NotionResponse> fetch(String id) async {
+  Future<NotionResponse> retrieve({required String database_id}) async {
     http.Response res =
-        await http.get(Uri.https(host, '/$_v/$path/$id'), headers: {
+        await http.get(Uri.https(host, '/$_v/$path/$database_id'), headers: {
       'Authorization': 'Bearer $_token',
       'Notion-Version': _dateVersion,
     });
@@ -52,7 +52,7 @@ class NotionDatabasesClient {
   /// Also a [pageSize] can be defined to limit the result. The max value is 100.
   ///
   /// _See more at https://developers.notion.com/reference/get-databases_
-  Future<NotionResponse> fetchAll({String? startCursor, int? pageSize}) async {
+  Future<NotionResponse> list({String? startCursor, int? pageSize}) async {
     Map<String, dynamic> query = {};
     if (startCursor != null) {
       query['start_cursor'] = startCursor;
@@ -70,7 +70,7 @@ class NotionDatabasesClient {
     return NotionResponse.fromResponse(res);
   }
 
-  /// Create a database.
+  /// Create a [database].
   ///
   /// _See more at https://developers.notion.com/reference/create-a-database_
   Future<NotionResponse> create(Database database) async {

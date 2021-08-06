@@ -24,21 +24,21 @@ class NotionPagesClient {
 
   /// Main Notion page client constructor.
   ///
-  /// Require the [token] to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1).
+  /// Require the [auth] token to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1). Also can receive the [dateVersion], which is by default "2021-05-13".
   NotionPagesClient({
-    required String token,
+    required String auth,
     String version: latestVersion,
     String dateVersion: latestDateVersion,
-  })  : this._token = token,
+  })  : this._token = auth,
         this._v = version,
         this._dateVersion = dateVersion;
 
-  /// Retrieve the page with [id].
+  /// Retrieve the page specified by the [page_id].
   ///
   /// _See more at https://developers.notion.com/reference/get-page_
-  Future<NotionResponse> fetch(String id) async {
+  Future<NotionResponse> retrieve({required String page_id}) async {
     http.Response res =
-        await http.get(Uri.https(host, '/$_v/$path/$id'), headers: {
+        await http.get(Uri.https(host, '/$_v/$path/$page_id'), headers: {
       'Authorization': 'Bearer $_token',
       'Notion-Version': _dateVersion,
     });
@@ -63,20 +63,20 @@ class NotionPagesClient {
     return NotionResponse.fromResponse(res);
   }
 
-  /// Update the [properties] of the page with an specified [id]. Can also mark the page as [archived].
+  /// Update the [properties] of the page specified by the [page_id]. Can also mark the page as [archived].
   ///
   /// The page should contain the property to update.
   ///
   /// Archive a page is the equivalent to delete it according to API reference.
   ///
   /// _See more at https://developers.notion.com/reference/patch-page_
-  Future<NotionResponse> update(
-    String id, {
+  Future<NotionResponse> update({
+    required String page_id,
     Properties? properties,
     bool? archived,
   }) async {
     Properties _properties = properties ?? Properties.empty();
-    http.Response res = await http.patch(Uri.https(host, '/$_v/$path/$id'),
+    http.Response res = await http.patch(Uri.https(host, '/$_v/$path/$page_id'),
         body: jsonEncode({
           'properties': _properties.toJson(),
           if (archived != null) 'archived': archived,

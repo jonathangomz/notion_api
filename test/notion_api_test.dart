@@ -28,8 +28,9 @@ void main() {
 
   group('Notion Client', () {
     test('Retrieve a page', () async {
-      final NotionClient notion = NotionClient(token: token ?? '');
-      NotionResponse res = await notion.pages.fetch(testPageId ?? '');
+      final Client notion = Client(auth: token ?? '');
+      NotionResponse res =
+          await notion.pages.retrieve(page_id: testPageId ?? '');
 
       expect(res.status, 200);
       expect(res.isPage, true);
@@ -41,7 +42,7 @@ void main() {
 
   group('Notion Pages Client =>', () {
     test('Create a page', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+      final NotionPagesClient pages = NotionPagesClient(auth: token ?? '');
 
       final Page page = Page(
         parent: Parent.database(id: testDatabaseId ?? ''),
@@ -54,7 +55,7 @@ void main() {
     });
 
     test('Create a page with default title', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+      final NotionPagesClient pages = NotionPagesClient(auth: token ?? '');
 
       final Page page = Page(
         parent: Parent.database(id: testDatabaseId ?? ''),
@@ -160,7 +161,7 @@ void main() {
         ],
       );
 
-      final NotionClient notion = NotionClient(token: token ?? '');
+      final Client notion = Client(auth: token ?? '');
 
       final Page page = Page(
         parent: Parent.database(id: testDatabaseId ?? ''),
@@ -172,7 +173,7 @@ void main() {
       String newPageId = newPage.page!.id;
 
       var res = await notion.blocks.append(
-        to: newPageId,
+        block_id: newPageId,
         children: fullContent,
       );
 
@@ -180,9 +181,10 @@ void main() {
     });
 
     test('Update a page (properties)', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+      final NotionPagesClient pages = NotionPagesClient(auth: token ?? '');
 
-      var res = await pages.update('15db928d5d2a43ada59e3136663d41f6',
+      var res = await pages.update(
+          page_id: '15db928d5d2a43ada59e3136663d41f6',
           properties: Properties(map: {
             'Property': RichTextProp(content: [Text('A')])
           }));
@@ -191,10 +193,10 @@ void main() {
     });
 
     test('Update a page (archived)', () async {
-      final NotionPagesClient pages = NotionPagesClient(token: token ?? '');
+      final NotionPagesClient pages = NotionPagesClient(auth: token ?? '');
 
-      var res = await pages.update('15db928d5d2a43ada59e3136663d41f6',
-          archived: false);
+      var res = await pages.update(
+          page_id: '15db928d5d2a43ada59e3136663d41f6', archived: false);
 
       expect(res.status, 200);
     });
@@ -203,9 +205,10 @@ void main() {
   group('Notion Databases Client =>', () {
     test('Retrieve a database', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res = await databases.fetch(testDatabaseId ?? '');
+      NotionResponse res =
+          await databases.retrieve(database_id: testDatabaseId ?? '');
 
       expect(res.status, 200);
       expect(res.isOk, true);
@@ -213,9 +216,9 @@ void main() {
 
     test('Retrieve all databases', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res = await databases.fetchAll();
+      NotionResponse res = await databases.list();
 
       expect(res.status, 200);
       expect(res.isOk, true);
@@ -223,9 +226,9 @@ void main() {
 
     test('Retrieve all databases with wrong query', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res = await databases.fetchAll(startCursor: '');
+      NotionResponse res = await databases.list(startCursor: '');
 
       expect(res.status, 400);
       expect(res.code, 'validation_error');
@@ -235,10 +238,10 @@ void main() {
 
     test('Retrieve all databases with query', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
       const int limit = 2;
-      NotionResponse res = await databases.fetchAll(pageSize: limit);
+      NotionResponse res = await databases.list(pageSize: limit);
 
       expect(res.isOk, true);
       expect(res.isList, true);
@@ -247,7 +250,7 @@ void main() {
 
     test('Create a database', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
       NotionResponse res = await databases.create(Database(
         parent: Parent.page(id: testPageId ?? ''),
@@ -269,7 +272,7 @@ void main() {
 
     test('Create a database with default', () async {
       final NotionDatabasesClient databases =
-          NotionDatabasesClient(token: token ?? '');
+          NotionDatabasesClient(auth: token ?? '');
 
       NotionResponse res = await databases.create(Database(
         parent: Parent.page(id: testPageId ?? ''),
@@ -282,19 +285,19 @@ void main() {
 
   group('Notion Block Client =>', () {
     test('Retrieve block children', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
-      NotionResponse res = await blocks.fetch(testBlockId ?? '');
+      NotionResponse res = await blocks.list(block_id: testBlockId ?? '');
 
       expect(res.status, 200);
       expect(res.isOk, true);
     });
 
     test('Retrieve block children with wrong query', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res =
-          await blocks.fetch(testBlockId ?? '', startCursor: '');
+          await blocks.list(block_id: testBlockId ?? '', startCursor: '');
 
       expect(res.status, 400);
       expect(res.code, 'validation_error');
@@ -303,11 +306,11 @@ void main() {
     });
 
     test('Retrieve block children with query', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       const int limit = 2;
       NotionResponse res =
-          await blocks.fetch(testBlockId ?? '', pageSize: limit);
+          await blocks.list(block_id: testBlockId ?? '', pageSize: limit);
 
       expect(res.isOk, true);
       expect(res.isList, true);
@@ -315,10 +318,10 @@ void main() {
     });
 
     test('Append heading & text', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res = await blocks.append(
-        to: testBlockId as String,
+        block_id: testBlockId as String,
         children: Children.withBlocks([
           Heading(text: Text('Test')),
           Paragraph(texts: [
@@ -342,10 +345,10 @@ void main() {
     });
 
     test('Append todo block', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res = await blocks.append(
-        to: testBlockId as String,
+        block_id: testBlockId as String,
         children: Children.withBlocks([
           ToDo(text: Text('This is a todo item A')),
           ToDo(
@@ -369,10 +372,10 @@ void main() {
     });
 
     test('Append bulleted list item block', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res = await blocks.append(
-        to: testBlockId as String,
+        block_id: testBlockId as String,
         children: Children.withBlocks(
           [
             BulletedListItem(text: Text('This is a bulleted list item A')),
@@ -396,53 +399,55 @@ void main() {
     });
 
     test('Colors', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
       NotionResponse res = await blocks.append(
-        to: testBlockId as String,
+        block_id: testBlockId as String,
         children: Children.withBlocks(
           [
             Paragraph(
               texts: [
-                Text(
-                  'gray',
-                  annotations: TextAnnotations(color: ColorsTypes.Gray),
-                ),
-                Text(
-                  'brown',
-                  annotations: TextAnnotations(color: ColorsTypes.Brown),
-                ),
-                Text(
-                  'orange',
-                  annotations: TextAnnotations(color: ColorsTypes.Orange),
-                ),
-                Text(
-                  'yellow',
-                  annotations: TextAnnotations(color: ColorsTypes.Yellow),
-                ),
-                Text(
-                  'green',
-                  annotations: TextAnnotations(color: ColorsTypes.Green),
-                ),
-                Text(
-                  'blue',
-                  annotations: TextAnnotations(color: ColorsTypes.Blue),
-                ),
-                Text(
-                  'purple',
-                  annotations: TextAnnotations(color: ColorsTypes.Purple),
-                ),
-                Text(
-                  'pink',
-                  annotations: TextAnnotations(color: ColorsTypes.Pink),
-                ),
-                Text(
-                  'red',
-                  annotations: TextAnnotations(color: ColorsTypes.Red),
-                ),
-                Text(
-                  'default',
-                  annotations: TextAnnotations(color: ColorsTypes.Default),
-                ),
+                ...Text.list(texts: [
+                  Text(
+                    'gray',
+                    annotations: TextAnnotations(color: ColorsTypes.Gray),
+                  ),
+                  Text(
+                    'brown',
+                    annotations: TextAnnotations(color: ColorsTypes.Brown),
+                  ),
+                  Text(
+                    'orange',
+                    annotations: TextAnnotations(color: ColorsTypes.Orange),
+                  ),
+                  Text(
+                    'yellow',
+                    annotations: TextAnnotations(color: ColorsTypes.Yellow),
+                  ),
+                  Text(
+                    'green',
+                    annotations: TextAnnotations(color: ColorsTypes.Green),
+                  ),
+                  Text(
+                    'blue',
+                    annotations: TextAnnotations(color: ColorsTypes.Blue),
+                  ),
+                  Text(
+                    'purple',
+                    annotations: TextAnnotations(color: ColorsTypes.Purple),
+                  ),
+                  Text(
+                    'pink',
+                    annotations: TextAnnotations(color: ColorsTypes.Pink),
+                  ),
+                  Text(
+                    'red',
+                    annotations: TextAnnotations(color: ColorsTypes.Red),
+                  ),
+                  Text(
+                    'default',
+                    annotations: TextAnnotations(color: ColorsTypes.Default),
+                  ),
+                ]),
               ],
             ),
           ],
@@ -454,10 +459,10 @@ void main() {
     });
 
     test('Append numbered list item block', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res = await blocks.append(
-        to: testBlockId as String,
+        block_id: testBlockId as String,
         children: Children.withBlocks(
           [
             NumberedListItem(text: Text('This is a numbered list item A')),
@@ -486,10 +491,10 @@ void main() {
     });
 
     test('Append toggle block', () async {
-      final NotionBlockClient blocks = NotionBlockClient(token: token ?? '');
+      final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res = await blocks.append(
-        to: testBlockId as String,
+        block_id: testBlockId as String,
         children: Children.withBlocks(
           [
             Toggle(
