@@ -139,3 +139,8 @@
 * 🐣 Add `list(List<Text> texts, String separator, String lastSeparator)`:
   *  **A static method**
   *  Generate a textual list of texts separated by comma (by default).
+
+## v2.0.0-beta2
+> Release date: 06/Aug/2021
+* 🍗 Add more suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Copy some terminologies from [`notion-sdk-js`](https://github.com/makenotion/notion-sdk-js)

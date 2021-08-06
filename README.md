@@ -18,8 +18,11 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
   - [Rules](#rules)
   - [Tests](#tests)
     - [Example:](#example)
-- [Next release](#next-release)
-  - [v2.0.0](#v200)
+- [Releases](#releases)
+  - [Next](#next)
+    - [v2.0.0](#v200)
+  - [Last](#last)
+    - [v2.0.0-beta2](#v200-beta2)
 
 # API implemented
 | Endpoint                | Avaliable  | Notes           
@@ -146,9 +149,16 @@ TEST_BLOCK_ID=c8hac4bb32af48889228bf483d938e34
 TEST_BLOCK_HEADING_ID=c8hac4bb32af48889228bf483d938e34
 ```
 
-# Next release
-## v2.0.0
-> Release date: 04/Aug/2021
+# Releases
+## Next
+### v2.0.0
+> Release date: 13/Aug/2021
 * 🔧 Fix any error on beta
+
+## Last
+### v2.0.0-beta2
+> Release date: 06/Aug/2021
+* 🍗 Add more suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Copy some terminologies from [`notion-sdk-js`](https://github.com/makenotion/notion-sdk-js)
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html

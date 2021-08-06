@@ -3,21 +3,33 @@
 ## More coming soon...
 If you have suggestions feel free to create an Issue or to create a PR with the feature.
 
-## v2.0.1
-> Release date: 09/Aug/2021
-* 🔧 Maybe fix errors creating page with children. I don't know if is an error with Notion API.
+## 2.1.0
+> Release date: 27/Aug/2021
+* 🐣 Add `Retrieve a block` endpoint:
+  * https://developers.notion.com/reference/retrieve-a-block
+* 🐣 Add `Update a block` endpoint:
+  * https://developers.notion.com/reference/update-a-block
 * 🐣 Add `Query a database` endpoint:
   * https://developers.notion.com/reference/post-database-query
+
+## v2.0.1
+> Release date: 20/Aug/2021
+* 🔧 Maybe fix errors creating page with children. I don't know if is an error with Notion API.
 * 🐣 Add more properties for pages and databases:
   * Page properties: https://developers.notion.com/reference/page#page-property-value
   * Database properties: https://developers.notion.com/reference/database#database-property
 
 ## v2.0.0
-> Release date: 04/Aug/2021
+> Release date: 13/Aug/2021
 * 🔧 Fix any error on beta
 
+## v2.0.0-beta2 ✅
+> Release date: 06/Aug/2021
+* 🍗 Add more suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Copy some terminologies from [`notion-sdk-js`](https://github.com/makenotion/notion-sdk-js)
+
 ## v2.0.0-beta1 ✅
-> Release date: 30/Aug/2021
+> Release date: 30/Jun/2021
 * 🐣 Add constructor for empty `Database`.
 * 🐣 Add parameter `blocks` for `Children` constructor.
 * 🍗 Remove deprecated code:
@@ -26,7 +38,7 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
     * `heading`
     * `paragraph`
     * `toDo`
-* 🐣 Add suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+* 🍗 Add suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
   * Update exports to improve usage
   * Add private folder (`src/`)
 * 🐣 Add constructors with only single text content with default style for:
@@ -36,10 +48,10 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
   * `BulletedListItem`: `BulletedListItem.text('some text here...')`
   * `NumberedListItem`: `NumberedListItem.text('some text here...')`
   * `Toggle`: `Toggle.text('some text here...', children: [])`
-* 🐣 Add more constructors for `Heading` class:
-  * `one`: Heading with type 1 by default.
-  * `two`: Heading with type 2 by default.
-  * `three`: Heading with type 3 by default.
+* (**CANCELED**) ~~🐣 Add more constructors for `Heading` class:~~
+  * ~~`one`: Heading with type 1 by default.~~
+  * ~~`two`: Heading with type 2 by default.~~
+  * ~~`three`: Heading with type 3 by default.~~
 * 🐣 Add more constructors for `Text` class:
   * `code`: Text with code style by default.
   * `italic`: Text with italic style by default.
