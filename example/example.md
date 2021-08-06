@@ -23,9 +23,9 @@
 
 # Initialization
 ## Full instance
-You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class properties methods.
+You only have to create a new instance of the `Client` class and all the API requests will be available as class properties methods.
 ```dart
-NotionClient notion = NotionClient(auth: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
+Client notion = Client(auth: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
 ```
 
 ## Individual classes
@@ -34,7 +34,7 @@ You can also use individual request group class like `NotionPagesClient` or `Not
 **Example**
 ```dart
 // With main class
-NotionClient notion = NotionClient(auth: 'YOUR_TOKEN');
+Client notion = Client(auth: 'YOUR_TOKEN');
 notion.databases.list();
 
 // With individual class
@@ -381,7 +381,7 @@ Go to see the result https://jonathangomz.notion.site/notion_api-example-81cb020
 
 ```dart
 // Initialize the main Notion client
-final NotionClient notion = NotionClient(auth: 'YOUR_SECRET');
+final Client notion = Client(auth: 'YOUR_SECRET');
 
 // Create the instance of the page
 final Page page = Page(

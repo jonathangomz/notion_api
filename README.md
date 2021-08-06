@@ -7,7 +7,7 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
 - [API implemented](#api-implemented)
 - [Usage](#usage)
-  - [`NotionClient` class](#notionclient-class)
+  - [`Client` class](#client-class)
   - [Individual classes](#individual-classes)
   - [A few examples](#a-few-examples)
     - [Append blocks children](#append-blocks-children)
@@ -44,10 +44,10 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 # Usage
 **Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
 
-## `NotionClient` class
-You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class methods.
+## `Client` class
+You only have to create a new instance of the `Client` class and all the API requests will be available as class methods.
 ```dart
-NotionClient notion = NotionClient(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
+Client notion = Client(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
 ```
 
 ## Individual classes
@@ -56,12 +56,12 @@ You can also use individual request group class like `NotionPagesClient` or `Not
 **Example**
 ```dart
 // With main class
-NotionClient notion = NotionClient(token: 'YOUR_TOKEN');
-notion.databases.fetchAll();
+Client notion = Client(token: 'YOUR_TOKEN');
+notion.databases.list();
 
 // With individual class
 NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
-databases.fetchAll();
+databases.list();
 ```
 
 ## A few examples
@@ -88,7 +88,7 @@ Children children = Children(blocks: [
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
