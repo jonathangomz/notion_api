@@ -327,3 +327,12 @@ PropertiesTypes extractPropertyType(Map<String, dynamic> json) {
 
 /// Find if a json [field] is a List
 bool fieldIsList(dynamic field) => field is List;
+
+/// Find is a list of properties are not null
+void throwIfAnyNull(dynamic json, List<String> properties) {
+  bool anyNull = properties.any((property) => json[property] == null);
+
+  if (anyNull)
+    throw FormatException(
+        'Any required field is null. Required fields are ${properties}');
+}
