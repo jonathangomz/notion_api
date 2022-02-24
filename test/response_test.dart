@@ -151,8 +151,7 @@ void main() {
           await db.retrieve(databaseId: testDatabaseId ?? '');
 
       expect(response.isDatabase, true);
-      expect(response.content.title, allOf([isList, isNotEmpty, hasLength(1)]));
-      expect(response.content.title.first.text, 'test');
+      expect(response.content.title, 'New Title');
       expect(response.content.properties.entries,
           allOf([isMap, isNotEmpty, hasLength(3)]));
     });

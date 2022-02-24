@@ -101,8 +101,10 @@ class Page extends Object {
     if (isResponse) {
       json['object'] = strObject;
       json['id'] = id;
-      json['created_time'] = createdTime;
-      json['last_edited_time'] = lastEditedTime;
+      if (createdTime != null)
+        json['created_time'] = createdTime!.toIso8601String();
+      if (lastEditedTime != null)
+        json['last_edited_time'] = lastEditedTime!.toIso8601String();
       json['archived'] = archived;
     }
 

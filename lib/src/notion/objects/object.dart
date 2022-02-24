@@ -34,8 +34,12 @@ class Object {
   Object.fromJson(Map<String, dynamic> json)
       : this.object = stringToObjectType(json['object']),
         this.id = json['id'] ?? '',
-        this.createdTime = json['created_time'] ?? '',
-        this.lastEditedTime = json['last_edited_time'] ?? '';
+        this.createdTime = json['created_time'] != null
+            ? DateTime.parse(json['created_time'])
+            : null,
+        this.lastEditedTime = json['last_edited_time'] != null
+            ? DateTime.parse(json['last_edited_time'])
+            : null;
 
   /// Set the [createdTime] and the [lastEditedTime] properties.
   ///
