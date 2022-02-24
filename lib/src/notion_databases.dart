@@ -65,6 +65,61 @@ class NotionDatabasesClient {
     return NotionResponse.fromResponse(res);
   }
 
+  /// Update the database [title] and [properties] with the [databaseId].
+  ///
+  /// To **add a new property** set the key and the property type. Example:
+  /// ```
+  /// NotionResponse res = await databases.update(
+  /// databaseId: 'some_existing_database_id',
+  /// properties: Properties(map: {
+  ///   'Tag': DatabaseProperties.Checkbox() // "Tag" will be created as a checkbox property
+  /// }));
+  /// ```
+  ///
+  /// To **update an existing property** set the key as the current property name. Example:
+  /// ```
+  /// NotionResponse res = await databases.update(
+  /// databaseId: 'some_existing_database_id',
+  /// properties: Properties(map: {
+  ///   'Tag': DatabaseProperties.RichText() // If "Tag" was Checkbox will be turn into RichText property
+  /// }));
+  /// ```
+  ///
+  /// To **rename an existing property** set the key as the current property name and set the name parameters to the new name. Example:
+  /// ```
+  /// NotionResponse res = await databases.update(
+  /// databaseId: 'some_existing_database_id',
+  /// properties: Properties(map: {
+  ///   'Tag': DatabaseProperties.RichText(name: 'Details') // "Tag" will be renamed to "Details"
+  /// }));
+  /// ```
+  ///
+  /// **Warning:** Cannot change a title property to a different property type.
+  ///
+  /// _https://developers.notion.com/reference/update-a-database_
+  Future<NotionResponse> update({
+    required String databaseId,
+    List<RichText>? title,
+    Properties? properties,
+  }) async {
+    Map toUpdate = {};
+
+    if (title != null) toUpdate['title'] = title;
+    if (properties != null) toUpdate['properties'] = properties;
+
+    http.Response res = await http.patch(
+      Uri.https(host, '/$_v/$path/${databaseId}'),
+      body: jsonEncode(toUpdate),
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Notion-Version': _dateVersion,
+        'Content-Type': 'application/json',
+      },
+    );
+
+    return NotionResponse.fromResponse(res);
+  }
+
   /// Retrieve all databases.
   ///
   /// A [startCursor] can be defined to specify the page where to start.
