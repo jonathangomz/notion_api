@@ -10,6 +10,9 @@ class Property {
   /// The property id.
   String? id;
 
+  /// The property name.
+  String? name;
+
   /// The base getter for the content of any property.
   dynamic get value => false;
 
@@ -30,8 +33,8 @@ class Property {
 
   /// Main property constructor.
   ///
-  /// Can receive the property [id].
-  Property({this.id});
+  /// Can receive the property [id] and [name].
+  Property({this.id, this.name});
 
   /// Constructor for empty property.
   Property.empty();
@@ -203,7 +206,10 @@ class MultiSelectProp extends Property {
   /// Main multi select constructor.
   ///
   /// Can receive the list6 of the options.
-  MultiSelectProp({this.options: const <MultiSelectOption>[]});
+  MultiSelectProp({
+    this.options: const <MultiSelectOption>[],
+    String? name,
+  }) : super(name: name);
 
   MultiSelectProp.fromJson(Map<String, dynamic> json, {String? subfield})
       : this.options = MultiSelectOption.fromListJson((subfield != null
@@ -220,11 +226,11 @@ class MultiSelectProp extends Property {
   /// Convert this to a valid json representation for the Notion API.
   @override
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> json = {'type': strType};
-
-    if (id != null) {
-      json['id'] = id;
-    }
+    Map<String, dynamic> json = {
+      'type': strType,
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    };
 
     json[strType] = {'options': options.map((e) => e.toJson()).toList()};
 
@@ -278,4 +284,104 @@ class MultiSelectOption {
   /// Map a list of options from a [json] list with dynamics.
   static List<MultiSelectOption> fromListJson(List<dynamic> options) =>
       options.map((e) => MultiSelectOption.fromJson(e)).toList();
+}
+
+/// The library of database properties.
+class DatabaseProperties {
+  /// Returns a title property.
+  ///
+  /// Can specify the [name] of the property.
+  static TitleDatabaseProperty Title({String? name}) =>
+      TitleDatabaseProperty(name: name);
+
+  /// Returns a rich text property.
+  ///
+  /// Can specify the [name] of the property.
+  static RichTextDatabaseProperty RichText({String? name}) =>
+      RichTextDatabaseProperty(name: name);
+
+  /// Returns a checkbox property.
+  ///
+  /// Can specify the [name] of the property.
+  static CheckboxDatabaseProperty Checkbox({String? name}) =>
+      CheckboxDatabaseProperty(name: name);
+
+  /// Returns a multiselect property.
+  ///
+  /// Can specify the [options] and the [name] of the property.
+  static MultiSelectProp MultiSelect(
+          {List<MultiSelectOption>? options, String? name}) =>
+      MultiSelectProp(options: options ?? [], name: name);
+}
+
+/// A representation of a title property for any Notion object.
+class TitleDatabaseProperty extends Property {
+  /// The property type. Always Title for this.
+  @override
+  final PropertiesTypes type = PropertiesTypes.Title;
+
+  /// Main title property constructor.
+  TitleDatabaseProperty({String? name}) : super(name: name);
+
+  /// Create a new property instance from json.
+  ///
+  /// Receive a [json] from where the information is extracted.
+  TitleDatabaseProperty.fromJson(Map<String, dynamic> json)
+      : super(id: json['id']);
+
+  /// Convert this to a valid json representation for the Notion API.
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': strType,
+        if (name != null) 'name': name,
+        strType: {},
+      };
+}
+
+/// A representation of a rich text property for any Notion object.
+class RichTextDatabaseProperty extends Property {
+  /// The property type. Always RichText for this.
+  @override
+  final PropertiesTypes type = PropertiesTypes.RichText;
+
+  /// Main RichText constructor.
+  RichTextDatabaseProperty({String? name}) : super(name: name);
+
+  /// Create a new rich text instance from json.
+  ///
+  /// Receive a [json] from where the information is extracted.
+  RichTextDatabaseProperty.fromJson(Map<String, dynamic> json)
+      : super(id: json['id']);
+
+  /// Convert this to a valid json representation for the Notion API.
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': strType,
+        if (name != null) 'name': name,
+        strType: {},
+      };
+}
+
+/// A representation of a checkbox property for any Notion object.
+class CheckboxDatabaseProperty extends Property {
+  /// The property type. Always Checkbox for this.
+  @override
+  final PropertiesTypes type = PropertiesTypes.Checkbox;
+
+  /// Main checkbox property constructor.
+  CheckboxDatabaseProperty({String? name}) : super(name: name);
+
+  /// Create a new property instance from json.
+  ///
+  /// Receive a [json] from where the information is extracted.
+  CheckboxDatabaseProperty.fromJson(Map<String, dynamic> json)
+      : super(id: json['id']);
+
+  /// Convert this to a valid json representation for a Notion database property.
+  @override
+  Map<String, dynamic> toJson() => {
+        'type': strType,
+        if (name != null) 'name': name,
+        strType: {},
+      };
 }
