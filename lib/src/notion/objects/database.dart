@@ -24,6 +24,10 @@ class Database extends Object {
   String url;
 
   /// Map a new database instance for a new request.
+  ///
+  /// Receive the database [parent] and [properties], and also con receive the database [title] but is optional (by default will set to "Untitled").
+  ///
+  /// We recommend to use `Properties.forDatabase` on the [properties] field to be sure that any required property is missing, like the Title property.
   Database({
     required this.parent,
     required this.properties,
@@ -31,8 +35,8 @@ class Database extends Object {
   }) : url = '';
 
   /// Main database constructor.
-  /// TODO: Update docs.
-  /// Can receive the [parent] (required), the [title] (empty), the [pagesColumnName] ("Name") and the [properties] (null).
+  ///
+  /// Can receive all the available properties for a database which are the [id], [createdTime], [lastEditedTime], [title], [properties], [parent] and [url].
   Database.constructor({
     // Object properties
     required String id,
@@ -50,26 +54,20 @@ class Database extends Object {
           lastEditedTime: lastEditedTime,
         );
 
-  /// Constructor for empty database.
-  Database.empty()
-      : url = "",
-        parent = Parent.none();
-
   /// Database constructor with defaults parameters.
   ///
-  /// Can receive the [parent] (none parent), [title] (empty), the [createdTime] (""), the [lastEditedTime] ("") and the database [id] ("") but every parameter is optional.
-  Database.withDefaults({
-    this.parent: const Parent.none(),
-    this.title: const <RichText>[],
-    this.url: '',
-    String id: '',
-    DateTime? createdTime,
-    DateTime? lastEditedTime,
-  }) : super(
-          id: id,
-          createdTime: createdTime,
-          lastEditedTime: lastEditedTime,
-        );
+  /// Can receive the database [parent], [title] and the [titleColumnName] but in a simplified way.
+  ///
+  /// The [title] parameter is a string that will be the content at the only `RichtText` element in the `title` attribute. And the [titleColumnName] is the name of the default title column for the database that is mandatory.
+  Database.simple({
+    required this.parent,
+    required String titleColumnName,
+    String? title,
+  })  : this.title = <RichText>[if (title != null) RichText(title)],
+        this.properties = Properties(map: {
+          titleColumnName: TitleProp(),
+        }),
+        this.url = '';
 
   /// Map a new database instance from a [json] map.
   factory Database.fromJson(Map<String, dynamic> json) {
@@ -104,12 +102,6 @@ class Database extends Object {
   /// ```
   Database addProperty({required String name, required Property property}) {
     this.properties.add(name: name, property: property);
-    return this;
-  }
-
-  /// Add a group of properties from a [json] map and return this instance.
-  Database addPropertiesFromJson(Map<String, dynamic> json) {
-    this.properties.addAllFromJson(json);
     return this;
   }
 
