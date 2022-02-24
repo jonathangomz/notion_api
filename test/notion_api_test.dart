@@ -216,17 +216,30 @@ void main() {
   });
 
   group('Notion Databases Client =>', () {
-    test('Retrieve a database', () async {
-      final NotionDatabasesClient databases =
-          NotionDatabasesClient(auth: token ?? '');
+    group('Retrieve', () {
+      test('Retrieve a database', () async {
+        final NotionDatabasesClient databases =
+            NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res =
-          await databases.retrieve(databaseId: testDatabaseId ?? '');
+        NotionResponse res =
+            await databases.retrieve(databaseId: testDatabaseId ?? '');
 
-      expect(res.status, 200);
-      expect(res.isOk, isTrue);
-      expect(res.isDatabase, isTrue);
-      expect(res.content, isA<Database>());
+        /// TODO: Separate test and retrieve database on a `setUp`.
+        expect(res.status, 200);
+        expect(res.isOk, isTrue);
+        expect(res.isDatabase, isTrue);
+        expect(res.content, isA<Database>());
+
+        // Can read the title
+        expect(res.database!.title, 'New Title');
+
+        // Can read properties main column.
+        expect(res.database!.properties.getByName('This is a test'),
+            isA<TitleDbProp>());
+
+        // TODO: Can read multiselect property options
+        // expect(res.database!.properties.getByName('Tags').options.length, 2);
+      });
     });
 
     test('Retrieve all databases', () async {
@@ -315,8 +328,6 @@ void main() {
             'Column': RichTextProp()
           }));
 
-      print(res.message);
-
       expect(res.status, 200);
       expect(res.isOk, true);
     });
@@ -327,10 +338,6 @@ void main() {
       final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res = await blocks.list(block_id: testBlockId ?? '');
-
-      res.pagination!.blocks.forEach((element) {
-        print(element.jsonContent);
-      });
 
       expect(res.status, 200);
       expect(res.isOk, true);
