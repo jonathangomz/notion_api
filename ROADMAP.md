@@ -3,8 +3,11 @@
 ## More coming soon...
 If you have suggestions feel free to create an Issue or to create a PR with the feature.
 
-## 2.1.0
-> Release date: 27/Aug/2021
+## v2.1.0
+|||
+|:---------------|:------------|
+| Release date   | ?           |
+| Notion-Version | 2021-08-16  |
 * 🐣 Add `Retrieve a block` endpoint:
   * https://developers.notion.com/reference/retrieve-a-block
 * 🐣 Add `Update a block` endpoint:
@@ -13,15 +16,21 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
   * https://developers.notion.com/reference/post-database-query
 
 ## v2.0.1
-> Release date: 20/Aug/2021
+|||
+|:---------------|:------------|
+| Release date   | ?           |
+| Notion-Version | 2021-08-16  |
 * 🔧 Maybe fix errors creating page with children. I don't know if is an error with Notion API.
 * 🐣 Add more properties for pages and databases:
   * Page properties: https://developers.notion.com/reference/page#page-property-value
-  * Database properties: https://developers.notion.com/reference/database#database-property
+  * Database properties: https://develop  ers.notion.com/reference/database#database-property
 
 ## v2.0.0
-> Release date: 13/Aug/2021
-* 🔧 Fix any error on beta
+|||
+|:---------------|:------------|
+| Release date   | 15/Mar/2022 |
+| Notion-Version | 2021-08-16  |
+* **Full refactorization to all the project**
 
 ## v2.0.0-beta2 ✅
 > Release date: 06/Aug/2021
