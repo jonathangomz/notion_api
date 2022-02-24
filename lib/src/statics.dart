@@ -9,4 +9,4 @@ const String latestVersion = 'v1';
 /// The latest date version of Notion API
 ///
 /// See [Notion versioning](https://developers.notion.com/reference/versioning) for more information.
-const String latestDateVersion = '2021-05-13';
+const String latestDateVersion = '2021-08-16';
