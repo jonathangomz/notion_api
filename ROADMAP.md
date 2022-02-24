@@ -28,7 +28,7 @@ If you have suggestions feel free to create an Issue or to create a PR with the 
 ## v2.0.0
 |||
 |:---------------|:------------|
-| Release date   | 15/Mar/2022 |
+| Release date   | 31/Mar/2022 |
 | Notion-Version | 2021-08-16  |
 * **Full refactorization to all the project**
 
