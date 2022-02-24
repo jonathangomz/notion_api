@@ -65,7 +65,7 @@ class Database extends Object {
     String? title,
   })  : this.title = <RichText>[if (title != null) RichText(title)],
         this.properties = Properties(map: {
-          titleColumnName: TitleProp(),
+          titleColumnName: DatabaseProperties.Title(),
         }),
         this.url = '';
 

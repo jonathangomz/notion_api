@@ -298,6 +298,29 @@ void main() {
       expect(res.status, 200);
       expect(res.isOk, true);
     });
+
+    test('Update a database', () async {
+      final NotionDatabasesClient databases =
+          NotionDatabasesClient(auth: token ?? '');
+
+      NotionResponse res = await databases.update(
+          databaseId: '8bd452157e1642dd8aad5734a2372518',
+          title: [RichText('New Title')],
+          properties: Properties(map: {
+            'Test': DatabaseProperties.MultiSelect(
+              options: [
+                MultiSelectOption(name: 'Read', color: ColorsTypes.Blue),
+                MultiSelectOption(name: 'Sleep', color: ColorsTypes.Green),
+              ],
+            ),
+            'Column': DatabaseProperties.Checkbox(name: 'Ready')
+          }));
+
+      print(res.message);
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
   });
 
   group('Notion Block Client =>', () {
