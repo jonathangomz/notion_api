@@ -17,6 +17,17 @@ class Properties {
     this._map.addAll(map);
   }
 
+  /// Main properties constructor.
+  ///
+  /// Can receive a properties [map].
+  Properties.forDatabase({
+    required String title,
+    Map<String, Property> map: const {},
+  }) {
+    _map[title] = TitleProp();
+    _map.addAll(map);
+  }
+
   /// Constructor for an empty instance.
   Properties.empty();
 
