@@ -33,39 +33,17 @@ class NotionDatabasesClient {
         this._v = version,
         this._dateVersion = dateVersion;
 
-  /// Retrieve the database specified by the [database_id].
+  /// Retrieve the database specified by the [databaseId].
   ///
   /// _See more at https://developers.notion.com/reference/get-database_
-  Future<NotionResponse> retrieve({required String database_id}) async {
-    http.Response res =
-        await http.get(Uri.https(host, '/$_v/$path/$database_id'), headers: {
-      'Authorization': 'Bearer $_token',
-      'Notion-Version': _dateVersion,
-    });
-
-    return NotionResponse.fromResponse(res);
-  }
-
-  /// Retrieve all databases.
-  ///
-  /// A [startCursor] can be defined to specify the page where to start.
-  /// Also a [pageSize] can be defined to limit the result. The max value is 100.
-  ///
-  /// _See more at https://developers.notion.com/reference/get-databases_
-  Future<NotionResponse> list({String? startCursor, int? pageSize}) async {
-    Map<String, dynamic> query = {};
-    if (startCursor != null) {
-      query['start_cursor'] = startCursor;
-    }
-    if (pageSize != null && pageSize >= 0 && pageSize <= 100) {
-      query['page_size'] = pageSize.toString();
-    }
-
-    http.Response res =
-        await http.get(Uri.https(host, '/$_v/$path', query), headers: {
-      'Authorization': 'Bearer $_token',
-      'Notion-Version': _dateVersion,
-    });
+  Future<NotionResponse> retrieve({required String databaseId}) async {
+    http.Response res = await http.get(
+      Uri.https(host, '/$_v/$path/$databaseId'),
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Notion-Version': _dateVersion,
+      },
+    );
 
     return NotionResponse.fromResponse(res);
   }
@@ -83,6 +61,31 @@ class NotionDatabasesClient {
         'Content-Type': 'application/json',
       },
     );
+
+    return NotionResponse.fromResponse(res);
+  }
+
+  /// Retrieve all databases.
+  ///
+  /// A [startCursor] can be defined to specify the page where to start.
+  /// Also a [pageSize] can be defined to limit the result. The max value is 100.
+  ///
+  /// _See more at https://developers.notion.com/reference/get-databases_
+  @deprecated
+  Future<NotionResponse> list({String? startCursor, int? pageSize}) async {
+    Map<String, dynamic> query = {};
+    if (startCursor != null) {
+      query['start_cursor'] = startCursor;
+    }
+    if (pageSize != null && pageSize >= 0 && pageSize <= 100) {
+      query['page_size'] = pageSize.toString();
+    }
+
+    http.Response res =
+        await http.get(Uri.https(host, '/$_v/$path', query), headers: {
+      'Authorization': 'Bearer $_token',
+      'Notion-Version': _dateVersion,
+    });
 
     return NotionResponse.fromResponse(res);
   }

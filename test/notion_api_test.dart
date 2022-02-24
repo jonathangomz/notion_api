@@ -208,7 +208,7 @@ void main() {
           NotionDatabasesClient(auth: token ?? '');
 
       NotionResponse res =
-          await databases.retrieve(database_id: testDatabaseId ?? '');
+          await databases.retrieve(databaseId: testDatabaseId ?? '');
 
       expect(res.status, 200);
       expect(res.isOk, isTrue);
@@ -278,7 +278,21 @@ void main() {
 
       NotionResponse res = await databases.create(Database(
         parent: Parent.page(id: testPageId ?? ''),
-        properties: Properties.forDatabase(title: 'ABC'),
+        properties: Properties.forDatabase(title: 'Title Column'),
+      ));
+
+      expect(res.status, 200);
+      expect(res.isOk, true);
+    });
+
+    test('Create a database with simple constructor', () async {
+      final NotionDatabasesClient databases =
+          NotionDatabasesClient(auth: token ?? '');
+
+      NotionResponse res = await databases.create(Database.simple(
+        parent: Parent.page(id: testPageId ?? ''),
+        title: 'Simple database',
+        titleColumnName: 'Title Column',
       ));
 
       expect(res.status, 200);
