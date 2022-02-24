@@ -264,7 +264,7 @@ void main() {
             MultiSelectOption(name: 'Read', color: ColorsTypes.Blue),
             MultiSelectOption(name: 'Sleep', color: ColorsTypes.Green),
           ]),
-          'Test': TitleProp(),
+          'Test': DatabaseProperties.Title(),
         }),
       ));
 
