@@ -15,9 +15,9 @@ void main() {
     test('Create new database instance', () {
       Database database = Database(
         parent: Parent.page(id: 'some_id'),
-        title: [Text('Database title')],
-        pagesColumnName: 'CustomColumName',
+        title: [RichText('Database title')],
         properties: Properties(map: {
+          'CustomColumName': TitleProp(),
           'Description': RichTextProp(),
         }),
       );
@@ -29,7 +29,7 @@ void main() {
     });
 
     test('Create new instance with data', () {
-      Database database = Database.withDefaults(title: [Text('Title')])
+      Database database = Database.withDefaults(title: [RichText('Title')])
           .addProperty(
               name: 'Tags',
               property: MultiSelectProp(options: [
@@ -56,7 +56,7 @@ void main() {
 
     test('Create json from instance', () {
       Map<String, dynamic> database =
-          Database.withDefaults(title: [Text('Title')])
+          Database.withDefaults(title: [RichText('Title')])
               .addProperty(
                   name: 'Tags',
                   property: MultiSelectProp(options: [
@@ -109,7 +109,12 @@ void main() {
             "multi_select": {"options": []}
           },
           "Details": {"id": "title", "type": "title", "title": {}}
-        }
+        },
+        "parent": {
+          "type": "page_id",
+          "page_id": "ba3e9659-1de0-4c93-b3ad-78b9b16e5507"
+        },
+        "url": "https://www.notion.so/8bd452157e1642dd8aad5734a2372518",
       };
 
       Database database = Database.fromJson(jsonDatabase);
@@ -125,12 +130,8 @@ void main() {
     test('Map from wrong json', () {
       Map<String, dynamic> wrongJsonDatabase = {};
 
-      Database database = Database.fromJson(wrongJsonDatabase);
-
-      expect(database.title, isEmpty);
-      expect(database.id, isEmpty);
-      expect(database.properties.contains('Tags'), false);
-      expect(database.properties.contains('Details'), false);
+      expect(() => Database.fromJson(wrongJsonDatabase),
+          throwsA(isA<FormatException>()));
     });
 
     test('Add properties from json', () {

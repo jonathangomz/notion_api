@@ -76,7 +76,7 @@ class NotionDatabasesClient {
   Future<NotionResponse> create(Database database) async {
     http.Response res = await http.post(
       Uri.https(host, '/$_v/$path'),
-      body: jsonEncode(database.toJson()),
+      body: jsonEncode(database.toRequestJson()),
       headers: {
         'Authorization': 'Bearer $_token',
         'Notion-Version': _dateVersion,

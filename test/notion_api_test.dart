@@ -211,7 +211,9 @@ void main() {
           await databases.retrieve(database_id: testDatabaseId ?? '');
 
       expect(res.status, 200);
-      expect(res.isOk, true);
+      expect(res.isOk, isTrue);
+      expect(res.isDatabase, isTrue);
+      expect(res.content, isA<Database>());
     });
 
     test('Retrieve all databases', () async {
@@ -248,21 +250,21 @@ void main() {
       expect(res.content.length, lessThanOrEqualTo(limit));
     });
 
-    test('Create a database', () async {
+    test('Create a database with title', () async {
       final NotionDatabasesClient databases =
           NotionDatabasesClient(auth: token ?? '');
 
       NotionResponse res = await databases.create(Database(
         parent: Parent.page(id: testPageId ?? ''),
         title: [
-          Text('Database from test'),
+          RichText('Database from test'),
         ],
-        pagesColumnName: 'Custom pages column',
         properties: Properties(map: {
           'Description': MultiSelectProp(options: [
             MultiSelectOption(name: 'Read', color: ColorsTypes.Blue),
             MultiSelectOption(name: 'Sleep', color: ColorsTypes.Green),
-          ])
+          ]),
+          'Test': TitleProp(),
         }),
       ));
 
@@ -270,12 +272,13 @@ void main() {
       expect(res.isOk, true);
     });
 
-    test('Create a database with default', () async {
+    test('Create a database without title', () async {
       final NotionDatabasesClient databases =
           NotionDatabasesClient(auth: token ?? '');
 
       NotionResponse res = await databases.create(Database(
         parent: Parent.page(id: testPageId ?? ''),
+        properties: Properties.forDatabase(title: 'ABC'),
       ));
 
       expect(res.status, 200);
