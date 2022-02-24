@@ -59,8 +59,12 @@ class Page extends Object {
       archived: json['archived'] ?? false,
     ).addPropertiesFromJson(json['properties'] ?? {});
     page.setBaseProperties(
-        createdTime: json['created_time'] ?? '',
-        lastEditedTime: json['last_edited_time'] ?? '');
+        createdTime: json['created_time'] != null
+            ? DateTime.parse(json['created_time'])
+            : null,
+        lastEditedTime: json['last_edited_time'] != null
+            ? DateTime.parse(json['last_edited_time'])
+            : null);
     return page;
   }
 

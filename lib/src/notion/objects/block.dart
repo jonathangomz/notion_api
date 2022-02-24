@@ -79,8 +79,12 @@ class Block extends Object {
         this.jsonContent = json['type'] != null ? json[json['type']] ?? {} : {},
         this.type = stringToBlockType(json['type'] ?? ''),
         super(
-          createdTime: json['created_time'] ?? '',
-          lastEditedTime: json['last_edited_time'] ?? '',
+          createdTime: json['created_time'] != null
+              ? DateTime.parse(json['created_time'])
+              : null,
+          lastEditedTime: json['last_edited_time'] != null
+              ? DateTime.parse(json['last_edited_time'])
+              : null,
         );
 
   /// Convert this to a valid json representation for the Notion API.
