@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:notion_api/src/notion/new/database/database_property.dart';
 
 import 'notion/exports.dart';
 import 'responses/notion_response.dart';
@@ -51,7 +52,35 @@ class NotionDatabasesClient {
   /// Create a [database].
   ///
   /// _See more at https://developers.notion.com/reference/create-a-database_
-  Future<NotionResponse> create(Database database) async {
+  @deprecated
+  Future<NotionResponse> oldCreate(Database database) async {
+    http.Response res = await http.post(
+      Uri.https(host, '/$_v/$path'),
+      body: jsonEncode(database.toRequestJson()),
+      headers: {
+        'Authorization': 'Bearer $_token',
+        'Notion-Version': _dateVersion,
+        'Content-Type': 'application/json',
+      },
+    );
+
+    return NotionResponse.fromResponse(res);
+  }
+
+  /// Create a [database].
+  ///
+  /// _See more at https://developers.notion.com/reference/create-a-database_
+  Future<NotionResponse> create({
+    required String pageId,
+    required DatabaseProperties properties,
+    String? title,
+  }) async {
+    Database database = Database(
+      parent: Parent.page(id: pageId),
+      properties: properties,
+      title: title,
+    );
+
     http.Response res = await http.post(
       Uri.https(host, '/$_v/$path'),
       body: jsonEncode(database.toRequestJson()),

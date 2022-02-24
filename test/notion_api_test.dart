@@ -2,6 +2,7 @@ import 'dart:io' show Platform;
 
 import 'package:dotenv/dotenv.dart' show load, env, clean;
 import 'package:notion_api/notion_api.dart';
+import 'package:notion_api/src/notion/new/database/database_property.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -41,6 +42,18 @@ void main() {
   });
 
   group('Notion Pages Client =>', () {
+    test('Retrieve a page content', () async {
+      final Client notion = Client(auth: token ?? '');
+      NotionResponse res =
+          await notion.pages.retrieve(page_id: testPageId ?? '');
+
+      expect(res.status, 200);
+      expect(res.isPage, true);
+      expect(res.content, isNotNull);
+      expect(res.content, isA<Page>());
+      expect(res.isOk, true);
+    });
+
     test('Create a page', () async {
       final NotionPagesClient pages = NotionPagesClient(auth: token ?? '');
 
@@ -250,53 +263,39 @@ void main() {
       expect(res.content.length, lessThanOrEqualTo(limit));
     });
 
-    test('Create a database with title', () async {
-      final NotionDatabasesClient databases =
-          NotionDatabasesClient(auth: token ?? '');
+    group('Create', () {
+      test('Create a database with title', () async {
+        final NotionDatabasesClient databases =
+            NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res = await databases.create(Database(
-        parent: Parent.page(id: testPageId ?? ''),
-        title: [
-          RichText('Database from test'),
-        ],
-        properties: Properties(map: {
-          'Description': MultiSelectProp(options: [
-            MultiSelectOption(name: 'Read', color: ColorsTypes.Blue),
-            MultiSelectOption(name: 'Sleep', color: ColorsTypes.Green),
-          ]),
-          'Test': DatabaseProperties.Title(),
-        }),
-      ));
+        NotionResponse res = await databases.create(
+          pageId: testPageId ?? '',
+          title: 'Database from test',
+          properties: DatabaseProperties(
+            mainColumnName: 'ABC',
+            properties: {
+              'Description': DatabaseProperty.RichText(),
+              'Done': DatabaseProperty.Checkbox(),
+            },
+          ),
+        );
 
-      expect(res.status, 200);
-      expect(res.isOk, true);
-    });
+        expect(res.status, 200);
+        expect(res.isOk, true);
+      });
 
-    test('Create a database without title', () async {
-      final NotionDatabasesClient databases =
-          NotionDatabasesClient(auth: token ?? '');
+      test('Create a database without title', () async {
+        final NotionDatabasesClient databases =
+            NotionDatabasesClient(auth: token ?? '');
 
-      NotionResponse res = await databases.create(Database(
-        parent: Parent.page(id: testPageId ?? ''),
-        properties: Properties.forDatabase(title: 'Title Column'),
-      ));
+        NotionResponse res = await databases.create(
+          pageId: testPageId ?? '',
+          properties: DatabaseProperties(mainColumnName: 'Title Column'),
+        );
 
-      expect(res.status, 200);
-      expect(res.isOk, true);
-    });
-
-    test('Create a database with simple constructor', () async {
-      final NotionDatabasesClient databases =
-          NotionDatabasesClient(auth: token ?? '');
-
-      NotionResponse res = await databases.create(Database.simple(
-        parent: Parent.page(id: testPageId ?? ''),
-        title: 'Simple database',
-        titleColumnName: 'Title Column',
-      ));
-
-      expect(res.status, 200);
-      expect(res.isOk, true);
+        expect(res.status, 200);
+        expect(res.isOk, true);
+      });
     });
 
     test('Update a database', () async {
@@ -307,13 +306,13 @@ void main() {
           databaseId: '8bd452157e1642dd8aad5734a2372518',
           title: [RichText('New Title')],
           properties: Properties(map: {
-            'Test': DatabaseProperties.MultiSelect(
+            'Test': MultiSelectProp(
               options: [
                 MultiSelectOption(name: 'Read', color: ColorsTypes.Blue),
                 MultiSelectOption(name: 'Sleep', color: ColorsTypes.Green),
               ],
             ),
-            'Column': DatabaseProperties.Checkbox(name: 'Ready')
+            'Column': RichTextProp()
           }));
 
       print(res.message);
@@ -328,6 +327,10 @@ void main() {
       final NotionBlockClient blocks = NotionBlockClient(auth: token ?? '');
 
       NotionResponse res = await blocks.list(block_id: testBlockId ?? '');
+
+      res.pagination!.blocks.forEach((element) {
+        print(element.jsonContent);
+      });
 
       expect(res.status, 200);
       expect(res.isOk, true);

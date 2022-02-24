@@ -1,6 +1,7 @@
+import 'package:notion_api/src/notion/new/database/database_property.dart';
+
 import '../../utils/utils.dart';
 import '../general/exports.dart';
-import '../lists/properties.dart';
 import '../rich_text.dart';
 import 'object.dart';
 import 'parent.dart';
@@ -12,16 +13,18 @@ class Database extends Object {
   final ObjectTypes object = ObjectTypes.Database;
 
   /// The title of this database.
-  List<RichText> title = <RichText>[];
+  final List<RichText> _title = <RichText>[];
 
   /// The properties of this database.
-  Properties properties = Properties();
+  DatabaseProperties properties;
 
   /// The information of the page parent.
   Parent parent;
 
   /// The URL of the Notion datanase.
   String url;
+
+  String get title => _title.first.text;
 
   /// Map a new database instance for a new request.
   ///
@@ -31,8 +34,11 @@ class Database extends Object {
   Database({
     required this.parent,
     required this.properties,
-    this.title: const <RichText>[],
-  }) : url = '';
+    String? title,
+  }) : url = '' {
+    if (parent.type != ParentType.Page) throw 'The parent should be a page';
+    if (title != null) _title.add(RichText(title));
+  }
 
   /// Main database constructor.
   ///
@@ -43,7 +49,7 @@ class Database extends Object {
     DateTime? createdTime,
     DateTime? lastEditedTime,
     // Datebase properties
-    required this.title,
+    required String title,
     // TODO: Add icon & cover
     required this.properties,
     required this.parent,
@@ -52,40 +58,46 @@ class Database extends Object {
           id: id,
           createdTime: createdTime,
           lastEditedTime: lastEditedTime,
-        );
+        ) {
+    _title.add(RichText(title));
+  }
 
   /// Database constructor with defaults parameters.
   ///
-  /// Can receive the database [parent], [title] and the [titleColumnName] but in a simplified way.
+  /// Can receive the database [parent], [title] and the [mainColumnName] but in a simplified way.
   ///
-  /// The [title] parameter is a string that will be the content at the only `RichtText` element in the `title` attribute. And the [titleColumnName] is the name of the default title column for the database that is mandatory.
+  /// The [title] parameter is a string that will be the content at the only `RichtText` element in the `title` attribute. And the [mainColumnName] is the name of the default title column for the database that is mandatory.
   Database.simple({
     required this.parent,
-    required String titleColumnName,
+    required String mainColumnName,
     String? title,
-  })  : this.title = <RichText>[if (title != null) RichText(title)],
-        this.properties = Properties(map: {
-          titleColumnName: DatabaseProperties.Title(),
-        }),
-        this.url = '';
+  })  : this.url = '',
+        this.properties = DatabaseProperties(mainColumnName: mainColumnName) {
+    if (title != null) _title.add(RichText(title));
+  }
 
   /// Map a new database instance from a [json] map.
   factory Database.fromJson(Map<String, dynamic> json) {
     throwIfAnyNull(json, ['id', 'properties', 'parent', 'url']);
 
-    return Database.constructor(
-      id: json['id'],
-      createdTime: json['created_time'] != null
-          ? DateTime.parse(json['created_time'])
-          : null,
-      lastEditedTime: json['last_edited_time'] != null
-          ? DateTime.parse(json['last_edited_time'])
-          : null,
-      title: RichText.fromListJson(json['title'] ?? []),
-      properties: Properties.fromJson(json['properties']),
+    Database database = Database(
+      properties: DatabaseProperties.fromJson(json['properties']),
       parent: Parent.fromJson(json['parent']),
-      url: json['url'],
     );
+
+    database.id = json['id'];
+    database.url = json['url'];
+    database._title.addAll(RichText.fromListJson(json['title'] ?? []));
+
+    if (json['last_edited_time'] != null) {
+      database.lastEditedTime = DateTime.parse(json['last_edited_time']);
+    }
+
+    if (json['created_time'] != null) {
+      database.createdTime = DateTime.parse(json['created_time']);
+    }
+
+    return database;
   }
 
   /// Add a new database [property] with an specific [name].
@@ -100,15 +112,14 @@ class Database extends Object {
   ///   ]),
   /// );
   /// ```
-  Database addProperty({required String name, required Property property}) {
+  void addProperty({required String name, required DatabaseProperty property}) {
     this.properties.add(name: name, property: property);
-    return this;
   }
 
   /// Convert this to a valid json representation for the Notion API.
   Map<String, dynamic> toRequestJson() => {
         'parent': parent.toJson(),
-        'title': title.map((richText) => richText.toJson()).toList(),
+        'title': _title.map((richText) => richText.toJson()).toList(),
         'properties': properties.toJson(),
       };
 
@@ -118,7 +129,7 @@ class Database extends Object {
         'id': this.id,
         'created_time': createdTime,
         'last_edited_by': lastEditedTime,
-        'title': title.map((e) => e.toJson()).toList(),
+        'title': _title.map((e) => e.toJson()).toList(),
         'parent': parent.toJson(),
         'properties': properties.toJson(),
       };

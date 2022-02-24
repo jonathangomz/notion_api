@@ -1,74 +1,84 @@
-import 'package:notion_api/notion_api.dart';
+import 'package:notion_api/notion_api.dart' hide MultiSelectOption;
+import 'package:notion_api/src/notion/new/database/database_property.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('Database Instance =>', () {
     test('Create new database instance', () {
+      String title = 'Database title';
       Database database = Database(
         parent: Parent.page(id: 'some_id'),
-        title: [RichText('Database title')],
-        properties: Properties(map: {
-          'CustomColumName': TitleProp(),
-          'Description': RichTextProp(),
-        }),
+        title: title,
+        properties: DatabaseProperties(
+          mainColumnName: 'CustomColumName',
+          properties: {
+            'Description': DatabaseProperty.RichText(),
+          },
+        ),
       );
 
       expect(database.parent.type, ParentType.Page);
-      expect(database.title.length, 1);
-      expect(database.properties.entries.length,
-          2); // pages column name and 'Description'
+      expect(database.title, title);
+      expect(database.properties.entries,
+          isNotEmpty); // pages column name and 'Description'
     });
 
     test('Create new instance with data', () {
       Database database = Database.simple(
-              parent: Parent.none(),
-              title: 'New Database',
-              titleColumnName: 'Pages')
-          .addProperty(
-              name: 'Tags',
-              property: MultiSelectProp(options: [
-                MultiSelectOption(name: 'Option A'),
-                MultiSelectOption(name: 'Option B'),
-              ]))
-          .addProperty(
-              name: 'Details',
-              property: RichTextProp(content: [
-                Text('Detail A'),
-                Text('Detail B'),
-              ]));
+          parent: Parent.none(),
+          title: 'New Database',
+          mainColumnName: 'Pages');
+
+      database.addProperty(
+        name: 'Tags',
+        property: DatabaseProperty.MultiSelect(
+          options: [
+            MultiSelectOptionDbProp(name: 'Option A'),
+            MultiSelectOptionDbProp(name: 'Option B'),
+          ],
+        ),
+      );
+
+      database.addProperty(
+        name: 'Details',
+        property: DatabaseProperty.RichText(),
+      );
 
       expect(database, isNotNull);
-      expect(database.title.length, 1);
-      expect(database.properties.entries, isNotEmpty);
-      expect(database.properties.getByName('Tags').isMultiSelect, true);
-      expect(database.properties.getByName('Details').isRichText, true);
-      expect(database.properties.getByName('Pages').isTitle, true);
+      expect(database.properties.entries.length, 3);
+      expect(database.properties.getByName('Tags'), isA<MultiSelectDbProp>());
+      expect(database.properties.getByName('Details'), isA<RichTextDbProp>());
+      expect(database.properties.getByName('Pages'), isA<TitleDbProp>());
     });
 
     test('Create json from instance', () {
-      Map<String, dynamic> database = Database.simple(
+      Database database = Database.simple(
         parent: Parent.none(),
         title: 'Title',
-        titleColumnName: 'Pages',
-      )
-          .addProperty(
-              name: 'Tags',
-              property: MultiSelectProp(options: [
-                MultiSelectOption(name: 'Option A'),
-                MultiSelectOption(name: 'Option B'),
-              ]))
-          .addProperty(
-              name: 'Details',
-              property: RichTextProp(content: [
-                Text('Detail A'),
-                Text('Detail B'),
-              ]))
-          .toJson();
+        mainColumnName: 'Pages',
+      );
 
-      expect(database, isNotNull);
-      expect(database['object'], 'database');
-      expect(database['title'], isList);
-      expect(database['properties'], isMap);
+      database.addProperty(
+        name: 'Tags',
+        property: DatabaseProperty.MultiSelect(
+          options: [
+            MultiSelectOptionDbProp(name: 'Option A'),
+            MultiSelectOptionDbProp(name: 'Option B'),
+          ],
+        ),
+      );
+
+      database.addProperty(
+        name: 'Details',
+        property: DatabaseProperty.RichText(),
+      );
+
+      Map<String, dynamic> json = database.toJson();
+
+      expect(json, isNotNull);
+      expect(json['object'], 'database');
+      expect(json['title'], isList);
+      expect(json['properties'], isMap);
     });
 
     test('Map from json', () {
@@ -113,9 +123,8 @@ void main() {
       expect(database.title, isNotEmpty);
       expect(database.id, isNotEmpty);
       expect(database.properties.contains('Tags'), true);
-      expect(database.properties.getByName('Tags').isMultiSelect, true);
-      expect(database.properties.contains('Details'), true);
-      expect(database.properties.getByName('Details').isTitle, true);
+      expect(database.properties.getByName('Tags'), isA<MultiSelectDbProp>());
+      expect(database.properties.getByName('Details'), isA<TitleDbProp>());
     });
 
     test('Map from wrong json', () {
