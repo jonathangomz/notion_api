@@ -148,7 +148,7 @@ void main() {
       NotionDatabasesClient db = NotionDatabasesClient(auth: token ?? '');
 
       NotionResponse response =
-          await db.retrieve(database_id: testDatabaseId ?? '');
+          await db.retrieve(databaseId: testDatabaseId ?? '');
 
       expect(response.isDatabase, true);
       expect(response.content.title, allOf([isList, isNotEmpty, hasLength(1)]));
