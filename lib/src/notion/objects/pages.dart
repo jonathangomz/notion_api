@@ -1,11 +1,11 @@
 import '../general/exports.dart';
 import '../lists/exports.dart';
 import '../rich_text.dart';
-import 'base_fields.dart';
+import 'object.dart';
 import 'parent.dart';
 
 /// A representation of the Page Notion object.
-class Page extends BaseFields {
+class Page extends Object {
   /// The type of this object. Always Page for this.
   @override
   final ObjectTypes object = ObjectTypes.Page;

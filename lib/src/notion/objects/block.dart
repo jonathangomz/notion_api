@@ -1,9 +1,9 @@
 import '../../utils/utils.dart';
 import '../general/notion_types.dart';
-import 'base_fields.dart';
+import 'object.dart';
 
 /// A base representation of any Notion block object.
-class Block extends BaseFields {
+class Block extends Object {
   /// The type of object. Always Block for this.
   @override
   final ObjectTypes object = ObjectTypes.Block;
@@ -61,8 +61,8 @@ class Block extends BaseFields {
     this.hasChildren: false,
     this.jsonContent: const {},
     this.type: BlockTypes.None,
-    String createdTime: '',
-    String lastEditedTime: '',
+    DateTime? createdTime,
+    DateTime? lastEditedTime,
   }) {
     this.setBaseProperties(
       createdTime: createdTime,
