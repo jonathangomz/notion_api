@@ -12,7 +12,7 @@ class DatabaseProperties extends Properties<DatabaseProperty> {
     Map<String, DatabaseProperty>? properties,
   }) : super(map: properties) {
     if (mainColumnName != null)
-      add(name: mainColumnName, property: DatabaseProperty.Title());
+      super.add(name: mainColumnName, property: DatabaseProperty.Title());
   }
 
   /// Map a new properties instance from a [json] map.
@@ -36,6 +36,27 @@ class DatabaseProperties extends Properties<DatabaseProperty> {
 
 /// A representation of a single property for any Notion object.
 class DatabaseProperty extends Property {
+  static TitleDbProp Title({
+    String? name,
+  }) =>
+      TitleDbProp(name: name);
+
+  static RichTextDbProp RichText({
+    String? name,
+  }) =>
+      RichTextDbProp(name: name);
+
+  static MultiSelectDbProp MultiSelect({
+    List<MultiSelectOptionDbProp> options: const [],
+    String? name,
+  }) =>
+      MultiSelectDbProp(name: name, options: options);
+
+  static CheckboxtDbProp Checkbox({
+    String? name,
+  }) =>
+      CheckboxtDbProp(name: name);
+
   /// The property name.
   String name;
 
@@ -71,26 +92,41 @@ class DatabaseProperty extends Property {
     }
   }
 
-  static TitleDbProp Title({
-    String? name,
-  }) =>
-      TitleDbProp(name: name);
+  /// Returns the property as a Title property.
+  ///
+  /// Throws an exception if the property is not of that type or if it has not been implemented from the corresponding property.
+  TitleDbProp get asTitle {
+    if (type != PropertiesTypes.Title)
+      throw 'Cannot convert as Title because property is a ${type}';
+    throw 'Not Implemented';
+  }
 
-  static RichTextDbProp RichText({
-    String? name,
-  }) =>
-      RichTextDbProp(name: name);
+  /// Returns the property as a RichText property.
+  ///
+  /// Throws an exception if the property is not of that type or if it has not been implemented from the corresponding property.
+  RichTextDbProp get asRichText {
+    if (type != PropertiesTypes.RichText)
+      throw 'Cannot convert as RichText because property is a ${type}';
+    throw 'Not Implemented';
+  }
 
-  static MultiSelectDbProp MultiSelect({
-    List<MultiSelectOptionDbProp> options: const [],
-    String? name,
-  }) =>
-      MultiSelectDbProp(name: name);
+  /// Returns the property as a MultiSelect property.
+  ///
+  /// Throws an exception if the property is not of that type or if it has not been implemented from the corresponding property.
+  MultiSelectDbProp get asMultiSelect {
+    if (type != PropertiesTypes.MultiSelect)
+      throw 'Cannot convert as MultiSelect because property is a ${type}';
+    throw 'Not Implemented';
+  }
 
-  static CheckboxtDbProp Checkbox({
-    String? name,
-  }) =>
-      CheckboxtDbProp(name: name);
+  /// Returns the property as a Checkbox property.
+  ///
+  /// Throws an exception if the property is not of that type or if it has not been implemented from the corresponding property.
+  CheckboxtDbProp get asCheckbox {
+    if (type != PropertiesTypes.Checkbox)
+      throw 'Cannot convert as Checkbox because property is a ${type}';
+    throw 'Not Implemented';
+  }
 }
 
 class TitleDbProp extends DatabaseProperty {
@@ -104,6 +140,10 @@ class TitleDbProp extends DatabaseProperty {
           id: json['id'],
           name: json['name'],
         );
+
+  /// Override `asTitle` method from class parent to format specifically to Title.
+  @override
+  TitleDbProp get asTitle => this;
 
   /// Get this as a valid json representation for the Notion API.
   @override
@@ -127,6 +167,10 @@ class RichTextDbProp extends DatabaseProperty {
           name: json['name'],
         );
 
+  /// Override `asRichText` method from class parent to format specifically to RichText.
+  @override
+  RichTextDbProp get asRichText => this;
+
   /// Get this as a valid json representation for the Notion API.
   @override
   Map<String, dynamic> toJson() => {
@@ -148,6 +192,10 @@ class CheckboxtDbProp extends DatabaseProperty {
           id: json['id'],
           name: json['name'],
         );
+
+  /// Override `asCheckbox` method from class parent to format specifically to Checkbox.
+  @override
+  CheckboxtDbProp get asCheckbox => this;
 
   /// Get this as a valid json representation for the Notion API.
   @override
@@ -180,6 +228,10 @@ class MultiSelectDbProp extends DatabaseProperty {
           id: json['id'],
           name: json['name'],
         );
+
+  /// Override `asMultiSelect` method from class parent to format specifically to MultiSelect.
+  @override
+  MultiSelectDbProp get asMultiSelect => this;
 
   /// Get this as a valid json representation for the Notion API.
   @override

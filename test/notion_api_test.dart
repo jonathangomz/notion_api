@@ -237,8 +237,14 @@ void main() {
         expect(res.database!.properties.getByName('This is a test'),
             isA<TitleDbProp>());
 
-        // TODO: Can read multiselect property options
-        // expect(res.database!.properties.getByName('Tags').options.length, 2);
+        // Can read multiselect property options
+        expect(
+            res.database!.properties
+                .getByName('Tags')
+                .asMultiSelect
+                .options
+                .length,
+            1);
       });
     });
 

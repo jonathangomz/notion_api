@@ -71,8 +71,8 @@ class Database extends Object {
     required this.parent,
     required String mainColumnName,
     String? title,
-  })  : this.url = '',
-        this.properties = DatabaseProperties(mainColumnName: mainColumnName) {
+  })  : url = '',
+        properties = DatabaseProperties(mainColumnName: mainColumnName) {
     if (title != null) _title.add(RichText(title));
   }
 
@@ -113,7 +113,7 @@ class Database extends Object {
   /// );
   /// ```
   void addProperty({required String name, required DatabaseProperty property}) {
-    this.properties.add(name: name, property: property);
+    properties.add(name: name, property: property);
   }
 
   /// Convert this to a valid json representation for the Notion API.
@@ -125,12 +125,13 @@ class Database extends Object {
 
   /// Convert this to a valid json representation for the Notion API response.
   Map<String, dynamic> toJson() => {
-        'object': objectTypeToString(this.object),
-        'id': this.id,
+        'object': objectTypeToString(object),
+        'id': id,
         'created_time': createdTime,
         'last_edited_by': lastEditedTime,
         'title': _title.map((e) => e.toJson()).toList(),
         'parent': parent.toJson(),
         'properties': properties.toJson(),
+        'url': url,
       };
 }
