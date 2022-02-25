@@ -12,6 +12,8 @@ class Properties<T> {
   }
 
   /// Add a new [property] with a specific [name].
+  ///
+  /// If there is a current entry with that [name], the new [property] will overwrite the other value.
   void add({required String name, required T property}) {
     this.entries[name] = property;
   }
