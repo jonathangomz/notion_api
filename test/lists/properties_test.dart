@@ -1,4 +1,4 @@
-import 'package:notion_api/notion/general/lists/properties.dart';
+import 'package:notion_api/notion_api.dart';
 import 'package:test/test.dart';
 
 void main() {

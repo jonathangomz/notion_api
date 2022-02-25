@@ -3,36 +3,75 @@
 ## More coming soon...
 If you have suggestions feel free to create an Issue or to create a PR with the feature.
 
-## v1.3.0
-> Release date: 06/Aug/2021
-* Maybe fix errors creating page with children. I don't know if is an error with Notion API.
-* Add query a database endpoint:
+## v2.1.0
+|||
+|:---------------|:------------|
+| Release date   | ?           |
+| Notion-Version | 2021-08-16  |
+* 🐣 Add `Retrieve a block` endpoint:
+  * https://developers.notion.com/reference/retrieve-a-block
+* 🐣 Add `Update a block` endpoint:
+  * https://developers.notion.com/reference/update-a-block
+* 🐣 Add `Query a database` endpoint:
   * https://developers.notion.com/reference/post-database-query
-* Add more properties for pages and databases:
-  * Page properties: https://developers.notion.com/reference/page#page-property-value
-  * Database properties: https://developers.notion.com/reference/database#database-property
 
-## v1.2.1:
-> Release date: 02/Aug/2021
-* Add constructors with only single text content with default style for:
-  * `Paragraph.text('some text here...')`
-  * `ToDo.text('some text here...', checked: true)`
-  * `Heading.text('some text here...', type: 2)`
-  * `BulletedListItem.text('some text here...')`
-  * `NumberedListItem.text('some text here...')`
-  * `Toggle.text('some text here...', children: [])`
-* Add more constructors for `Heading` class:
-  * `one`: Heading with type 1 by default.
-  * `two`: Heading with type 2 by default.
-  * `three`: Heading with type 3 by default.
-* Add more constructors for `Text` class:
+## v2.0.1
+|||
+|:---------------|:------------|
+| Release date   | ?           |
+| Notion-Version | 2021-08-16  |
+* 🔧 Maybe fix errors creating page with children. I don't know if is an error with Notion API.
+* 🐣 Add more properties for pages and databases:
+  * Page properties: https://developers.notion.com/reference/page#page-property-value
+  * Database properties: https://develop  ers.notion.com/reference/database#database-property
+
+## v2.0.0
+|||
+|:---------------|:------------|
+| Release date   | 31/Mar/2022 |
+| Notion-Version | 2021-08-16  |
+* **Full refactorization to all the project**
+
+## v2.0.0-beta2 ✅
+> Release date: 06/Aug/2021
+* 🍗 Add more suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Copy some terminologies from [`notion-sdk-js`](https://github.com/makenotion/notion-sdk-js)
+
+## v2.0.0-beta1 ✅
+> Release date: 30/Jun/2021
+* 🐣 Add constructor for empty `Database`.
+* 🐣 Add parameter `blocks` for `Children` constructor.
+* 🍗 Remove deprecated code:
+  * `textSeparation`
+  * Parameter constructors for `Children`:
+    * `heading`
+    * `paragraph`
+    * `toDo`
+* 🍗 Add suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Update exports to improve usage
+  * Add private folder (`src/`)
+* 🐣 Add constructors with only single text content with default style for:
+  * `Paragraph`: `Paragraph.text('some text here...')`
+  * `ToDo`: `ToDo.text('some text here...', checked: true)`
+  * `Heading`: `Heading.text('some text here...', type: 2)`
+  * `BulletedListItem`: `BulletedListItem.text('some text here...')`
+  * `NumberedListItem`: `NumberedListItem.text('some text here...')`
+  * `Toggle`: `Toggle.text('some text here...', children: [])`
+* (**CANCELED**) ~~🐣 Add more constructors for `Heading` class:~~
+  * ~~`one`: Heading with type 1 by default.~~
+  * ~~`two`: Heading with type 2 by default.~~
+  * ~~`three`: Heading with type 3 by default.~~
+* 🐣 Add more constructors for `Text` class:
   * `code`: Text with code style by default.
   * `italic`: Text with italic style by default.
   * `bold`: Text with bold style by default.
-  * [**Opt**] `list`: List of words separated by comma (by default).
-    * Example: `Text.list()` will receive a list of Text and will be concatenated separated with comma by default. **It may be unnecessary**. Can help to make the code more readable.
-  * [**Opt**] `sep`: Text separator.
-    * Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.
+  * `underline`: Text with underline style by default.
+  * `color`: Text with different color of default.
+  * [**CANCELED**] ~~`sep`: Text separator.~~
+    * ~~Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.~~
+* 🐣 Add `list(List<Text> texts, String separator, String lastSeparator)`:
+  *  **A static method**
+  *  Generate a textual list of texts separated by comma (by default).
 
 ## v1.2.0: ✅
 > Release date: 27/Jul/2021

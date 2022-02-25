@@ -1,5 +1,4 @@
-import 'package:notion_api/notion/blocks/block.dart';
-import 'package:notion_api/notion/general/types/notion_types.dart';
+import 'package:notion_api/notion_api.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -35,8 +34,8 @@ void main() {
             },
           ]
         },
-        createdTime: '2021-05-20T21:01:00.000Z',
-        lastEditedTime: '2021-05-26T19:10:00.000Z',
+        createdTime: DateTime.parse('2021-05-20T21:01:00.000Z'),
+        lastEditedTime: DateTime.parse('2021-05-26T19:10:00.000Z'),
       );
 
       expect(block.strType, 'paragraph');
@@ -66,8 +65,8 @@ void main() {
             },
           ]
         },
-        createdTime: '2021-05-20T21:01:00.000Z',
-        lastEditedTime: '2021-05-26T19:10:00.000Z',
+        createdTime: DateTime.parse('2021-05-20T21:01:00.000Z'),
+        lastEditedTime: DateTime.parse('2021-05-26T19:10:00.000Z'),
       ).toJson();
 
       expect(json['type'], 'paragraph');
