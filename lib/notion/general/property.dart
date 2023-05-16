@@ -75,6 +75,9 @@ class Property {
       MultiSelectProp multi = MultiSelectProp.fromJson(json,
           subfield: contentIsList ? null : 'options');
       return multi;
+    } else if (type == PropertiesTypes.Number) {
+      NumberProp number = NumberProp.fromJson(json);
+      return number;
     } else {
       return Property();
     }
@@ -279,3 +282,31 @@ class MultiSelectOption {
   static List<MultiSelectOption> fromListJson(List<dynamic> options) =>
       options.map((e) => MultiSelectOption.fromJson(e)).toList();
 }
+
+/// A representation of a number property for any Notion object.
+class NumberProp extends Property {
+  num? value;
+
+  @override
+  final PropertiesTypes type = PropertiesTypes.Number;
+
+  NumberProp(this.value);
+
+  @override
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> json = {'type': this.strType};
+
+    if (this.id != null) {
+      json['id'] = this.id;
+    }
+
+    json[this.strType] = this.value;
+
+    return json;
+  }
+
+  NumberProp.fromJson(Map<String, dynamic> json)
+      : this.value = json['number'],
+        super(id: json['id']);
+}
+
