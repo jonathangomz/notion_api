@@ -61,7 +61,8 @@ void main() {
       expect(json, contains('Details'));
       expect(json['Details']!.isRichText, true);
       expect(json, contains('Quantity'));
-      expect(json['Quantity']!.isNone, true);
+      expect(json['Quantity']!.strType, 'number');
+      expect(json['Quantity']!.value, 1234);
     });
 
     test('Create json from Property inherited class', () {
