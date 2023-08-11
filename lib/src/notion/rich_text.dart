@@ -24,7 +24,7 @@ class Text {
   /// Only can receive the [text] itself and the [color].
   Text.bold(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(bold: true, color: color);
 
   /// Text constructor with _italic_ content by default.
@@ -32,7 +32,7 @@ class Text {
   /// Only can receive the [text] itself and the [color].
   Text.italic(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(italic: true, color: color);
 
   /// Text constructor with `code` content by default.
@@ -40,7 +40,7 @@ class Text {
   /// Only can receive the [text] itself and the [color].
   Text.code(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(code: true, color: color);
 
   /// Text constructor with underline content by default.
@@ -48,7 +48,7 @@ class Text {
   /// Only can receive the [text] itself and the [color].
   Text.underline(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(underline: true, color: color);
 
   /// Text constructor to change the default color of a text.
@@ -56,7 +56,7 @@ class Text {
   /// Only can receive the [text] itself and the [color].
   Text.color(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(color: color);
 
   /// Text mapper for lists.
@@ -100,8 +100,8 @@ class Text {
   /// ```
   static List<Text> list({
     required List<Text> texts,
-    String separator: ', ',
-    String lastSeparator: ' and ',
+    String separator = ', ',
+    String lastSeparator = ' and ',
   }) {
     List<Text> list = [];
     texts.asMap().forEach((index, element) {
@@ -190,12 +190,12 @@ class TextAnnotations {
   ///
   /// Valid colors are defined by the Colors enum. By default the color type is... Default dah.
   TextAnnotations({
-    this.bold: false,
-    this.italic: false,
-    this.strikethrough: false,
-    this.underline: false,
-    this.code: false,
-    this.color: ColorsTypes.Default,
+    this.bold = false,
+    this.italic = false,
+    this.strikethrough = false,
+    this.underline = false,
+    this.code = false,
+    this.color = ColorsTypes.Default,
   });
 
   /// Create a new text annotation instance from json.
@@ -258,7 +258,7 @@ class RichText {
   /// Only can receive the [text] itself and the [color].
   RichText.bold(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(bold: true, color: color);
 
   /// Text constructor with _italic_ content by default.
@@ -266,7 +266,7 @@ class RichText {
   /// Only can receive the [text] itself and the [color].
   RichText.italic(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(italic: true, color: color);
 
   /// Text constructor with `code` content by default.
@@ -274,7 +274,7 @@ class RichText {
   /// Only can receive the [text] itself and the [color].
   RichText.code(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(code: true, color: color);
 
   /// Text constructor with underline content by default.
@@ -282,7 +282,7 @@ class RichText {
   /// Only can receive the [text] itself and the [color].
   RichText.underline(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(underline: true, color: color);
 
   /// Text constructor to change the default color of a text.
@@ -290,7 +290,7 @@ class RichText {
   /// Only can receive the [text] itself and the [color].
   RichText.color(
     this.text, {
-    ColorsTypes color: ColorsTypes.Default,
+    ColorsTypes color = ColorsTypes.Default,
   }) : this.annotations = TextAnnotations(color: color);
 
   /// Text mapper for lists.
@@ -334,8 +334,8 @@ class RichText {
   /// ```
   static List<RichText> list({
     required List<RichText> texts,
-    String separator: ', ',
-    String lastSeparator: ' and ',
+    String separator = ', ',
+    String lastSeparator = ' and ',
   }) {
     List<RichText> list = [];
     texts.asMap().forEach((index, element) {
@@ -424,12 +424,12 @@ class RichTextAnnotations {
   ///
   /// Valid colors are defined by the Colors enum. By default the color type is... Default dah.
   RichTextAnnotations({
-    this.bold: false,
-    this.italic: false,
-    this.strikethrough: false,
-    this.underline: false,
-    this.code: false,
-    this.color: ColorsTypes.Default,
+    this.bold = false,
+    this.italic = false,
+    this.strikethrough = false,
+    this.underline = false,
+    this.code = false,
+    this.color = ColorsTypes.Default,
   });
 
   /// Create a new text annotation instance from json.

@@ -27,9 +27,9 @@ class ToDo extends Block {
   /// The [checked] field define if the To do option is marked as done. By default is false.
   ToDo({
     Text? text,
-    List<Text> texts: const [],
-    List<Block> children: const [],
-    this.checked: false,
+    List<Text> texts = const [],
+    List<Block> children = const [],
+    this.checked = false,
   }) {
     this._content.addAll([
       if (text != null) text,
@@ -46,8 +46,8 @@ class ToDo extends Block {
   ToDo.text(
     String content, {
     TextAnnotations? annotations,
-    List<Block> children: const [],
-    this.checked: false,
+    List<Block> children = const [],
+    this.checked = false,
   })  : this._content = [Text(content, annotations: annotations)],
         this._children = children;
 

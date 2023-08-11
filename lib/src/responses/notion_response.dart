@@ -70,8 +70,8 @@ class NotionResponse {
   ///
   /// By default the [object] type is None and the [status] is zero.
   NotionResponse({
-    this.object: ObjectTypes.None,
-    this.status: 0,
+    this.object = ObjectTypes.None,
+    this.status = 0,
     this.code,
     this.message,
   });

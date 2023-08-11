@@ -24,8 +24,8 @@ class Object {
   ///
   /// **Note:** This class is mainly (if no only) used by extending it.
   Object({
-    this.object: ObjectTypes.Object,
-    this.id: '',
+    this.object = ObjectTypes.Object,
+    this.id = '',
     DateTime? this.createdTime,
     DateTime? this.lastEditedTime,
   });

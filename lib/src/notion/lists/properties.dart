@@ -13,7 +13,7 @@ class Properties {
   /// Main properties constructor.
   ///
   /// Can receive a properties [map].
-  Properties({Map<String, Property> map: const {}}) {
+  Properties({Map<String, Property> map = const {}}) {
     this._map.addAll(map);
   }
 
@@ -22,7 +22,7 @@ class Properties {
   /// Can receive a properties [map].
   Properties.forDatabase({
     required String title,
-    Map<String, Property> map: const {},
+    Map<String, Property> map = const {},
   }) {
     _map[title] = TitleProp();
     _map.addAll(map);

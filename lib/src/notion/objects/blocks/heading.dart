@@ -20,8 +20,8 @@ class Heading extends Block {
   /// Also can receive the [type] of the heading as an integer between 1 and 3. Set to 1 by default when no specified or when is out of the range declared before.
   Heading({
     Text? text,
-    List<Text> texts: const [],
-    int type: 1,
+    List<Text> texts = const [],
+    int type = 1,
   }) : this.type = headingTypeFromInt(type) {
     this._content.addAll([
       if (text != null) text,
@@ -37,7 +37,7 @@ class Heading extends Block {
   Heading.text(
     String content, {
     TextAnnotations? annotations,
-    int type: 1,
+    int type = 1,
   })  : this._content = [Text(content, annotations: annotations)],
         this.type = headingTypeFromInt(type);
 

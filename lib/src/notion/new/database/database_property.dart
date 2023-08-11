@@ -47,7 +47,7 @@ class DatabaseProperty extends Property {
       RichTextDbProp(name: name);
 
   static MultiSelectDbProp MultiSelect({
-    List<MultiSelectOptionDbProp> options: const [],
+    List<MultiSelectOptionDbProp> options = const [],
     String? name,
   }) =>
       MultiSelectDbProp(name: name, options: options);
@@ -214,7 +214,7 @@ class MultiSelectDbProp extends DatabaseProperty {
   List<MultiSelectOptionDbProp> options;
 
   MultiSelectDbProp({
-    this.options: const [],
+    this.options = const [],
     String? name,
   }) : super(name: name);
 
@@ -262,7 +262,7 @@ class MultiSelectOptionDbProp {
   MultiSelectOptionDbProp({
     required this.name,
     this.id,
-    this.color: ColorsTypes.Default,
+    this.color = ColorsTypes.Default,
   });
 
   /// Create a new multi select instance from json.

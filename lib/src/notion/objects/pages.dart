@@ -32,9 +32,9 @@ class Page extends Object {
   /// for when a new page is created.
   Page({
     required this.parent,
-    this.archived: false,
+    this.archived = false,
     this.children,
-    String id: '',
+    String id = '',
     Text? title,
   }) {
     this.id = id;
@@ -91,7 +91,7 @@ class Page extends Object {
   }
 
   /// Convert this to a json representation valid for the Notion API.
-  Map<String, dynamic> toJson({bool isResponse: false}) {
+  Map<String, dynamic> toJson({bool isResponse = false}) {
     Map<String, dynamic> json = {
       'parent': this.parent.toJson(),
       'properties': this.properties.toJson(),

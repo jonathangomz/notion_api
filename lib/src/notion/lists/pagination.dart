@@ -47,8 +47,8 @@ class Pagination {
   /// Can receive the [nextCursor], if [hasMore] pages, if [isEmpty] and the corresponding list: [blocks], [databases] or [pages].
   Pagination({
     this.nextCursor,
-    this.hasMore: false,
-    this.isEmpty: false,
+    this.hasMore = false,
+    this.isEmpty = false,
     List<Block>? blocks,
     List<Database>? databases,
   });
@@ -90,8 +90,8 @@ class Pagination {
   ///
   /// If all fields are included then all filters are applied as a chain following the next order: [exclude], [include], [onlyLeft], and the [id].
   List<Block> filterBlocks({
-    List<BlockTypes> exclude: const [],
-    List<BlockTypes> include: const [],
+    List<BlockTypes> exclude = const [],
+    List<BlockTypes> include = const [],
     BlockTypes? onlyLeft,
     String? id,
   }) {
@@ -118,8 +118,8 @@ class Pagination {
   ///
   /// If all fields are included then all filters are applied as a chain following the next order: [exclude], [include], and the [id].
   List<Database> filterDatabases({
-    List<String> exclude: const [],
-    List<String> include: const [],
+    List<String> exclude = const [],
+    List<String> include = const [],
     String? id,
   }) {
     List<Database> filetered = <Database>[];

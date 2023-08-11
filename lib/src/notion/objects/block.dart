@@ -57,10 +57,10 @@ class Block extends Object {
   ///
   /// Also can receive the [createdTime] and the [lastEditedTime] of the block in case that the information is filled from response.
   Block({
-    this.id: '',
-    this.hasChildren: false,
-    this.jsonContent: const {},
-    this.type: BlockTypes.None,
+    this.id = '',
+    this.hasChildren = false,
+    this.jsonContent = const {},
+    this.type = BlockTypes.None,
     DateTime? createdTime,
     DateTime? lastEditedTime,
   }) {

@@ -115,7 +115,7 @@ class TitleProp extends Property {
   /// Main title property constructor.
   ///
   /// Can receive a list ot texts as the title [content].
-  TitleProp({this.content: const <Text>[], this.name});
+  TitleProp({this.content = const <Text>[], this.name});
 
   /// Create a new property instance from json.
   ///
@@ -164,7 +164,7 @@ class RichTextProp extends Property {
   /// Main RichText constructor.
   ///
   /// Can receive the [content] as a list of texts.
-  RichTextProp({this.content: const <Text>[]});
+  RichTextProp({this.content = const <Text>[]});
 
   /// Create a new rich text instance from json.
   ///
@@ -207,7 +207,7 @@ class MultiSelectProp extends Property {
   ///
   /// Can receive the list6 of the options.
   MultiSelectProp({
-    this.options: const <MultiSelectOption>[],
+    this.options = const <MultiSelectOption>[],
     String? name,
   }) : super(name: name);
 
@@ -257,7 +257,7 @@ class MultiSelectOption {
   ///
   /// Required the [name] field to display a text for the option. Also can receive the [id] and the [color] of the option.
   MultiSelectOption(
-      {required this.name, this.id, this.color: ColorsTypes.Default});
+      {required this.name, this.id, this.color = ColorsTypes.Default});
 
   /// Create a new multi select instance from json.
   ///

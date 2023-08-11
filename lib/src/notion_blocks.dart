@@ -27,8 +27,8 @@ class NotionBlockClient {
   /// Require the [auth] token to authenticate the requests, and the API [version] where to make the calls, which is the latests by default (v1). Also can receive the [dateVersion], which is by default "2021-05-13".
   NotionBlockClient({
     required String auth,
-    String version: latestVersion,
-    String dateVersion: latestDateVersion,
+    String version = latestVersion,
+    String dateVersion = latestDateVersion,
   })  : this._token = auth,
         this._v = version,
         this._dateVersion = dateVersion;

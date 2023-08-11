@@ -22,8 +22,8 @@ class NumberedListItem extends Block {
   /// Can receive a single [text] or a list of [texts]. If both are included also both fields are added to the heading content adding first the [text] field. Also can receive the [children] of the block.
   NumberedListItem({
     Text? text,
-    List<Text> texts: const [],
-    List<Block> children: const [],
+    List<Text> texts = const [],
+    List<Block> children = const [],
   }) {
     this._content.addAll([
       if (text != null) text,
@@ -40,7 +40,7 @@ class NumberedListItem extends Block {
   NumberedListItem.text(
     String content, {
     TextAnnotations? annotations,
-    List<Block> children: const [],
+    List<Block> children = const [],
   })  : this._content = [Text(content, annotations: annotations)],
         this._children = children;
 

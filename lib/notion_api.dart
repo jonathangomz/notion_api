@@ -40,8 +40,8 @@ class Client {
   /// This class is used as the main entry point for all clients. From the instances of this class any other client can be used.
   Client({
     required String auth,
-    String version: latestVersion,
-    String dateVersion: latestDateVersion,
+    String version = latestVersion,
+    String dateVersion = latestDateVersion,
   })  : this.pages = NotionPagesClient(
             auth: auth, version: version, dateVersion: dateVersion),
         this.databases = NotionDatabasesClient(
