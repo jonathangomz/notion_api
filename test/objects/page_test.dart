@@ -1,11 +1,4 @@
-import 'package:notion_api/notion/blocks/heading.dart';
-import 'package:notion_api/notion/general/lists/children.dart';
-import 'package:notion_api/notion/general/property.dart';
-import 'package:notion_api/notion/general/types/notion_types.dart';
-import 'package:notion_api/notion/general/rich_text.dart';
-import 'package:notion_api/notion/objects/pages.dart';
-import 'package:notion_api/notion/objects/parent.dart';
-import 'package:notion_api/utils/utils.dart';
+import 'package:notion_api/notion_api.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -23,9 +23,9 @@
 
 # Initialization
 ## Full instance
-You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class properties methods.
+You only have to create a new instance of the `Client` class and all the API requests will be available as class properties methods.
 ```dart
-NotionClient notion = NotionClient(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
+Client notion = Client(auth: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
 ```
 
 ## Individual classes
@@ -34,12 +34,12 @@ You can also use individual request group class like `NotionPagesClient` or `Not
 **Example**
 ```dart
 // With main class
-NotionClient notion = NotionClient(token: 'YOUR_TOKEN');
-notion.databases.fetchAll();
+Client notion = Client(auth: 'YOUR_TOKEN');
+notion.databases.list();
 
 // With individual class
-NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
-databases.fetchAll();
+NotionDatabasesClient databases = NotionDatabasesClient(auth: 'YOUR_TOKEN');
+databases.list();
 ```
 
 # Pages
@@ -74,7 +74,8 @@ If you want to update the content of the page itself the use the block children 
 
 **Note:** If the parent is a database, the new property values in the properties parameter must conform to the parent database's property schema.
 ```dart
-notion.pages.update('YOUR_PAGE_ID',
+notion.pages.update(
+  page_id: 'YOUR_PAGE_ID',
   properties: Properties(map: {
     'Description': RichTextProp(content: [
       Text('New value for Description property'),
@@ -89,7 +90,8 @@ Archive or delete a page is a subaction of update it according to the API refere
 
 You can archive or un-archive the page just by toggling the boolean value of the `archived` parameter.
 ```dart
-notion.pages.update('YOUR_PAGE_ID',
+notion.pages.update(
+  page_id: 'YOUR_PAGE_ID',
   archived: true,
 );
 ```
@@ -97,7 +99,7 @@ _See more at https://developers.notion.com/reference/patch-page#archive-delete-a
 
 ## Retrieve a page
 ```dart
-notion.pages.fetch('YOUR_PAGE_ID');
+notion.pages.retrieve(page_id: 'YOUR_PAGE_ID');
 ```
 _See more at https://developers.notion.com/reference/get-page_
 
@@ -106,13 +108,9 @@ _See more at https://developers.notion.com/reference/get-page_
 You have to define the parent of the page. It can be:
 - `page`
 - `workspace`
-
-There is a constructor for each one (_see example below_) but the main constructor can be used as well but the `ParentType` will be required.
-
-**Note:** The `newDatabase` constructor is a temporary solution while the main constructor is deprecating their fields until it became the sustitute for this constructor.
 ```dart
 // With page parent
-Page page = Database.newDatabase(
+Database database = Database(
   parent: Parent.page(id: 'YOUR_PAGE_ID'),
   title: [
     Text('Database from examples'),
@@ -126,13 +124,13 @@ Page page = Database.newDatabase(
   }),
 );
 
-notion.databases.create(page);
+notion.databases.create(database);
 ```
 _See more at https://developers.notion.com/reference/create-a-database_
 
 ## Retrieve a database
 ```dart
-notion.databases.fetch('YOUR_DATABASE_ID');
+notion.databases.retrieve(database_id: 'YOUR_DATABASE_ID');
 ```
 _See more at https://developers.notion.com/reference/get-database_
 
@@ -143,14 +141,14 @@ _Parameters:_
 - _startCursor: If supplied, this endpoint will return a page of results starting after the cursor provided. If not supplied, this endpoint will return the first page of results._
 - _pageSize: The number of items from the full list desired in the response. Maximum: 100, otherwise will be ignored._
 ```dart
-notion.databases.fetchAll();
+notion.databases.list();
 ```
 _See more at https://developers.notion.com/reference/get-databases_
 
 # Block children
 ## Retrieve block children
 ```dart
-notion.blocks.fetch('YOUR_BLOCK_ID');
+notion.blocks.list(block_id: 'YOUR_BLOCK_ID');
 ```
 _See more at https://developers.notion.com/reference/get-block-children_
 
@@ -165,26 +163,7 @@ _Parameters:_
 ### Heading & Paragraph
 **Code**
 ```dart
-// Create children instance:
-// * Deprecated way
-// Children oldWay = Children(
-//  heading: Heading('Test'),
-//  paragraph: Paragraph(
-//   content: [
-//      Text('Lorem ipsum (A)'),
-//      Text(
-//        'Lorem ipsum (B)',
-//        annotations: TextAnnotations(
-//          bold: true,
-//          underline: true,
-//          color: ColorsTypes.orange,
-//        ),
-//      ),
-//    ],
-//  ),
-//);
-//
-// * New way using `addAll()`
+// Option A: using `addAll(List<Block>)`
 Children childrenA = Children().addAll([
   Heading(text: Text('Test')),
   Paragraph(texts: [
@@ -202,7 +181,7 @@ Children childrenA = Children().addAll([
   ]),
 ]);
 
-// * New way using single `add()`
+// Option B: using `add(Block)`
 Children childrenB =
   Children().add(Heading(text: Text('Test'))).add(Paragraph(texts: [
     Text('Lorem ipsum (A)'),
@@ -218,8 +197,26 @@ Children childrenB =
   ],
 ));
 
-// * New way using `withBlocks()` constructor
+// Option C: using `withBlocks(List<Block>)` constructor
 Children childrenC = Children.withBlocks([
+  Heading(text: Text('Test')),
+  Paragraph(texts: [
+    Text('Lorem ipsum (A)'),
+    Text(
+      'Lorem ipsum (B)',
+      annotations: TextAnnotations(
+        bold: true,
+        underline: true,
+        color: ColorsTypes.Orange,
+      ),
+    ),
+  ], children: [
+    Heading(text: Text('Subtitle'), type: 3),
+  ]),
+]);
+
+// Option D (Recommended): using main constructor
+Children childrenD = Children(blocks: [
   Heading(text: Text('Test')),
   Paragraph(texts: [
     Text('Lorem ipsum (A)'),
@@ -238,8 +235,8 @@ Children childrenC = Children.withBlocks([
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
-  children: childrenA, // or `childrenB` or `childrenC`, any of these will produce the same result.
+  block_id: 'YOUR_BLOCK_ID',
+  children: childrenA, // or `childrenB`, `childrenC` or `childrenD`, any of these will produce the same result.
 );
 ```
 
@@ -250,27 +247,8 @@ notion.blocks.append(
 ### To do
 **Code**
 ```dart
-// Create children instance:
-// * Deprecated way
-// Children children = 
-//   Children(
-//     toDo: [
-//       ToDo(text: Text('This is a todo item A')),
-//       ToDo(
-//         texts: [
-//           Text('This is a todo item'),
-//           Text(
-//             'B',
-//             annotations: TextAnnotations(bold: true),
-//           ),
-//         ],
-//       ),
-//     ],
-//   );
-//
-// * New way
 Children children =
-  Children.withBlocks([
+  Children(blocks: [
     ToDo(text: Text('This is a todo item A')),
     ToDo(
       texts: [
@@ -290,7 +268,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -303,7 +281,7 @@ notion.blocks.append(
 **Code**
 ```dart
 Children children =
-  Children.withBlocks([
+  Children(blocks: [
     Toggle(
       text: Text('This is a toggle block'),
       children: [
@@ -323,7 +301,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -336,7 +314,7 @@ notion.blocks.append(
 **Code**
 ```dart
 Children children =
-  Children.withBlocks([
+  Children(blocks: [
     BulletedListItem(text: Text('This is a bulleted list item A')),
     BulletedListItem(text: Text('This is a bulleted list item B')),
     BulletedListItem(
@@ -354,7 +332,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -367,7 +345,7 @@ notion.blocks.append(
 **Code**
 ```dart
 Children children =
-  Children.withBlocks([
+  Children(blocks: [
     NumberedListItem(text: Text('This is a numbered list item A')),
     NumberedListItem(text: Text('This is a numbered list item B')),
     NumberedListItem(
@@ -385,7 +363,7 @@ Children children =
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -399,11 +377,11 @@ _See more at https://developers.notion.com/reference/patch-block-children_
 [1]: https://developers.notion.com/reference/get-databases
 
 # Full example
-Go to see the result https://jonathangomz.notion.site/notion_api-example-0893dd2cb38a413d90165cb810b3c019
+Go to see the result https://jonathangomz.notion.site/notion_api-example-81cb020a620b4db19f8cf85e82be3d53
 
 ```dart
 // Initialize the main Notion client
-final NotionClient notion = NotionClient(token: 'YOUR_SECRET');
+final Client notion = Client(auth: 'YOUR_SECRET');
 
 // Create the instance of the page
 final Page page = Page(
@@ -418,97 +396,103 @@ var newPage = await notion.pages.create(page);
 String newPageId = newPage.page!.id;
 
 // Create the instance of the content of the page
-Children fullContent = Children.withBlocks([
-  Heading(text: Text('This the title')),
-  Paragraph(texts: [
-    Text(
-      'Here you can write all the content of the paragraph but if you want to have another style for a single word you will have to do ',
-    ),
-    Text(
-      'this. ',
-      annotations: TextAnnotations(
-        color: ColorsTypes.Green,
-        bold: true,
-        italic: true,
-      ),
-    ),
-    Text(
-      'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces because the ',
-    ),
-    Text('textSeparator', annotations: TextAnnotations(code: true)),
-    Text(
-        ' will be deprecated. Maybe you will see this with extra spaces because the separator but soon will be remove.')
-  ], children: [
-    Heading(
-      text: Text('This is a subtitle for the paragraph'),
-      type: 2,
-    ),
+Children fullContent = Children(
+  blocks: [
+    Heading(text: Text('Examples')),
     Paragraph(texts: [
       Text(
-        'You can also have children for some blocks like ',
+        'Here you can write all the content of the paragraph but if you want to have another style for a single word you will have to do ',
       ),
       Text(
-        'Paragraph',
-        annotations: TextAnnotations(code: true),
+        'this. ',
+        annotations: TextAnnotations(
+          color: ColorsTypes.Green,
+          bold: true,
+          italic: true,
+        ),
       ),
-      Text(', '),
       Text(
-        'ToDo',
-        annotations: TextAnnotations(code: true),
+        'Then you can continue writing all your content. See that if you separate the paragraph to stylized some parts you have to take in count the spaces.',
       ),
-      Text(', '),
-      Text(
-        'BulletedListItems',
-        annotations: TextAnnotations(code: true),
-      ),
-      Text(' or '),
-      Text(
-        'NumberedListItems',
-        annotations: TextAnnotations(code: true),
-      ),
-      Text('.'),
-    ]),
-    Paragraph(
-      text: Text(
+    ], children: [
+      Heading.text('Children subtitle', type: 2),
+      Paragraph(texts: [
+        Text(
+          'You can also have children for some blocks like ',
+        ),
+        ...Text.list(texts: [
+          Text.code('Paragraph'),
+          Text.code('ToDo'),
+          Text.code('BulletedListItems'),
+          Text.code('NumberedListItems'),
+        ], lastSeparator: ' or '),
+        Text('.'),
+      ]),
+      Paragraph.text(
         'Also, if your paragraph will have the same style you can write all your text directly like this to avoid using a list.',
       ),
-    ),
-  ]),
-  Heading(text: Text('Blocks'), type: 2),
-  Heading(text: Text('ToDo'), type: 3),
-  ToDo(text: Text('Daily meeting'), checked: true),
-  ToDo(text: Text('Clean the house')),
-  ToDo(text: Text('Do the laundry')),
-  ToDo(text: Text('Call mom'), children: [
-    Paragraph(texts: [
-      Text('Note: ', annotations: TextAnnotations(bold: true)),
-      Text('Remember to call her before 20:00'),
-    ]),
-  ]),
-  Heading(text: Text('Lists'), type: 3),
-  BulletedListItem(text: Text('Milk')),
-  BulletedListItem(text: Text('Cereal')),
-  BulletedListItem(text: Text('Eggs')),
-  BulletedListItem(text: Text('Tortillas of course')),
-  Paragraph(
-    text: Text('The numbered list are ordered by default by notion.'),
-  ),
-  NumberedListItem(text: Text('Notion')),
-  NumberedListItem(text: Text('Keep by Google')),
-  NumberedListItem(text: Text('Evernote')),
-  Heading(text: Text('Toggle'), type: 3),
-  Toggle(text: Text('Toogle items'), children: [
-    Paragraph(
-      text: Text(
-        'Toogle items are blocks that can show or hide their children, and their children can be any other block.',
+      Paragraph(
+        texts: [
+          Text('You can use styles for texts like: '),
+          ...Text.list(texts: [
+            Text.color('green text', color: ColorsTypes.Green),
+            Text.color('blue text', color: ColorsTypes.Blue),
+            Text.color('red text', color: ColorsTypes.Red),
+            Text.color('purple text', color: ColorsTypes.Purple),
+            Text.underline('underline text'),
+            Text.code('code format text'),
+            Text.italic('italic text'),
+            Text('strikethrough text',
+                annotations: TextAnnotations(strikethrough: true)),
+            Text(
+              'mix styles',
+              annotations: TextAnnotations(
+                bold: true,
+                italic: true,
+                underline: true,
+                color: ColorsTypes.Orange,
+              ),
+            ),
+          ], lastSeparator: ' or '),
+          Text('!')
+        ],
       ),
+    ]),
+    Heading.text('Blocks', type: 2),
+    Heading.text('ToDo', type: 3),
+    ToDo.text('Daily meeting', checked: true),
+    ToDo.text('Clean the house'),
+    ToDo.text('Do the laundry'),
+    ToDo.text('Call mom', children: [
+      Paragraph(texts: [
+        Text.bold('Note: '),
+        Text('Remember to call her before 20:00'),
+      ]),
+    ]),
+    Heading.text('Lists', type: 3),
+    BulletedListItem.text('Milk'),
+    BulletedListItem.text('Cereal'),
+    BulletedListItem.text('Eggs'),
+    BulletedListItem.text('Tortillas of course'),
+    Paragraph.text('The numbered list are ordered by default by notion.'),
+    NumberedListItem.text('Notion'),
+    NumberedListItem.text('Keep by Google'),
+    NumberedListItem.text('Evernote'),
+    Heading.text('Toggle', type: 3),
+    Toggle.text(
+      'Toogle items',
+      children: [
+        Paragraph.text(
+          'Toogle items are blocks that can show or hide their children, and their children can be any other block.',
+        ),
+      ],
     ),
-  ])
-]);
+  ],
+);
 
 // Append the content to the page
 var res = await notion.blocks.append(
-  to: newPageId,
+  block_id: newPageId,
   children: fullContent,
 );
 ```

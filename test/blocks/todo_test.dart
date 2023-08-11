@@ -1,9 +1,4 @@
-import 'package:notion_api/notion/blocks/heading.dart';
-import 'package:notion_api/notion/blocks/paragraph.dart';
-import 'package:notion_api/notion/blocks/todo.dart';
-import 'package:notion_api/notion/general/rich_text.dart';
-import 'package:notion_api/notion/general/types/notion_types.dart';
-import 'package:notion_api/utils/utils.dart';
+import 'package:notion_api/notion_api.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -17,6 +12,36 @@ void main() {
       expect(todo.checked, false);
       expect(todo.isToDo, true);
       expect(todo.type, BlockTypes.ToDo);
+    });
+
+    test('Create an instance with text constructor', () {
+      ToDo toDo = ToDo.text(
+        'This is a ToDo with a single text',
+        annotations: TextAnnotations(bold: true),
+        checked: true,
+        children: [
+          Paragraph.text('This is a children'),
+        ],
+      );
+
+      expect(
+          toDo.content,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(
+              1,
+            )
+          ]));
+      expect(toDo.content.first.annotations!.bold, isTrue);
+      expect(toDo.checked, isTrue);
+      expect(
+          toDo.children,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(1),
+          ]));
     });
 
     test('Create an instance with information', () {

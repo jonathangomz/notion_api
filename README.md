@@ -7,19 +7,22 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 
 - [API implemented](#api-implemented)
 - [Usage](#usage)
-  - [`NotionClient` class](#notionclient-class)
+  - [`Client` class](#client-class)
   - [Individual classes](#individual-classes)
   - [A few examples](#a-few-examples)
     - [Append blocks children](#append-blocks-children)
     - [Create a page](#create-a-page)
 - [Errors](#errors)
-  - [Create page with chidren](#create-page-with-chidren)
+  - [Create page with children](#create-page-with-children)
 - [Contributions](#contributions)
   - [Rules](#rules)
   - [Tests](#tests)
     - [Example:](#example)
-- [Next release](#next-release)
-  - [v1.2.1:](#v121)
+- [Releases](#releases)
+  - [Next](#next)
+    - [v2.0.0](#v200)
+  - [Last](#last)
+    - [v2.0.0-beta2](#v200-beta2)
 
 # API implemented
 | Endpoint                | Avaliable  | Notes           
@@ -27,10 +30,10 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 | Retrieve a database     |     ✅     |                 
 | Query a database        |     🏗     | Working on it   
 | List databases          |     ✅     | 
-| Create a database       |     ✅     | Workin on more properties
+| Create a database       |     ✅     | Working on more properties
 | Retrieve a page         |     ✅     | 
-| Create a page           |     ✅     | Workin on more properties
-| Update a page           |     ✅     | Workin on more properties
+| Create a page           |     ✅     | Working on more properties
+| Update a page           |     ✅     | Working on more properties
 | Retrieve block children |     ✅     |
 | Append block children   |     ✅     |
 | Retrieve a user         |            |
@@ -41,10 +44,10 @@ See the [ROADMAP](ROADMAP.md) file to see what is coming next.
 # Usage
 **Important**: The methods return a `NotionResponse`. You can find how to use it in its [documentation][1].
 
-## `NotionClient` class
-You only have to create a new instance of the `NotionClient` class and all the API requests will be available as class methods.
+## `Client` class
+You only have to create a new instance of the `Client` class and all the API requests will be available as class methods.
 ```dart
-NotionClient notion = NotionClient(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
+Client notion = Client(token: 'YOUR SECRET TOKEN FROM INTEGRATIONS PAGE');
 ```
 
 ## Individual classes
@@ -53,12 +56,12 @@ You can also use individual request group class like `NotionPagesClient` or `Not
 **Example**
 ```dart
 // With main class
-NotionClient notion = NotionClient(token: 'YOUR_TOKEN');
-notion.databases.fetchAll();
+Client notion = Client(token: 'YOUR_TOKEN');
+notion.databases.list();
 
 // With individual class
 NotionDatabasesClient databases = NotionDatabasesClient(token: 'YOUR_TOKEN');
-databases.fetchAll();
+databases.list();
 ```
 
 ## A few examples
@@ -70,7 +73,7 @@ _To see code to create the page above or see more examples [go here](https://git
 ### Append blocks children
 ```dart
 // Create children instance:
-Children children = Children.withBlocks([
+Children children = Children(blocks: [
   Heading(text: Text('Test')),
   Paragraph(texts: [
     Text('Lorem ipsum (A)'),
@@ -85,7 +88,7 @@ Children children = Children.withBlocks([
 
 // Send the instance to Notion
 notion.blocks.append(
-  to: 'YOUR_BLOCK_ID',
+  block_id: 'YOUR_BLOCK_ID',
   children: children,
 );
 ```
@@ -104,7 +107,7 @@ notion.pages.create(page);
 
 # Errors
 Some errors that I have encounter and still don't know how to solve because are errors that also occur on Postman are:
-## Create page with chidren
+## Create page with children
 When the parent is a page the error is:
 ```json
 "body failed validation: body.properties.title.type should be an array, instead was `\"array\"`."
@@ -146,27 +149,16 @@ TEST_BLOCK_ID=c8hac4bb32af48889228bf483d938e34
 TEST_BLOCK_HEADING_ID=c8hac4bb32af48889228bf483d938e34
 ```
 
-# Next release
-## v1.2.1:
-> Release date: 02/Aug/2021
-* Add constructors with only single text content with default style for:
-  * `Paragraph.text('some text here...')`
-  * `ToDo.text('some text here...', checked: true)`
-  * `Heading.text('some text here...', type: 2)`
-  * `BulletedListItem.text('some text here...')`
-  * `NumberedListItem.text('some text here...')`
-  * `Toggle.text('some text here...', children: [])`
-* Add more constructors for `Heading` class:
-  * `one`: Heading with type 1 by default.
-  * `two`: Heading with type 2 by default.
-  * `three`: Heading with type 3 by default.
-* Add more constructors for `Text` class:
-  * `code`: Text with code style by default.
-  * `italic`: Text with italic style by default.
-  * `bold`: Text with bold style by default.
-  * [**Opt**] `list`: List of words separated by comma (by default).
-    * Example: `Text.list()` will receive a list of Text and will be concatenated separated with comma by default. **It may be unnecessary**. Can help to make the code more readable.
-  * [**Opt**] `sep`: Text separator.
-    * Example: `Text.sep()`, by default, will insert " " in a list of `Text` instances, but it will be able to do more things that I don't know yet, hehe. **It may be unnecessary**. Can help to make the code more readable.
+# Releases
+## Next
+### v2.0.0
+> Release date: 13/Aug/2021
+* 🔧 Fix any error on beta
+
+## Last
+### v2.0.0-beta2
+> Release date: 06/Aug/2021
+* 🍗 Add more suggestions on issue [#11](https://github.com/jonathangomz/notion_api/issues/11):
+  * Copy some terminologies from [`notion-sdk-js`](https://github.com/makenotion/notion-sdk-js)
 
 [1]:https://pub.dev/documentation/notion_api/1.0.0-beta1/responses_notion_response/NotionResponse-class.html

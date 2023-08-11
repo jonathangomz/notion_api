@@ -1,8 +1,4 @@
-import 'package:notion_api/notion/blocks/heading.dart';
-import 'package:notion_api/notion/blocks/paragraph.dart';
-import 'package:notion_api/notion/general/rich_text.dart';
-import 'package:notion_api/notion/general/types/notion_types.dart';
-import 'package:notion_api/utils/utils.dart';
+import 'package:notion_api/notion_api.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -15,6 +11,34 @@ void main() {
       expect(paragraph.content, allOf([isList, isEmpty]));
       expect(paragraph.isParagraph, true);
       expect(paragraph.type, BlockTypes.Paragraph);
+    });
+
+    test('Create an instance with text constructor', () {
+      Paragraph paragraph = Paragraph.text(
+        'This is a paragraph with a single text',
+        annotations: TextAnnotations(bold: true),
+        children: [
+          Paragraph.text('This is a children'),
+        ],
+      );
+
+      expect(
+          paragraph.content,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(
+              1,
+            )
+          ]));
+      expect(paragraph.content.first.annotations!.bold, isTrue);
+      expect(
+          paragraph.children,
+          allOf([
+            isList,
+            isNotEmpty,
+            hasLength(1),
+          ]));
     });
 
     test('Create an instance with information', () {
@@ -99,21 +123,6 @@ void main() {
           allOf([isList, isEmpty]));
       expect(json[blockTypeToString(BlockTypes.Paragraph)]['children'],
           allOf([isList, isEmpty]));
-    });
-
-    test('Create json with separator', () {
-      String char = 'A';
-      String separator = '-';
-
-      Map<String, dynamic> json =
-          Paragraph(textSeparator: separator).addText(char).toJson();
-
-      List jsonTexts = json[blockTypeToString(BlockTypes.Paragraph)]['text'];
-
-      List<Text> texts = Text.fromListJson(jsonTexts);
-
-      expect(texts, isList);
-      expect(texts.first.text, char + separator);
     });
   });
 }
